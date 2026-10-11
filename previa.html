@@ -1,0 +1,1710 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Previa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F0FF; --surface:#FFFFFF; --ink:#160B29; --muted:#5E5373; --line:#DCD2F2;
+  --tint:#FFE3DB; --accent:#FF5A3C; --accent-ink:#160B29; --dot:#FF5A3C;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#110821; --surface:#1D1235; --ink:#F5F0FF; --muted:#A99CC4; --line:#33244F; --tint:#3A1C2A; --dot:#C2F23F;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#110821; --surface:#1D1235; --ink:#F5F0FF; --muted:#A99CC4; --line:#33244F; --tint:#3A1C2A; --dot:#C2F23F;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+}
+button{font:inherit;cursor:pointer;color:inherit}
+[hidden]{display:none !important}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.view{max-width:640px;margin:0 auto;padding:18px 20px 48px}
+
+/* Marca */
+.logo{font-size:clamp(88px,28vw,156px);font-weight:800;font-stretch:75%;letter-spacing:-.045em;line-height:.86;margin:0}
+.ii{position:relative}
+.dot{position:absolute;left:50%;top:.1em;width:.19em;height:.19em;margin-left:-.095em;border-radius:50%;background:var(--dot);animation:pop .9s cubic-bezier(.3,1.6,.5,1) .25s both}
+@keyframes pop{from{transform:translateY(.6em) scale(.2);opacity:0}to{transform:none;opacity:1}}
+.tagline{font-size:22px;font-weight:500;font-stretch:90%;color:var(--muted);margin:10px 0 0}
+.homehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.appicon{width:48px;height:48px;border-radius:14px;display:block}
+.pill{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 14px;font-size:15px;font-weight:650}
+.pill.pro{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+
+/* Nivel */
+.lvl{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:20px;background:var(--surface);border:1.5px solid var(--line);margin:26px 0 30px;width:100%;text-align:left}
+.lvlnum{font-size:40px;font-weight:800;font-stretch:75%;line-height:1;min-width:34px;text-align:center}
+.lvlinfo{flex:1;min-width:0}
+.lvlinfo strong{display:block;font-size:17px;font-weight:700}
+.lvlinfo small{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.bar{height:8px;border-radius:99px;background:var(--line);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--accent)}
+
+/* Modos */
+.h2{font-size:28px;font-weight:800;font-stretch:80%;letter-spacing:-.01em;margin:0 0 12px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mode{position:relative;border:none;border-radius:24px;padding:16px;min-height:158px;background:var(--mbg);color:var(--mfg);text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+.mode.featured{grid-column:span 2;min-height:176px}
+.mode .em{font-size:36px;line-height:1}
+.mode .nm{font-size:26px;font-weight:800;font-stretch:78%;line-height:1;letter-spacing:-.01em}
+.mode.featured .nm{font-size:40px}
+.mode .ds{font-size:14px;line-height:1.3;opacity:.85;margin-top:4px;max-width:30ch}
+.badge{position:absolute;top:12px;right:12px;font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.2)}
+.mode.locked .em{filter:grayscale(.3)}
+.foot{margin-top:30px;font-size:14px;color:var(--muted);line-height:1.5}
+.foot button{background:none;border:none;padding:0;text-decoration:underline;font-size:14px;color:var(--muted)}
+
+/* Pantallas de configuración */
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.iconbtn{width:46px;height:46px;border-radius:15px;border:1.5px solid var(--line);background:var(--surface);font-size:20px;display:grid;place-items:center}
+.modechip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--mbg);color:var(--mfg);font-weight:700;font-size:15px}
+.title{font-size:clamp(44px,12vw,68px);font-weight:800;font-stretch:76%;line-height:.9;letter-spacing:-.02em;margin:14px 0 8px}
+.lead{font-size:17px;color:var(--muted);margin:0 0 22px;line-height:1.4}
+.label{display:block;font-size:16px;font-weight:700;margin:22px 0 8px}
+.help{font-size:14px;color:var(--muted);margin:-2px 0 10px;line-height:1.4}
+input[type=text],input[type=number]{width:100%;font:inherit;font-size:18px;padding:13px 15px;border-radius:15px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);min-width:0}
+input:focus{outline:none;border-color:var(--accent)}
+.prow{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.av{flex:0 0 46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:23px;background:var(--avbg,#FFC933)}
+button.av{border:none;padding:0;cursor:pointer}
+.reader{display:inline-flex;align-items:center;gap:7px;font-size:16px;font-weight:650;padding:7px 14px;border-radius:999px;border:1.5px solid currentColor;margin-bottom:18px}
+.reader.pass{background:color-mix(in srgb,currentColor 16%,transparent);border-width:2px}
+.btn.sel,.pw button.sel,.vchips button.sel{background:color-mix(in srgb,currentColor 22%,transparent);border-width:3px;opacity:1}
+.confirm-row{margin-top:18px}
+.confirm-row:has(button[hidden]){display:none}
+.btn.confirm{min-width:180px}
+.lk2{font-style:normal;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--accent);color:var(--accent-ink);margin-left:6px;vertical-align:2px}
+.ramp-wrap{padding:2px 14px 12px;border-top:1px solid var(--line)}
+.ramp-wrap .help{margin:8px 0 0}
+.ramp{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:5px;margin-top:10px}
+.ramp div{border-radius:10px;padding:5px 2px;text-align:center;line-height:1.1}
+.ramp b{display:block;font-size:13px}
+.ramp span{display:block;font-size:10px;letter-spacing:-2px;margin-top:2px}
+.ramp .rl1{background:#FFE6D9;color:#160B29}.ramp .rl2{background:#FFBE9C;color:#160B29}.ramp .rl3{background:#FF7A4D;color:#160B29}.ramp .rl4{background:#E0101E;color:#fff}
+.shareprev{border-radius:18px;background:var(--surface);border:1.5px solid var(--line);min-height:120px;display:grid;place-items:center;padding:12px;margin-bottom:14px;text-align:center;color:var(--muted)}
+.shareprev img{display:block;width:100%;max-width:240px;border-radius:14px;margin:0 auto}
+.shareprev small{display:block;margin-top:8px;font-size:13px}
+.sharerow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shbtn{display:flex;align-items:center;justify-content:center;padding:13px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:16px;font-weight:650;text-decoration:none;font-family:inherit}
+.gbar .gleft{display:flex;gap:8px}
+.gbar button:disabled{opacity:.3}
+.passnext{margin:22px 0 0;font-size:15px;font-weight:600;opacity:.7}
+.rm{flex:0 0 46px;height:46px;border-radius:15px;border:1.5px solid var(--line);background:transparent;color:var(--muted);font-size:17px}
+.couple{border:1.5px solid var(--line);border-radius:18px;padding:10px;margin-bottom:10px;background:var(--surface)}
+.couple .cl{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;color:var(--muted);margin:0 2px 8px}
+.couple .cl button{border:none;background:none;color:var(--muted);font-size:14px;text-decoration:underline}
+.couple .prow:last-child{margin-bottom:0}
+.add{width:100%;padding:14px;border-radius:15px;border:1.5px dashed var(--line);background:transparent;font-size:17px;font-weight:650}
+.add:disabled{opacity:.4;cursor:default}
+.count{font-size:14px;color:var(--muted);margin-top:8px}
+.seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:6px}
+.seg button{min-width:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:11px 6px;border-radius:15px;border:1.5px solid var(--line);background:var(--surface);font-size:15px;font-weight:700;line-height:1.15;position:relative}
+.seg button:disabled{opacity:.35;cursor:default}
+.tog[aria-disabled="true"]{opacity:.55;cursor:default}
+.seg button small{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:3px}
+.seg button[aria-pressed="true"]{border-color:var(--accent);background:var(--tint)}
+.seg button .lk{position:absolute;top:-7px;right:-4px;font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--accent);color:var(--accent-ink)}
+.toggles{border:1.5px solid var(--line);border-radius:18px;background:var(--surface);margin-top:10px;overflow:hidden}
+.tog{box-sizing:border-box;margin:0;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 14px;border-top:1px solid var(--line);width:100%;background:none;border-left:none;border-right:none;border-bottom:none;text-align:left}
+.tog:first-child{border-top:none}
+.tog span{font-size:16px;font-weight:650;flex:1 1 auto;min-width:0}
+.tog small{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-top:2px}
+.sw{flex:0 0 48px;height:28px;border-radius:99px;background:var(--line);position:relative;transition:background .2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.tog[aria-checked="true"] .sw{background:var(--accent)}
+.tog[aria-checked="true"] .sw::after{transform:translateX(20px)}
+.chipsel{display:flex;flex-wrap:wrap;gap:8px}
+.chipsel button{padding:9px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-size:15px;font-weight:650}
+.chipsel button[aria-pressed="true"]{border-color:var(--accent);background:var(--tint)}
+details.more{margin-top:26px}
+details.more summary{font-size:17px;font-weight:700;cursor:pointer;padding:12px 0;list-style:none;display:flex;justify-content:space-between}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:"+";font-size:22px;line-height:1}
+details.more[open] summary::after{content:"−"}
+.summary{font-size:15px;color:var(--muted);margin:26px 0 12px}
+.primary{width:100%;padding:18px;border:none;border-radius:20px;background:var(--accent);color:var(--accent-ink);font-size:22px;font-weight:800;font-stretch:84%;letter-spacing:-.01em}
+.secondary{width:100%;padding:15px;border-radius:20px;border:1.5px solid var(--line);background:transparent;font-size:17px;font-weight:650;margin-top:10px}
+.err{color:#E0101E;font-weight:650;font-size:15px;min-height:20px;margin:10px 0 0}
+
+/* Edad */
+.age{min-height:calc(100vh - 80px);display:flex;flex-direction:column;justify-content:center}
+.age p{font-size:19px;line-height:1.45;color:var(--muted);max-width:34ch;margin:22px 0 28px}
+
+/* Juego */
+.gameview{position:fixed;inset:0;overflow:hidden;background:#160B29;color:var(--gfg,#fff);z-index:10}
+#stage{position:absolute;inset:0}
+.layer{position:absolute;inset:0;background:var(--cbg);color:var(--cfg);display:flex;flex-direction:column;justify-content:center;
+  padding:calc(env(safe-area-inset-top,0px) + 76px) 22px calc(env(safe-area-inset-bottom,0px) + 70px);overflow-y:auto}
+.inner{max-width:640px;width:100%;margin:auto}
+.kind{display:flex;gap:10px;align-items:center;font-size:18px;font-weight:650;margin-bottom:18px}
+.kind .emo{font-size:26px;line-height:1}
+.txt{margin:0;font-size:clamp(30px,8.2vw,58px);line-height:1.04;font-weight:750;font-stretch:80%;letter-spacing:-.012em;max-width:22ch;text-wrap:balance}
+.txt.long{font-size:clamp(25px,6.6vw,44px);max-width:26ch}
+.txt b{font-weight:800;text-decoration:underline;text-decoration-thickness:.07em;text-underline-offset:.13em}
+.txt .small{display:block;font-size:.5em;font-weight:500;line-height:1.3;margin-top:14px;opacity:.85}
+.txt .small b{text-decoration:none}
+.sub{margin:20px 0 0;font-size:18px;font-weight:500;line-height:1.38;max-width:34ch;opacity:.9}
+.hint{margin:22px 0 0;font-size:15px;opacity:.55}
+.act{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.act:empty{display:none}
+.btn{font-size:18px;font-weight:700;padding:14px 20px;border-radius:999px;border:2px solid currentColor;background:transparent}
+.btn.solid{background:var(--cfg);color:var(--cbg);border-color:var(--cfg)}
+.btn:disabled{opacity:.35;cursor:default}
+.pw{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pw:empty{display:none}
+.pw button{font-size:14px;font-weight:650;padding:8px 13px;border-radius:999px;border:1.5px solid currentColor;background:transparent;opacity:.85}
+.vchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.vchips button{font-size:15px;font-weight:650;padding:8px 13px;border-radius:999px;border:1.5px solid currentColor;background:transparent}
+.vlabel{margin:22px 0 0;font-size:15px;font-weight:650;opacity:.75}
+.secret-box{margin-top:22px;min-height:130px;border:2px dashed currentColor;border-radius:20px;padding:18px;font-size:21px;font-weight:600;line-height:1.3;display:flex;align-items:center;justify-content:center;text-align:center;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none}
+.secret-box.on{border-style:solid}
+.rul{margin-top:20px;border-radius:20px;border:2px solid currentColor;padding:18px;font-size:clamp(22px,6vw,32px);font-weight:800;font-stretch:82%;line-height:1.15;text-align:center;min-height:96px;display:grid;place-items:center}
+.rul.done{background:var(--cfg);color:var(--cbg)}
+.lb{list-style:none;margin:20px 0 0;padding:0;max-width:420px}
+.lb li{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid color-mix(in srgb,currentColor 25%,transparent);font-size:19px;font-weight:650}
+.lb li .n{flex:1}
+.lb li .s{font-weight:800}
+.lb .mini{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:18px;background:var(--avbg)}
+.t-despues{background:radial-gradient(circle at 85% 12%,#4A177F 0,transparent 42%),radial-gradient(circle at 8% 92%,#0B3A6B 0,transparent 48%),#12071F !important}
+.t-despues .kind{color:#FF7BE3}
+.t-castigo .kind{font-size:28px;font-weight:800;font-stretch:78%}
+.t-castigo .kind .emo{font-size:38px}
+.t-duelo .txt{font-stretch:75%}
+.gbar{position:absolute;top:0;left:0;right:0;z-index:5;padding:calc(env(safe-area-inset-top,0px) + 12px) 14px 10px;display:flex;justify-content:space-between;align-items:center;gap:10px;pointer-events:none}
+.gbar button{pointer-events:auto;border:1.5px solid currentColor;background:transparent;border-radius:999px;padding:8px 12px;font-size:15px;font-weight:650;opacity:.85;white-space:nowrap;height:40px;display:inline-flex;align-items:center;justify-content:center}
+.gbar button.ib{width:40px;padding:0}
+.gbar .gright{display:flex;gap:8px}
+.gbar .ground{font-size:15px;font-weight:650;opacity:.75;text-align:center;white-space:nowrap}
+.chips{position:absolute;left:0;right:0;bottom:0;z-index:5;pointer-events:none;padding:10px 14px calc(env(safe-area-inset-bottom,0px) + 12px);display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;font-weight:650;padding:6px 11px;border-radius:999px;border:1.5px solid currentColor;opacity:.75}
+
+/* Hoja inferior */
+.sheet-bg{position:fixed;inset:0;z-index:40;background:rgba(10,4,20,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:580px;max-height:86%;overflow:auto;background:var(--bg);color:var(--ink);border-radius:26px 26px 0 0;padding:24px 20px calc(env(safe-area-inset-bottom,0px) + 22px)}
+.sheet h3{font-size:32px;font-weight:800;font-stretch:78%;line-height:1;margin:0 0 8px}
+.sheet p{font-size:16px;line-height:1.45;color:var(--muted);margin:0 0 16px}
+.plans{display:grid;gap:8px;margin:16px 0}
+.plan{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 16px;border-radius:18px;border:1.5px solid var(--line);background:var(--surface);text-align:left;width:100%}
+.plan[aria-pressed="true"]{border-color:var(--accent);background:var(--tint)}
+.plan strong{display:block;font-size:18px;font-weight:750}
+.plan small{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.plan .pr{font-size:20px;font-weight:800;white-space:nowrap}
+.plan .tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--accent);color:var(--accent-ink);margin-left:6px;vertical-align:2px}
+.benefits{list-style:none;margin:0;padding:0}
+.benefits li{padding:7px 0;font-size:16px;line-height:1.35}
+.linkbtn{display:block;width:100%;background:none;border:none;padding:14px 0 4px;font-size:15px;font-weight:650;text-decoration:underline;color:var(--muted)}
+.demo-note{font-size:13px !important;text-align:center;margin:10px 0 0 !important}
+.achs{list-style:none;margin:0;padding:0}
+.achs li{display:flex;gap:14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.achs .ae{font-size:28px;width:40px;text-align:center}
+.achs li.off .ae{filter:grayscale(1);opacity:.4}
+.achs strong{display:block;font-size:16px}
+.achs small{display:block;font-size:14px;color:var(--muted)}
+.achs li.off strong{color:var(--muted)}
+.dlist{list-style:none;margin:0;padding:0}
+.dlist li{border-top:1px solid var(--line)}
+.dlist label{display:flex;gap:12px;align-items:flex-start;padding:13px 2px;font-size:17px;line-height:1.35;cursor:pointer}
+.dlist input{width:22px;height:22px;margin-top:1px;accent-color:var(--accent);flex:0 0 auto}
+.dlist input:checked + span{text-decoration:line-through;opacity:.55}
+.empty{color:var(--muted);font-size:16px;padding:10px 0}
+.rank{list-style:none;margin:0;padding:0}
+.rank li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:17px}
+.rank li .n{flex:1;font-weight:650}
+.rank li .s{font-weight:800;font-size:19px}
+.rank li .p{font-size:14px;color:var(--muted)}
+.menu{display:grid;gap:8px}
+
+/* Final */
+.endhead{font-size:clamp(56px,16vw,96px);font-weight:800;font-stretch:75%;line-height:.86;letter-spacing:-.03em;margin:20px 0 6px}
+.pod{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:8px;margin:30px 0 8px}
+.pcol{text-align:center;min-width:0}
+.pcol .pav{font-size:38px;line-height:1;margin-bottom:6px}
+.pcol .pn{font-size:16px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcol .ps{font-size:14px;color:var(--muted);margin-bottom:8px}
+.pcol .blk{border-radius:16px 16px 0 0;display:grid;place-items:start center;padding-top:10px;font-size:30px;font-weight:800;font-stretch:75%}
+.pcol.g1 .blk{height:130px;background:#FFC933;color:#160B29}
+.pcol.g2 .blk{height:94px;background:#C9C3DA;color:#160B29}
+.pcol.g3 .blk{height:70px;background:#E59A6E;color:#160B29}
+.pcol.g1 .pav{font-size:48px}
+.crown{display:block;font-size:26px;margin-bottom:-4px}
+.loser{margin-top:26px;border-radius:24px;background:#E0101E;color:#fff;padding:20px}
+.loser h4{margin:0;font-size:15px;font-weight:650;opacity:.85}
+.loser .ln{font-size:34px;font-weight:800;font-stretch:78%;line-height:1;margin:6px 0 10px}
+.loser .rul{border-color:#fff}
+.loser .rul.done{background:#fff;color:#E0101E}
+.loser .btn{color:#fff}
+.awards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.award{border-radius:18px;background:var(--surface);border:1.5px solid var(--line);padding:14px}
+.award .ae{font-size:28px}
+.award strong{display:block;font-size:15px;margin-top:6px}
+.award span{display:block;font-size:19px;font-weight:800;font-stretch:85%;margin-top:2px}
+.award small{display:block;font-size:13px;color:var(--muted)}
+.xpbox{margin-top:26px;border-radius:20px;background:var(--surface);border:1.5px solid var(--line);padding:16px}
+.xpbox strong{font-size:18px}
+.xpbox ul{margin:10px 0 0;padding-left:20px;font-size:15px;line-height:1.5}
+.secth{font-size:24px;font-weight:800;font-stretch:80%;margin:30px 0 8px}
+
+/* Toast y anuncio */
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 64px);transform:translate(-50%,-20px);z-index:60;background:#160B29;color:#fff;border:1.5px solid rgba(255,255,255,.25);padding:11px 16px;border-radius:16px;font-size:15px;font-weight:650;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.ad{position:fixed;inset:0;z-index:70;background:#000;color:#fff;display:grid;place-items:center;text-align:center;padding:30px}
+.ad .adn{font-size:96px;font-weight:800;font-stretch:75%}
+.ad p{opacity:.7;font-size:16px}
+
+@media (min-width:700px){.layer{padding-left:48px;padding-right:48px}}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+
+<!-- Edad -->
+<main id="v-age" class="view age" hidden>
+  <h1 class="logo" aria-label="Previa">prev<span class="ii">ı<i class="dot"></i></span>a</h1>
+  <p>Un juego de fiesta para mayores de 18. Se juega con lo que estén tomando, con o sin alcohol.</p>
+  <button type="button" class="primary" id="ageYes">Tengo 18 años o más</button>
+  <button type="button" class="secondary" id="ageNo">Soy menor de 18</button>
+  <p class="err" id="ageMsg"></p>
+</main>
+
+<!-- Inicio -->
+<main id="v-home" class="view" hidden>
+  <div class="homehead">
+    <svg class="appicon" viewBox="0 0 48 48" aria-hidden="true">
+      <rect width="48" height="48" rx="13" fill="#FF5A3C"/>
+      <text x="22" y="37" text-anchor="middle" font-family="Bricolage Grotesque, system-ui, sans-serif" font-weight="800" font-size="36" fill="#160B29">p</text>
+      <circle cx="36" cy="13" r="5" fill="#C2F23F"/>
+    </svg>
+    <button type="button" class="pill" id="proBtn">Previa Pro</button>
+  </div>
+  <h1 class="logo" aria-label="Previa">prev<span class="ii">ı<i class="dot"></i></span>a</h1>
+  <p class="tagline">La noche empieza acá.</p>
+  <button type="button" class="lvl" id="lvlBtn"></button>
+  <h2 class="h2">¿Cómo juegan hoy?</h2>
+  <div class="modes" id="modes"></div>
+  <p class="foot">Jueguen con responsabilidad: un sorbo es un sorbo, y nadie está obligado a nada. Cada castigo se puede cambiar por otro.<br><br>
+    Prototipo. <button type="button" id="resetDemo">Reiniciar la demo</button></p>
+</main>
+
+<!-- Jugadores -->
+<main id="v-players" class="view" hidden>
+  <div class="topnav"><button type="button" class="iconbtn" data-back="home" aria-label="Volver">←</button><span class="modechip" id="plMode"></span></div>
+  <h2 class="title">¿Quiénes juegan?</h2>
+  <div id="plExtra"></div>
+  <span class="label" id="plListLabel">Jugadores</span>
+  <p class="help" id="plHelp"></p>
+  <div id="plList"></div>
+  <button type="button" class="add" id="plAdd">Agregar jugador</button>
+  <p class="count" id="plCount"></p>
+  <p class="err" id="plErr" role="alert"></p>
+  <button type="button" class="primary" id="plNext" style="margin-top:16px">Siguiente</button>
+</main>
+
+<!-- Ajustes -->
+<main id="v-settings" class="view" hidden>
+  <div class="topnav"><button type="button" class="iconbtn" data-back="players" aria-label="Volver">←</button><span class="modechip" id="stMode"></span></div>
+  <h2 class="title">Ajusten la noche</h2>
+  <p class="lead">Ya viene listo para el modo que eligieron. Cambien lo que quieran.</p>
+  <div id="stQuick"></div>
+  <details class="more"><summary>Más ajustes</summary><div id="stMore"></div></details>
+  <p class="summary" id="stSummary"></p>
+  <button type="button" class="primary" id="stStart">Empezar la partida</button>
+</main>
+
+<!-- Juego -->
+<section id="v-game" class="gameview" hidden aria-live="polite">
+  <div id="stage"></div>
+  <header class="gbar">
+    <span class="gleft"><button type="button" id="gPause" class="ib" aria-label="Pausa" title="Pausa"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><rect x="4" y="3" width="4" height="14" rx="1.5" fill="currentColor"/><rect x="12" y="3" width="4" height="14" rx="1.5" fill="currentColor"/></svg></button><button type="button" id="gBack" class="ib" aria-label="Volver a la carta anterior" title="Volver a la carta anterior" disabled><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M8 4 3 9l5 5M3.5 9H12a5 5 0 0 1 0 10h-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 -1.5)"/></svg></button></span>
+    <span class="ground" id="gRound"></span>
+    <span class="gright"><button type="button" id="gLater" hidden>🪩 0</button><button type="button" id="gScore" aria-label="Marcador">🏆</button></span>
+  </header>
+  <footer class="chips" id="gChips"></footer>
+</section>
+
+<!-- Final -->
+<main id="v-end" class="view" hidden></main>
+
+<div class="sheet-bg" id="sheet" hidden><div class="sheet" role="dialog" aria-modal="true" id="sheetBody"></div></div>
+<div class="toast" id="toast" role="status"></div>
+<div class="ad" id="ad" hidden><div><p>Anuncio de prueba</p><div class="adn" id="adN">3</div><p>En la app real, aquí va un video de unos segundos.</p></div></div>
+<script>
+/* ===================== CONTENIDO =====================
+ t: tipo, l: picante 1-4, m: movimiento 0 sentado / 1 de pie / 2 sin límites, k: pack
+ Tokens: {p} {p2} {p3} jugadores, {pr} protagonista, {pa}/{tpa} su pareja, {pp} pareja de {p} (modo parejas),
+ {lead} líder, {last} último, {lugar}, {sol}, {x1..x5} castigos, {r1..r5} repartir
+*/
+const CARDS=[];
+let PK='base';
+function A(t,l,txt,o={}){CARDS.push(Object.assign({t,l,txt,m:0,k:PK,id:CARDS.length},o));}
+
+/* ---------- RETOS ---------- */
+A('reto',1,"{p}, di 5 marcas de cerveza en 10 segundos. Si no llegas, {x2}.",{alc:1});
+A('reto',1,"{p}, cuenta tu peor resaca en 30 segundos. Si la mesa bosteza, {x2}.");
+A('reto',1,"{p}, di «tres tristes tigres tragaban trigo en un trigal» tres veces seguidas. Si te equivocas, {x2}.");
+A('reto',1,"{p}, cuenta un chiste. Si nadie se ríe, {x2}.");
+A('reto',1,"{p}, di el nombre de todos los jugadores empezando por tu izquierda en 10 segundos. Si fallas, {x2}.");
+A('reto',1,"{p}, di 6 excusas para no ir a trabajar el lunes en 15 segundos. Si no llegas, {x3}.");
+A('reto',1,"{p}, manda un audio a tu mamá diciéndole que la quieres. Si no te atreves, {x3}.");
+A('reto',1,"{p}, imita a {p2} hasta que alguien adivine a quién imitas. Si nadie adivina en 20 segundos, {x2}.");
+A('reto',1,"{p}, haz un brindis épico de 20 segundos. Si la mesa no aplaude, {x2}.");
+A('reto',1,"{p}, describe tu primer beso en tres palabras. Si te niegas, {x2}.");
+A('reto',1,"{p}, di el abecedario al revés hasta la M. Si te equivocas, {x3}.");
+A('reto',1,"{p}, canta el coro de la canción que elija {p2}. Si no te la sabes, {x2}.");
+A('reto',1,"{p}, habla como locutor de radio durante 30 segundos sobre {p2}. Si te ríes, {x2}.");
+A('reto',1,"{p}, nombra 5 películas de Disney en 10 segundos. Si no llegas, {x2}.");
+A('reto',1,"{p}, haz 10 sentadillas sin soltar tu vaso. Si se te cae una gota, {x2}.",{m:1});
+A('reto',1,"{p}, desfila como modelo por la sala. Si la mesa te pone menos de 7, {x2}.",{m:1});
+A('reto',1,"{p}, baila 20 segundos la canción que elija {p2}. Si te niegas, {x3}.",{m:1});
+A('reto',1,"{p}, aguanta en un pie con los ojos cerrados mientras cuentas hasta 20. Si apoyas el otro pie, {x2}.",{m:1});
+A('reto',1,"{p}, trae de la cocina algo que empiece con la letra que diga {p2}. Tienes 30 segundos. Si no, {x2}.",{m:1});
+A('reto',1,"{p}, sal a la puerta y grita «¡viva la previa!». Si no te atreves, {x3}.",{m:2});
+A('reto',1,"{p}, pídele a un vecino o a alguien que pase por fuera que diga «salud». Si no lo consigues, {x3}.",{m:2});
+A('reto',2,"{p}, muestra la última foto de tu galería. Si te niegas, {x3}.");
+A('reto',2,"{p}, lee en voz alta el último mensaje que mandaste. Si te niegas, {x3}.");
+A('reto',2,"{p}, llama a tu último contacto reciente y cántale cumpleaños feliz. Si no, {x4}.");
+A('reto',2,"{p}, {p2} elige un emoji y se lo mandas sin contexto a la última persona con la que hablaste. Si no, {x3}.");
+A('reto',2,"{p}, muéstrale a la mesa tus últimas 3 búsquedas en internet. Si te niegas, {x4}.");
+A('reto',2,"{p}, imita tu cara al despertar con resaca. La mesa califica del 1 al 10: menos de 6, {x2}.");
+A('reto',2,"{p}, haz tu mejor paso de baile de matrimonio. Si la mesa no lo aprueba, {x3}.",{m:1});
+A('reto',2,"{p}, haz 10 flexiones. Si no llegas, {x3}.",{m:1});
+A('reto',3,"{p}, sube una historia que dicte {p2}, sin maldad, y déjala una hora. Si no, {x5}.");
+A('reto',3,"{p}, mándale «me acordé de ti 👀» a quien elija la mesa entre tus últimos 5 chats. Si no, {x5}.");
+A('reto',3,"{p}, deja que la mesa vea tu historial de búsqueda de ayer. Si te niegas, {x5}.");
+A('reto',3,"{p}, deja que {p2} lea tu última conversación de WhatsApp durante 10 segundos. Si no, {x4}.");
+A('reto',3,"{p}, demuestra en el aire tu mejor técnica de seducción durante 15 segundos. Si te niegas, {x4}.");
+A('reto',3,"{p}, baila sensual 15 segundos para una silla vacía. Si te niegas, {x4}.",{m:1});
+A('reto',4,"{p}, la mesa escribe un mensaje y tú lo mandas a quien elijan de tus últimos 10 chats. Si no, {x5}.");
+A('reto',4,"{p}, entrega tu celular desbloqueado a {p2} durante 30 segundos. Si no, {x5}.");
+A('reto',4,"{p}, lap dance de 15 segundos a una silla vacía con la canción que elija la mesa. Si te niegas, {x5}.",{m:1});
+A('reto',4,"{p}, cambia tu foto de perfil por la que elija la mesa hasta mañana. Si no, {x5}.");
+
+/* ---------- VERDADES ---------- */
+[[1,"¿cuál fue tu peor cita?",2],[1,"¿cuál es tu crush famoso?",1],[1,"¿qué es lo primero que miras en alguien?",2],
+ [1,"¿a quién de esta mesa le confiarías un secreto y a quién nunca?",3],[1,"¿cuál es tu tipo? Descríbelo.",2],
+ [1,"¿cuál es tu miedo más ridículo?",2],[1,"¿qué app te da vergüenza tener instalada?",2],
+ [1,"¿a quién de la mesa te llevarías a una isla desierta y a quién no?",3],[1,"¿cuál es la mentira que más repites?",2],
+ [2,"¿cuál es la mentira más grande que le dijiste a una pareja?",3],[2,"¿qué es lo más loco que has hecho por alguien que te gustaba?",3],
+ [2,"¿qué ex te escribiría hoy si supiera que estás de fiesta?",3],[2,"¿cuál es tu récord de citas en una misma semana?",3],
+ [2,"¿qué es lo más caro que has comprado con unos tragos encima?",2],[2,"¿a quién de esta mesa le robarías la vida por un día?",2],
+ [2,"¿qué opinas de verdad del último ex de {p2}?",4],[2,"¿alguna vez stalkeaste tanto que diste like sin querer? Cuenta.",2],
+ [3,"¿con cuántas personas has estado?",4],[3,"¿cuál es el lugar más raro donde lo has hecho?",4],
+ [3,"¿cuál es la fantasía que nunca has cumplido?",5],[3,"¿cuál fue tu peor experiencia en la cama?",4],
+ [3,"resume el mensaje más atrevido que has mandado, sin leerlo.",4],[3,"¿alguna vez te fijaste en la pareja de un amigo? Sin nombres.",5],
+ [3,"¿qué es lo que más te prende de alguien?",3],[3,"¿te han pillado alguna vez? Cuenta la historia.",4],
+ [3,"si tuvieras que besar a alguien de esta mesa, ¿a quién?",5],
+ [4,"cuenta tu experiencia más vergonzosa en la cama, con detalles.",5],[4,"¿cuál es tu récord en una sola noche?",5],
+ [4,"¿alguna vez fingiste en la cama?",4],[4,"describe tu fantasía más rara.",5],
+ [4,"¿con qué ex volverías solo por una noche?",5],[4,"¿qué es lo más atrevido que has hecho en un lugar público?",5]
+].forEach(([l,q,k])=>A('verdad',l,"{p}, "+q+" Responde o {x"+k+"}."));
+
+/* ---------- YO NUNCA ---------- */
+[[1,"he mentido para salir con mis amigos."],[1,"me he quedado dormido en una fiesta."],[1,"he terminado con alguien por mensaje."],
+ [1,"he fingido estar enfermo por una resaca."],[1,"he ghosteado a alguien."],[1,"he tenido una cita por una app."],
+ [1,"he usado la cuenta de streaming de un ex."],[1,"he llorado con una película animada."],[1,"he stalkeado a un ex en los últimos 7 días."],
+ [1,"he comido algo que se cayó al suelo."],[1,"me he hecho pasar por otra persona por teléfono."],
+ [2,"he besado a alguien que conocí esa misma noche."],[2,"he vuelto con un ex."],[2,"me he despertado sin saber dónde estaba."],
+ [2,"he tenido algo con alguien del trabajo."],[2,"he mandado un mensaje con tragos del que me arrepentí."],
+ [2,"me he colado en una fiesta sin invitación."],[2,"he mentido sobre mi edad."],[2,"he besado a alguien de esta mesa."],
+ [3,"lo he hecho en un auto."],[3,"lo he hecho en un lugar público."],[3,"he mandado una foto de la que me arrepentí."],
+ [3,"he estado con dos personas en la misma semana."],[3,"me han pillado en pleno acto."],[3,"he tenido algo con el ex de un amigo."],
+ [4,"he tenido un trío."],[4,"lo he hecho con alguien sin saber su nombre."],[4,"he grabado algo íntimo."],[4,"he usado esposas."]
+].forEach(([l,t])=>A('yonunca',l,"Yo nunca "+t));
+
+/* ---------- PARA TODOS ---------- */
+A('todos',1,"Brindis general: todos {x1}.");
+A('todos',1,"Todas las personas solteras: {x2}.");
+A('todos',1,"Quienes llegaron tarde hoy: {x2}.");
+A('todos',1,"Quien sea el último en tocarse la nariz: {x3}.");
+A('todos',1,"Quienes tengan menos de 30% de batería: {x2}.");
+A('todos',1,"Quienes tengan pareja: {x1}.");
+A('todos',1,"Silencio total hasta la próxima carta. Quien hable primero: {x3}.");
+A('todos',1,"Quien tenga el vaso más vacío: {x1}. Sí, igual.");
+A('todos',1,"Quienes estén usando algo negro: {x1}.");
+A('todos',1,"La persona más joven de la mesa elige a alguien: {x2}.");
+A('todos',1,"Quienes tengan hermanos: {x1}.");
+A('todos',1,"Todos de pie. Quien se pare al último: {x2}.",{m:1});
+A('todos',1,"Todos se cambian un puesto a la derecha. Quien se siente al último: {x2}.",{m:1});
+A('todos',1,"Impuesto al líder: {lead}, {x2} por ir ganando.",{so:1});
+A('todos',1,"Rescate: {last} elige a alguien. Esa persona: {x2}.",{so:1});
+A('todos',2,"Cascada: empieza {p}. Nadie puede dejar de tomar hasta que pare quien está a su derecha.");
+A('todos',2,"Quienes stalkearon a un ex este mes: {x3}.");
+A('todos',2,"Quienes alguna vez vomitaron por tomar: {x2}.",{alc:1});
+A('todos',2,"Quienes todavía tienen fotos con un ex en el celular: {x3}.");
+A('todos',2,"Quienes tengan una app de citas instalada: {x2}.");
+A('todos',3,"Quienes tienen un crush en esta mesa: {x3}, en silencio y sin mirar a nadie.");
+A('todos',3,"Quienes tuvieron algo con alguien este mes: {x2}. Quienes no: {x2} también, por la pena.");
+A('agua',1,"Pausa de hidratación: todos toman un vaso de agua. Sí, agua.");
+A('agua',2,"Pausa de hidratación: todos toman agua antes de la próxima carta.");
+
+/* ---------- ¿QUIÉN ES MÁS PROBABLE? ---------- */
+[[1,"termine durmiendo en el baño esta noche"],[1,"sea el primero en irse a casa"],[1,"pierda el celular esta noche"],
+ [1,"llore en un matrimonio"],[1,"termine bailando sin compañía"],[1,"se case primero"],[1,"se haga famoso por algo ridículo"],
+ [1,"olvide el cumpleaños de su pareja"],[1,"llegue tarde a su propio matrimonio"],[1,"sobreviva a un apocalipsis zombi"],
+ [2,"le escriba a su ex esta noche"],[2,"mienta sobre su vida amorosa"],[2,"tenga el historial amoroso más turbio"],
+ [2,"tenga una cuenta secreta en redes"],[2,"termine la noche con alguien que acaba de conocer"],
+ [3,"tenga el historial de búsqueda más turbio"],[3,"lo haya hecho en un lugar público"],[3,"tenga más ex por metro cuadrado"]
+].forEach(([l,t])=>A('voto',l,"¿Quién es más probable que "+t+"?"));
+A('voto',4,"¿Quién es más probable que desaparezca esta noche y no conteste el teléfono?",{sub:"A la cuenta de tres, todos apuntan. Quien tenga más votos: {x5}."});
+A('voto',4,"¿Quién es más probable que tenga un video que no debería existir?",{sub:"A la cuenta de tres, todos apuntan. Quien tenga más votos: {x5}."});
+
+/* ---------- DUELOS ---------- */
+A('duelo',1,"{p} contra {p2}: piedra, papel o tijera.",{pen:2});
+A('duelo',1,"{p} contra {p2}: duelo de miradas. Pierde quien se ría o desvíe la mirada.",{pen:2});
+A('duelo',1,"{p} contra {p2}: por turnos, digan países que empiecen con C. Pierde quien se quede en blanco.",{pen:2});
+A('duelo',1,"{p} contra {p2}: guerra de pulgares.",{pen:2});
+A('duelo',1,"{p} contra {p2}: cada uno cuenta un chiste. La mesa elige al ganador.",{pen:2});
+A('duelo',1,"{p} contra {p2}: por turnos, marcas de autos. Pierde quien repita o se quede en blanco.",{pen:2});
+A('duelo',1,"{p} contra {p2}: imiten a {p3}. La mesa elige la mejor imitación.",{pen:2});
+A('duelo',1,"{p} contra {p2}: aguantar en sentadilla contra la pared. Pierde quien se pare primero.",{pen:3,m:1});
+A('duelo',1,"{p} contra {p2}: flexiones en 20 segundos. Gana quien haga más.",{pen:3,m:1});
+A('duelo',2,"{p} contra {p2}: quien tenga más mensajes sin leer, pierde.",{pen:2});
+A('duelo',2,"{p} contra {p2}: muestren la foto más vergonzosa de su galería. La mesa elige a quien gana.",{pen:3});
+A('duelo',3,"{p} contra {p2}: quien tenga más ex, pierde. Honestidad.",{pen:4});
+A('duelo',3,"{p} contra {p2}: piedra, papel o tijera al mejor de 3. Sin revancha.",{pen:5});
+
+/* ---------- MINIJUEGOS ---------- */
+A('juego',1,"Categorías: {p} elige una categoría y, por turnos, cada uno dice algo de ella. Quien repita o se quede en blanco: {x3}.");
+A('juego',1,"Rimas: {p} dice una palabra y, por turnos, todos dicen una que rime. Quien falle: {x2}.");
+A('juego',1,"Cuenten por turnos desde 1, empezando por {p}. Los múltiplos de 7 y los números con 7 se cambian por «¡previa!». Quien se equivoque: {x2}.");
+A('juego',1,"Tararea: {p} tararea una canción. Quien la adivine primero {r2}. Si nadie la adivina, {p}: {x2}.");
+A('juego',1,"Historia en cadena: {p} empieza una historia y cada uno agrega una palabra. Quien se trabe: {x2}.");
+A('juego',1,"Voy al mercado: {p} dice «fui al mercado y compré…» y cada uno repite la lista y agrega algo. Quien se equivoque: {x3}.");
+A('juego',1,"Cara de póker: {p} cuenta algo triste con cara seria. Quien se ría primero: {x2}.");
+A('juego',1,"Número secreto: {p} piensa un número del 1 al 20. {p2} y {p3} intentan adivinarlo. Quien quede más lejos: {x3}.");
+A('juego',1,"Mímica: {p} actúa una película sin hablar. Quien la adivine {r2}.");
+A('juego',1,"Estatuas: {p} pone música 20 segundos y la detiene cuando quiera. Quien se mueva después: {x2}.",{m:1});
+A('juego',2,"Dos verdades y una mentira: {p} cuenta tres cosas sobre su vida. Quienes no adivinen la mentira: {x2}.");
+A('juego',2,"Palabras prohibidas: {p} elige una palabra común. Quien la diga antes de la próxima carta: {x3}.");
+
+/* ---------- REGLAS TEMPORALES ---------- */
+A('regla',1,"{p} habla con acento español hasta que termine la regla. Cada vez que se le olvide: {x1}.",{dur:8,label:"Acento de {p}",end:"{p} ya puede hablar normal. Olé."});
+A('regla',1,"Nadie puede decir nombres propios. Quien lo haga: {x1}.",{dur:8,label:"Sin nombres",end:"Ya se pueden decir nombres."});
+A('regla',1,"Todos toman con la mano izquierda. Quien use la derecha: {x1}.",{dur:10,label:"Mano izquierda",end:"Se acabó la regla de la mano izquierda."});
+A('regla',1,"{p} y {p2} son compañeros: cuando uno toma, el otro también.",{dur:12,label:"{p} y {p2} unidos",end:"{p} y {p2} ya no tienen que tomar juntos."});
+A('regla',1,"{p} es la realeza. Quien le hable sin decirle «majestad»: {x1}.",{dur:8,label:"Majestad {p}",end:"{p} vuelve a ser plebe."});
+A('regla',1,"Todos terminan cada frase con «mi amor». Quien se olvide: {x1}.",{dur:6,label:"Decir «mi amor»",end:"Ya no hay que decir «mi amor»."});
+A('regla',1,"{p} manda en el pulgar: cuando lo ponga en la mesa, todos lo imitan. Quien sea último: {x2}.",{dur:15,label:"Pulgar de {p}",end:"{p} ya no manda en el pulgar."});
+A('regla',1,"Prohibido decir «sí» y «no». Quien los diga: {x1}.",{dur:6,label:"Sin sí ni no",end:"Ya se puede decir «sí» y «no»."});
+A('regla',1,"{p} solo puede hablar cantando. Cada vez que hable normal: {x1}.",{dur:5,label:"{p} canta",end:"{p} ya puede dejar de cantar."});
+A('regla',1,"Quien vaya al baño, al volver hace 5 sentadillas.",{dur:10,m:1,label:"Sentadillas del baño",end:"Ya se puede ir al baño sin sentadillas."});
+A('regla',2,"Prohibido tocar el celular, salvo el del juego. Quien lo haga: {x3}.",{dur:10,label:"Sin celulares",end:"Ya pueden revisar el celular."});
+A('regla',2,"{p} pregunta y nadie puede responderle. Quien le responda: {x1}.",{dur:8,label:"Preguntas de {p}",end:"Ya se le puede responder a {p}."});
+
+/* ---------- SIDE QUESTS ---------- */
+A('mision',1,"{p}: haz reír a {p2} 3 veces.",{dur:8});
+A('mision',1,"{p}: mete la palabra «ornitorrinco» en 3 conversaciones.",{dur:8});
+A('mision',1,"{p}: no te rías de nada.",{dur:6});
+A('mision',1,"{p}: consigue que {p2} diga «previa» sin pedírselo directamente.",{dur:8});
+A('mision',1,"{p}: contesta todo con otra pregunta.",{dur:5});
+A('mision',1,"{p}: consigue un cumplido de 3 personas distintas sin pedirlo.",{dur:8});
+A('mision',1,"{p}: habla de ti en tercera persona.",{dur:6});
+A('mision',1,"{p} y {p2}: logren que {p3} diga «te quiero» sin que se dé cuenta del plan.",{dur:10,pair:1});
+A('mision',1,"{p}: cada vez que alguien diga tu nombre, te paras y haces una reverencia.",{dur:6,m:1});
+A('mision',1,"{p}: consigue que alguien que no está jugando te diga «salud».",{dur:10,m:2});
+A('mision',2,"{p}: convence a {p2} de que te cuente un secreto.",{dur:10});
+A('mision',3,"{p}: logra que {p2} te dé la razón 3 veces seguidas.",{dur:8});
+
+/* ---------- MISIONES SECRETAS ---------- */
+[["Consigue que {p2} diga tu nombre 3 veces."],["Cada vez que {p2} tome, tú también, sin que nadie lo note."],
+ ["Usa la palabra «jamón» 3 veces sin que nadie sospeche."],["Consigue que alguien te pase su celular."],
+ ["Haz que {p2} te dé la razón en algo absurdo."],["Haz que {p2} cante algo, aunque sea un pedacito."],
+ ["Logra que dos personas choquen sus vasos sin pedirlo directamente."],["Logra que {p2} se pare de su puesto.",{m:1}]
+].forEach(([h,o])=>A('secreta',1,"{p} tiene una misión secreta. Los demás, miren para otro lado.",Object.assign({h,dur:8},o||{})));
+
+/* ---------- PARA DESPUÉS ---------- */
+[[1,"{p}: en {lugar}, consigue que pongan una canción dedicada al grupo."],[1,"{p}: en {lugar}, sácate una selfie con alguien que también esté celebrando algo."],
+ [1,"{p}: en {lugar}, baila una canción completa como si fueras la estrella del lugar."],[1,"{p}: en {lugar}, invítale algo a {p2}."],
+ [1,"{p}: en {lugar}, consigue que 3 desconocidos brinden por el grupo."],[1,"{p}: en {lugar}, arma un trencito y suma a 3 personas."],
+ [1,"{p}: en {lugar}, cada vez que suene reguetón, grita «¡previa!»."],[1,"{p}: en {lugar}, consigue que alguien te enseñe un paso de baile."],
+ [2,"{p}: en {lugar}, tu primer pedido lo elige {p2}. Sin reclamos."],[2,"{p}: en {lugar}, haz el paso más ridículo que conozcas durante un coro completo."],
+ [2,"{p}: en {lugar}, consigue el Instagram de alguien nuevo."],
+ [3,"{p}: en {lugar}, tu primer trago va al seco.",{alc:1}],[3,"{p}: en {lugar}, invitas una ronda para ti, {p2} y {p3}."]
+].forEach(([l,t,o])=>A('despues',l,t,o||{}));
+
+/* ---------- CASTIGOS ---------- */
+A('castigo',2,"{p}: {x5}, o cuenta con detalles tu peor borrachera.",{alc:1});
+A('castigo',2,"{p}: {x5}, o canta a todo pulmón el coro que elija la mesa.");
+A('castigo',3,"{p}: {x5}, o deja que {p2} te cambie la foto de perfil por una hora.");
+A('castigo',3,"El azar eligió a {p}: {x5}. Solo un comodín te salva.");
+A('castigo',3,"{p}: {x5}, o la mesa revisa tu galería durante 10 segundos.");
+
+/* ---------- PREMIOS ---------- */
+A('bonus',1,"Premio para {p}: {r3}.",{so:1});
+A('bonus',1,"Comodín gratis: {p} recibe un comodín sorpresa.",{pw:1});
+A('bonus',1,"Pase VIP: {p} elige quién se lleva {x2}.",{so:1});
+
+/* ===== PROTAGONISTA (despedida y cumpleaños) ===== */
+PK='prota';
+A('juego',1,"Trivia de {pr}: por turnos, cada uno dice un dato sobre {pr}. Quien repita o no sepa: {x2}. {pr} decide si es verdad.");
+A('todos',1,"Brindis por {pr}: todos {x1}. {pr}: {x2}.");
+A('todos',1,"Quienes conocen a {pr} desde el colegio: {x2}.");
+A('prota',1,"{pr}, elige a quien te conoce menos en esta mesa. Esa persona: {x2}.");
+A('regla',1,"{pr} elige guardaespaldas. Cada vez que {pr} tome, su guardaespaldas también.",{dur:12,label:"Guardaespaldas de {pr}",end:"El guardaespaldas de {pr} queda libre."});
+A('regla',1,"Nadie puede decir el nombre de {pr}: desde ahora se le dice «la víctima». Quien se equivoque: {x1}.",{dur:10,label:"Prohibido decir {pr}",end:"Ya se puede decir {pr} otra vez."});
+A('mision',1,"{p}: consigue que {pr} cuente una anécdota vergonzosa sin pedírsela directamente.",{dur:10});
+
+PK='desp';
+A('prota',1,"{pr}, cuenta cómo conociste a {tpa}. Si alguien conoce otra versión, {x3}.");
+A('prota',1,"{pr}, ¿qué es lo que más vas a extrañar de la vida de {sol}? Responde o {x3}.");
+A('prota',1,"{pr}, di 3 cosas que {tpa} odia de ti. Si no se te ocurren las 3, {x3}.");
+A('prota',1,"{pr}, imita a {tpa} cuando se enoja. Si la mesa no le encuentra parecido, {x3}.");
+A('prota',1,"Examen: {p} le hace a {pr} una pregunta sobre {pa}. Si {pr} falla, {x3}.");
+A('prota',2,"{pr}, ¿alguna vez dudaste en casarte? Honestidad o {x4}.");
+A('prota',2,"{pr}, ¿qué secreto de esta mesa nunca le vas a contar a {tpa}? Solo di de quién es. Si no, {x3}.");
+A('prota',2,"{pr}, si esta noche tuvieras un pase libre… no lo tienes. Igual: {x2} por pensarlo.");
+A('prota',3,"{pr}, ¿qué es lo más vergonzoso que {tpa} no sabe de ti? Responde o {x5}.");
+A('prota',3,"{pr}, ¿con qué ex tuviste más química? Responde o {x4}.");
+A('prota',3,"{pr}, califica tu vida íntima del 1 al 10. Si dudas más de 3 segundos, {x4}.");
+A('prota',4,"{pr}, ¿qué es lo más atrevido que has hecho con {tpa}? Responde o {x5}.");
+A('juego',1,"Consejo matrimonial: cada uno le da a {pr} un consejo en una frase. {pr} elige el peor y esa persona: {x3}.");
+A('voto',1,"¿Quién de la mesa se casa después de {pr}?");
+A('voto',1,"¿Quién va a llorar en la boda de {pr}?");
+A('voto',1,"¿Quién va a dar el peor discurso en la boda?");
+A('regla',1,"{pr} solo puede responder «sí, mi amor». Cada vez que diga otra cosa: {x1}. Práctica para el matrimonio.",{dur:6,label:"{pr}: «sí, mi amor»",end:"{pr} recupera la voz. Por ahora."});
+A('despues',1,"{p}: en {lugar}, consigue que un desconocido le dé un consejo matrimonial a {pr}. Grábalo.");
+A('despues',1,"{p}: en {lugar}, pide una foto con el guardia, con {pr} al medio.");
+A('despues',1,"{p}: en {lugar}, invítale un shot a {pr}.",{alc:1});
+A('despues',2,"{p}: en {lugar}, consigue que digan el nombre de {pr} por el micrófono.");
+A('mision',1,"{p} y {p2}: logren que {pr} diga «te amo» sin que se dé cuenta del plan.",{dur:10,pair:1});
+
+PK='cumple';
+A('prota',1,"{pr}, ¿cuál fue tu mejor cumpleaños y por qué no es este? Responde o {x2}.");
+A('prota',1,"{pr}, di en voz alta un deseo para este año. Si te niegas, {x2}.");
+A('prota',1,"{pr}, ¿qué edad sientes que tienes realmente? Si la mesa no está de acuerdo, {x2}.");
+A('prota',2,"{pr}, ¿qué es lo más loco que hiciste el año pasado? Responde o {x3}.");
+A('prota',3,"{pr}, ¿cuál fue tu mejor encuentro de este año? Responde o {x4}.");
+A('juego',1,"Todos le cantan cumpleaños feliz a {pr} con el acento que elija {pr}. Quien desafine: {x1}.");
+A('voto',1,"¿Quién se olvidó primero del cumpleaños de {pr}?");
+A('voto',1,"¿Quién le dio el peor regalo a {pr} alguna vez?");
+A('todos',1,"Quienes conocen a {pr} hace más de 10 años: {x2}.");
+A('regla',1,"{pr} es la realeza del cumpleaños. Quien le hable sin decirle «su alteza»: {x1}.",{dur:8,label:"Su alteza {pr}",end:"{pr} vuelve a ser gente normal."});
+A('despues',1,"{p}: en {lugar}, consigue que alguien que no conocen le cante cumpleaños feliz a {pr}.");
+
+/* ===== AMIGOS ===== */
+PK='chicos';
+A('reto',1,"{p}, imita a tu equipo de fútbol perdiendo una final. Si nadie se ríe, {x2}.");
+A('reto',1,"{p}, celebra un gol imaginario como si fuera la final del mundial. Si la mesa no se emociona, {x2}.",{m:1});
+A('voto',1,"¿Quién de la mesa se cree más galán sin serlo?");
+A('voto',1,"¿Quién llora más con el fútbol?");
+A('voto',1,"¿Quién sería el peor marido?");
+A('verdad',1,"{p}, ¿cuánto te demoras en arreglarte de verdad? Responde o {x2}.");
+A('verdad',2,"{p}, ¿cuál fue el peor rechazo que has recibido? Responde o {x3}.");
+A('yonunca',2,"Yo nunca he usado una frase para ligar que vi en internet.");
+A('yonunca',3,"Yo nunca he exagerado una conquista frente a mis amigos.");
+A('duelo',1,"{p} contra {p2}: gallito en la mesa.",{pen:3});
+A('juego',1,"Alineación: {p} dice un equipo de fútbol y, por turnos, cada uno dice un jugador. Quien se quede en blanco: {x2}.");
+A('todos',1,"Quienes tengan barba: {x1}. Quienes no: {x1} igual.");
+
+/* ===== AMIGAS ===== */
+PK='chicas';
+A('reto',1,"{p}, muestra la última captura que le mandaste a alguien de esta mesa. Si te niegas, {x2}.");
+A('reto',1,"{p}, haz tu mejor pose para Instagram. La mesa califica: menos de 7, {x2}.");
+A('voto',1,"¿Quién tiene el peor gusto para elegir pareja?");
+A('voto',1,"¿Quién es la más dramática?");
+A('voto',1,"¿Quién es la mejor detective para stalkear?");
+A('verdad',2,"{p}, ¿cuál es el mensaje que escribiste y borraste antes de mandarlo? Responde o {x3}.");
+A('yonunca',1,"Yo nunca le he pedido a una amiga que revise el perfil de alguien antes de una cita.");
+A('yonunca',2,"Yo nunca he usado la ropa de una amiga sin pedírsela.");
+A('yonunca',3,"Yo nunca he tenido un ex que me gustaba más que mi pareja de ese momento.");
+A('juego',1,"Detective: {p} dice el nombre de una persona famosa. {p2} tiene 20 segundos para decir con quién ha salido. Si no sabe: {x2}.");
+A('regla',1,"Todas terminan cada frase con «amiga». Quien se olvide: {x1}.",{dur:6,label:"Decir «amiga»",end:"Ya no hay que decir «amiga»."});
+A('todos',1,"Quienes llevan algo prestado de otra persona de la mesa: {x2}.");
+
+/* ===== PAREJAS ===== */
+PK='parejas';
+A('pareja',1,"{p}, ¿dónde fue la primera cita con {pp}? Si {pp} dice otra cosa, {x2}.");
+A('pareja',1,"{p}, di la comida favorita de {pp}. Si fallas, {x2}.");
+A('pareja',1,"{p}, imita a {pp} cuando tiene hambre. Si {pp} no se ríe, {x2}.");
+A('pareja',1,"{p}, ¿qué es lo que más te molesta de {pp}? Responde o {x3}.");
+A('pareja',1,"{p}, di 3 cosas que te enamoran de {pp} en 10 segundos. Si no llegas, {x2}.");
+A('pareja',1,"{p}, adivina el número de zapatos de {pp}. Si fallas, {x2}.");
+A('pareja',1,"{p} y {pp}: digan al mismo tiempo quién dijo «te amo» primero. Si no coinciden, {x2} cada uno.");
+A('pareja',2,"{p}, ¿cuál es la mentira piadosa que más le dices a {pp}? Responde o {x3}.");
+A('pareja',2,"{p}, muestra cómo tienes guardado a {pp} en el celular. Si te niegas, {x3}.");
+A('pareja',2,"{p}, ¿qué ex de {pp} te cae peor? Responde o {x4}.");
+A('pareja',2,"{p}, dale a {pp} un beso donde elija la mesa: mano, mejilla o frente. Si no, {x2}.");
+A('pareja',3,"{p}, ¿qué es lo que más te gusta que te haga {pp}? Responde o {x4}.");
+A('pareja',3,"{p}, cuenta el lugar más arriesgado donde lo han hecho con {pp}, si {pp} da permiso. Si no, {x4}.");
+A('pareja',3,"{p}, dale a {pp} un beso de película de 5 segundos. Si no, {x3}.");
+A('pareja',3,"{p}, susúrrale a {pp} lo que harían después de la fiesta. {pp} califica del 1 al 10 en voz alta: menos de 7, {x3}.");
+A('pareja',4,"{p}, describe tu fantasía con {pp}. Si {pp} la veta, {x4}.");
+A('pareja',4,"{p} y {pp}: quítense una prenda cada uno, o {x5} cada uno.");
+A('todos',1,"La pareja que lleva más tiempo junta elige otra pareja: {x2} cada uno.");
+A('todos',1,"Las parejas que se conocieron por una app: {x2}.");
+A('voto',1,"¿Qué pareja es más probable que se case en Las Vegas?",{sub:"A la cuenta de tres, todos apuntan a una persona de esa pareja. Esa pareja: {x2}."});
+A('voto',2,"¿Qué pareja es más probable que pelee camino a casa?");
+A('yonunca',3,"Yo nunca lo he hecho con mi pareja en casa de mis papás.");
+A('yonunca',2,"Yo nunca he revisado el celular de mi pareja.");
+
+/* ===== HARDCORE ===== */
+PK='hard';
+A('juego',3,"Triple amenaza: {p}, {p2} y {p3} juegan piedra, papel o tijera. Quien pierda: {x5}.");
+A('castigo',3,"{p}: {x5}. Sin preguntas. Comodines permitidos.");
+A('todos',3,"Quienes hayan tomado menos que {p} esta noche: {x3}. Juzguen a ojo.");
+A('duelo',3,"Doble o nada: {p} contra {p2}, piedra, papel o tijera.",{pen:5});
+A('verdad',4,"{p}, ¿cuál es el secreto que te llevarías a la tumba? Al menos una pista, o {x5}.");
+A('reto',4,"{p}, deja que la mesa lea tus últimos 5 mensajes con quien elijan. Si no, {x5}.");
+A('voto',3,"¿Quién es la persona más falsa de esta mesa?",{sub:"A la cuenta de tres, todos apuntan. Quien tenga más votos: {x5}."});
+A('todos',3,"Sin piedad: {last}, {x4}. Ir último tiene su precio.",{so:1});
+A('todos',3,"Cascada mortal: empieza {p} y nadie para hasta que {p} pare.");
+A('regla',3,"Cada vez que {p} tome, toda la mesa toma.",{dur:6,label:"Todos con {p}",end:"{p} vuelve a tomar sin compañía."});
+A('regla',3,"Quien diga «no»: {x2}.",{dur:8,label:"Prohibido el no",end:"Ya se puede decir «no»."});
+A('mision',3,"{p}: no puedes tocar ni mirar tu celular.",{dur:10});
+
+A('reto',3,"{p}, la mesa elige un contacto de tu celular y le mandas un audio de 10 segundos cantando. Si no, {x5}.");
+A('reto',3,"{p}, deja que {p2} responda tu próximo mensaje de WhatsApp sin que lo veas antes. Si no, {x5}.");
+A('reto',3,"{p}, llama en altavoz a la última persona con la que saliste y pregúntale cómo está. Si no, {x5}.");
+A('reto',4,"{p}, sube una historia con la frase que dicte la mesa y déjala hasta mañana. Si no, {x5}.");
+A('reto',4,"{p}, la mesa puede revisar tu galería durante 20 segundos. Si no, {x5}.");
+A('reto',4,"{p}, ordena a todos los de la mesa del más al menos atractivo, en voz alta. Si no, {x5}.");
+A('verdad',4,"{p}, ¿qué es lo peor que has hecho a espaldas de una pareja? Responde o {x5}.");
+A('verdad',4,"{p}, ¿a quién de esta mesa no soportabas al principio y por qué? Responde o {x5}.");
+A('verdad',4,"{p}, cuenta el secreto más grande que sabes de alguien de esta mesa, sin decir de quién es. Si no, {x5}.");
+A('verdad',3,"{p}, ¿qué es lo más ilegal que has hecho? Responde o {x5}.");
+A('verdad',4,"{p}, ¿de quién de esta mesa te has burlado a sus espaldas? Responde o {x5}.");
+A('todos',3,"Confesionario: cada uno cuenta algo que nunca le ha dicho a nadie de esta mesa. Quien no lo haga: {x4}.");
+A('voto',4,"¿Quién de esta mesa es el peor para guardar un secreto?",{sub:"A la cuenta de tres, todos apuntan. Quien tenga más votos: {x5}."});
+A('voto',4,"¿Quién de esta mesa tiene la vida amorosa más desastrosa?",{sub:"A la cuenta de tres, todos apuntan. Quien tenga más votos: {x5}."});
+A('regla',4,"{p} puede hacerle una pregunta a cualquiera en cualquier momento y hay que responder con la verdad. Quien se niegue: {x4}.",{dur:10,label:"Interrogatorio de {p}",end:"Se acabó el interrogatorio de {p}."});
+A('regla',3,"Cada garabato cuesta {x2}.",{dur:8,label:"Sin garabatos",end:"Ya se puede volver a decir garabatos."});
+A('mision',4,"{p}: consigue que alguien de la mesa confiese algo que nunca ha contado.",{dur:10});
+/* ===================== MOTOR ===================== */
+const $=q=>document.querySelector(q);
+const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const reduceMotion=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+const KEY='previa_v1';
+const B=v=>`<b>${esc(v)}</b>`;
+
+const TYPES={
+  reto:{label:'Reto',emo:'🎯',bg:'#FF5A3C',fg:'#160B29'},
+  verdad:{label:'Verdad o castigo',emo:'🔥',bg:'#E0287D',fg:'#FFFFFF'},
+  yonunca:{label:'Yo nunca',emo:'✋',bg:'#FFB0C8',fg:'#160B29',sub:'Quienes sí lo han hecho: {x2}.'},
+  todos:{label:'Para todos',emo:'🍻',bg:'#FFC933',fg:'#160B29'},
+  voto:{label:'¿Quién es más probable?',emo:'👉',bg:'#3557FF',fg:'#FFFFFF',sub:'A la cuenta de tres, todos apuntan. Quien tenga más votos: {x3}.'},
+  duelo:{label:'Duelo',emo:'⚔️',bg:'#1A1426',fg:'#FFC933'},
+  juego:{label:'Minijuego',emo:'🎲',bg:'#12A68A',fg:'#04211B'},
+  regla:{label:'Nueva regla',emo:'📜',bg:'#6F3BF5',fg:'#FFFFFF'},
+  reglafin:{label:'Regla terminada',emo:'🕊️',bg:'#3B2C73',fg:'#FFFFFF'},
+  mision:{label:'Side quest',emo:'🗺️',bg:'#C2F23F',fg:'#160B29'},
+  misionfin:{label:'Fin de la side quest',emo:'🏁',bg:'#C2F23F',fg:'#160B29'},
+  secreta:{label:'Misión secreta',emo:'🕵️',bg:'#160B29',fg:'#C2F23F'},
+  secretafin:{label:'Misión secreta revelada',emo:'🕵️',bg:'#160B29',fg:'#C2F23F'},
+  despues:{label:'Para después',emo:'🪩',bg:'#12071F',fg:'#FFFFFF',sub:'Se cumple más tarde. Quedó guardada en la lista.'},
+  castigo:{label:'Castigo máximo',emo:'🥃',bg:'#E0101E',fg:'#FFFFFF'},
+  prota:{label:'Protagonista',emo:'👑',bg:'#FFFFFF',fg:'#160B29'},
+  pareja:{label:'Parejas',emo:'❤️‍🔥',bg:'#B3122E',fg:'#FFFFFF'},
+  bonus:{label:'Premio',emo:'🎁',bg:'#FFE07A',fg:'#160B29'},
+  agua:{label:'Pausa',emo:'💧',bg:'#8ED8FF',fg:'#0B2233'},
+  evento:{label:'Evento sorpresa',emo:'🌀',bg:'#FF4FD8',fg:'#160B29'},
+  ronda:{label:'Fin de ronda',emo:'⏱️',bg:'#160B29',fg:'#FFFFFF'},
+  inicio:{label:'Empieza la previa',emo:'🥂',bg:'#FF5A3C',fg:'#160B29'}
+};
+const CAT={reto:'retos',castigo:'retos',verdad:'verdades',yonunca:'yonunca',voto:'votos',duelo:'duelos',juego:'juegos'};
+const PERSONAL=['reto','verdad','castigo','prota','pareja'];
+const POW={
+  escudo:{emo:'🛡️',name:'Escudo',desc:'Te salva de un reto o castigo.'},
+  rebote:{emo:'↩️',name:'Rebote',desc:'Tu castigo lo paga otra persona al azar.'},
+  cambio:{emo:'🔄',name:'Cambio',desc:'Cambia tu carta por otra.'}
+};
+const AV=['🍻','🥂','🍹','🍸','🪩','🎤','🕺','💃','🎲','🃏','🔥','😎','👑','🌶️','🍾','🥃','🎉','💋','🤠','🧊'];
+const COL=['#FF5A3C','#FFC933','#C2F23F','#8ED8FF','#E0287D','#7C5CFF','#12A68A','#FFB0C8'];
+
+const MODES={
+  clasico:{name:'Clásico',emo:'🍻',desc:'El de siempre, pero mejor. Para cualquier grupo.',bg:'#FF5A3C',fg:'#160B29',pack:[]},
+  despedida:{name:'Despedida',emo:'💍',desc:'Para el novio o la novia, con penitencias para la disco.',bg:'#FFFFFF',fg:'#160B29',pack:['prota','desp'],prota:'desp',lock:'pro'},
+  cumple:{name:'Cumpleaños',emo:'🎂',desc:'Todo gira en torno a quien está de cumpleaños.',bg:'#FFC933',fg:'#160B29',pack:['prota','cumple'],prota:'cumple'},
+  amigos:{name:'Amigos',emo:'🍺',desc:'Fútbol, ex y orgullo herido.',bg:'#3557FF',fg:'#FFFFFF',pack:['chicos']},
+  amigas:{name:'Amigas',emo:'🥂',desc:'Chismes, stalkeo y confesiones.',bg:'#E0287D',fg:'#FFFFFF',pack:['chicas']},
+  parejas:{name:'Parejas',emo:'❤️‍🔥',desc:'Para juntas de parejas. Se ponen a prueba.',bg:'#B3122E',fg:'#FFFFFF',pack:['parejas'],couples:true,lock:'pro'},
+  hardcore:{name:'Hardcore',emo:'💀',desc:'Sin censura desde la primera carta y retos que no salen en otros modos.',bg:'#1A1426',fg:'#FF5A3C',pack:['hard'],lock:'pro',fixed:{spice:4,esc:false,minMax:'fuerte'}},
+  caos:{name:'Caos',emo:'🌀',desc:'Eventos sorpresa que lo cambian todo.',bg:'#C2F23F',fg:'#160B29',pack:[],lock:'lvl3'}
+};
+const DEFAULT_CFG={phone:'persona',ruleta:false,rounds:5,spice:2,max:'fuerte',drink:'alc',mv:1,later:'none',score:true,powers:true,quests:true,rules:true,esc:true,chaos:false,
+  cats:{retos:true,verdades:true,yonunca:true,votos:true,duelos:true,juegos:true}};
+const PRESET={
+  clasico:{},
+  despedida:{spice:3,later:'disco',mv:0},
+  cumple:{spice:2},
+  amigos:{spice:3},
+  amigas:{spice:3},
+  parejas:{spice:3},
+  hardcore:{spice:4,max:'fuerte',ruleta:true,rounds:8,esc:false,chaos:true},
+  caos:{spice:3,max:'fuerte',ruleta:true,chaos:true}
+};
+const SPICE_NAMES={1:'Suave',2:'Atrevido',3:'Picante',4:'Sin censura'};
+const LEVELS=[0,100,300,600,1000];
+const LEVEL_NAMES=['Recién llegado','Animador','Alma de la fiesta','Leyenda de la previa','Inmortal'];
+const LEVEL_UNLOCKS={2:'la Ruleta 🎰',3:'Modo Caos 🌀'};
+const ACH=[
+  {id:'primera',emo:'🥳',name:'Primera previa',desc:'Terminen una partida.'},
+  {id:'maraton',emo:'🏃',name:'Maratón',desc:'Terminen una partida de 8 rondas o más.'},
+  {id:'multitud',emo:'👥',name:'Multitud',desc:'Jueguen con 10 personas o más.'},
+  {id:'ruleta',emo:'🎰',name:'Adicción a la ruleta',desc:'Giren la ruleta 5 veces.'},
+  {id:'sincensura',emo:'🔥',name:'Sin censura',desc:'Terminen una partida con el picante al máximo.'},
+  {id:'agente',emo:'🕵️',name:'Agente secreto',desc:'Alguien cumple una misión secreta.'},
+  {id:'manoso',emo:'🃏',name:'Mañas',desc:'Usen 5 comodines en una partida.'},
+  {id:'sano',emo:'🧃',name:'Previa sana',desc:'Terminen una partida sin alcohol.'},
+  {id:'cupido',emo:'💘',name:'Cupido',desc:'Jueguen el modo Parejas.'},
+  {id:'altar',emo:'💍',name:'Rumbo al altar',desc:'Jueguen una despedida.'},
+  {id:'caos',emo:'🌀',name:'Caos total',desc:'Jueguen el modo Caos.'},
+  {id:'remontada',emo:'📈',name:'Remontada',desc:'Gana alguien que fue último en alguna ronda.'}
+];
+
+/* ---------- Persistencia ---------- */
+function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,spins:0,last:{}}}
+let S=freshS();
+try{S=Object.assign(freshS(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const SESSION=new Set();
+
+function level(xp){
+  let n=1;for(let i=0;i<LEVELS.length;i++) if(xp>=LEVELS[i]) n=i+1;
+  const cur=LEVELS[n-1],nxt=LEVELS[n]||null;
+  return {n,name:LEVEL_NAMES[n-1],next:nxt,pct:nxt?Math.round((xp-cur)/(nxt-cur)*100):100};
+}
+const isPro=()=>S.pro;
+function unlocked(id){
+  const m=MODES[id];
+  if(!m.lock) return true;
+  if(isPro()||SESSION.has(id)) return true;
+  if(m.lock==='lvl3') return level(S.xp).n>=3;
+  return false;
+}
+const canRuleta=()=>isPro()||level(S.xp).n>=2||SESSION.has('ruleta');
+const inHardcore=()=>!!(D&&D.mode==='hardcore'&&unlocked('hardcore'));
+const canSpice4=()=>isPro()||SESSION.has('spice4')||inHardcore();
+const canPrenda=()=>isPro()||SESSION.has('prenda')||inHardcore();
+
+/* ---------- UI general ---------- */
+const VIEWS=['v-age','v-home','v-players','v-settings','v-game','v-end'];
+function show(id){VIEWS.forEach(v=>{$('#'+v).hidden=v!==id});if(id!=='v-game')window.scrollTo(0,0);}
+let toastQ=[],toastOn=false;
+function toast(msg){toastQ.push(msg);if(!toastOn)nextToast();}
+function nextToast(){
+  const t=$('#toast');if(!toastQ.length){toastOn=false;return;}
+  toastOn=true;t.textContent=toastQ.shift();t.classList.add('on');
+  setTimeout(()=>{t.classList.remove('on');setTimeout(nextToast,300)},2400);
+}
+function openSheet(html,mount){
+  $('#sheetBody').innerHTML=html;$('#sheet').hidden=false;
+  if(mount) mount($('#sheetBody'));
+  const f=$('#sheetBody').querySelector('button');if(f)f.focus();
+}
+function closeSheet(){$('#sheet').hidden=true;}
+$('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#sheet').hidden)closeSheet();});
+function modeVars(el,id){el.style.setProperty('--mbg',MODES[id].bg);el.style.setProperty('--mfg',MODES[id].fg);}
+function unlockAch(id){
+  if(S.ach.includes(id)) return;
+  S.ach.push(id);save();
+  const a=ACH.find(x=>x.id===id);
+  if(G&&G.newAch) G.newAch.push(id);
+  toast(`Logro desbloqueado: ${a.emo} ${a.name}`);
+}
+
+/* ---------- Edad ---------- */
+$('#ageYes').onclick=()=>{S.age=true;save();goHome();};
+$('#ageNo').onclick=()=>{$('#ageMsg').textContent='Previa es solo para mayores de 18. Vuelve cuando los cumplas.';$('#ageYes').disabled=true;};
+
+/* ---------- Inicio ---------- */
+function goHome(){renderHome();show('v-home');}
+function renderHome(){
+  const L=level(S.xp);
+  $('#lvlBtn').innerHTML=`<span class="lvlnum">${L.n}</span><span class="lvlinfo"><strong>${L.name}</strong>
+    <small>${L.next?`${S.xp} de ${L.next} XP para el nivel ${L.n+1}`:'Nivel máximo'}. Logros: ${S.ach.length} de ${ACH.length}.</small>
+    <span class="bar"><i style="width:${L.pct}%"></i></span></span>`;
+  const g=$('#modes');g.innerHTML='';
+  Object.entries(MODES).forEach(([id,m],i)=>{
+    const b=document.createElement('button');
+    b.type='button';b.className='mode'+(i===0?' featured':'')+(unlocked(id)?'':' locked');
+    modeVars(b,id);
+    let badge='';
+    if(!unlocked(id)) badge=m.lock==='pro'?'<span class="badge">Pro</span>':'<span class="badge">🔒 Nivel 3</span>';
+    b.innerHTML=`${badge}<span class="em" aria-hidden="true">${m.emo}</span><span><span class="nm">${m.name}</span><span class="ds">${m.desc}</span></span>`;
+    b.onclick=()=>{if(unlocked(id))openPlayers(id);else if(m.lock==='pro')paywall(id,()=>openPlayers(id));else lvlLock(id);};
+    g.appendChild(b);
+  });
+  const pb=$('#proBtn');pb.textContent=S.pro?'Pro activo':'Previa Pro';pb.classList.toggle('pro',!S.pro);
+}
+$('#proBtn').onclick=()=>{if(S.pro)openSheet(`<h3>Pro activo</h3><p>En esta demo tienes todo desbloqueado.</p><button type="button" class="secondary" id="unpro">Volver a la versión gratis</button>`,b=>{b.querySelector('#unpro').onclick=()=>{S.pro=false;save();closeSheet();renderHome();};});else paywall(null,renderHome);};
+$('#lvlBtn').onclick=()=>{
+  const L=level(S.xp);
+  openSheet(`<h3>Nivel ${L.n}: ${L.name}</h3>
+    <p>Cada partida suma experiencia. Al subir de nivel se desbloquean cosas: nivel 2, ${LEVEL_UNLOCKS[2]}; nivel 3, ${LEVEL_UNLOCKS[3]}.</p>
+    <ul class="achs">${ACH.map(a=>`<li class="${S.ach.includes(a.id)?'':'off'}"><span class="ae">${a.emo}</span><span><strong>${a.name}</strong><small>${a.desc}</small></span></li>`).join('')}</ul>
+    <button type="button" class="secondary" onclick="closeSheet()">Cerrar</button>`);
+};
+$('#resetDemo').onclick=()=>openSheet(`<h3>¿Reiniciar la demo?</h3><p>Se borran el nivel, los logros, Pro y la verificación de edad.</p><div class="menu"><button type="button" class="primary" id="rsY">Reiniciar</button><button type="button" class="secondary" onclick="closeSheet()">Cancelar</button></div>`,b=>{b.querySelector('#rsY').onclick=()=>{S=freshS();save();SESSION.clear();closeSheet();boot();};});
+
+function lvlLock(id){
+  const need=LEVELS[2]-S.xp;
+  openSheet(`<h3>🔒 ${MODES[id].name}</h3><p>Se desbloquea al llegar al nivel 3. Les faltan ${need} XP: una o dos partidas más.</p>
+    <div class="menu"><button type="button" class="primary" id="lkPro">Jugarlo ya con Pro</button><button type="button" class="secondary" onclick="closeSheet()">Entendido</button></div>`,
+    b=>{b.querySelector('#lkPro').onclick=()=>paywall(id,()=>openPlayers(id));});
+}
+
+/* ---------- Paywall de demo ---------- */
+function paywall(target,then){
+  let plan='noche';
+  const plans=[['noche','Pase de noche','24 horas de todo. Ideal para un evento.','US$ 2,99'],['anual','Anual','Equivale a US$ 1,25 al mes.','US$ 14,99','Más elegido'],['siempre','Para siempre','Un solo pago.','US$ 29,99']];
+  openSheet(`<h3>Previa Pro</h3><p>Una persona paga y juega toda la mesa.</p>
+    <ul class="benefits"><li>💍 Despedida, ❤️‍🔥 Parejas y 💀 Hardcore</li><li>🔥 Picante sin censura</li><li>🎰 Ruleta y 🌀 Caos sin esperar a subir de nivel</li><li>📦 Packs nuevos cada mes</li><li>🚫 Sin anuncios</li></ul>
+    <div class="plans">${plans.map(p=>`<button type="button" class="plan" data-p="${p[0]}" aria-pressed="${p[0]===plan}"><span><strong>${p[1]}${p[4]?`<span class="tag">${p[4]}</span>`:''}</strong><small>${p[2]}</small></span><span class="pr">${p[3]}</span></button>`).join('')}</div>
+    <button type="button" class="primary" id="pwBuy">Desbloquear</button>
+    ${target?'<button type="button" class="linkbtn" id="pwAd">Ver un anuncio y jugarlo una vez gratis</button>':''}
+    <p class="demo-note">Prototipo: no se cobra nada.</p>`,
+  b=>{
+    b.querySelectorAll('.plan').forEach(x=>x.onclick=()=>{plan=x.dataset.p;b.querySelectorAll('.plan').forEach(y=>y.setAttribute('aria-pressed',y.dataset.p===plan));});
+    b.querySelector('#pwBuy').onclick=()=>{S.pro=true;save();closeSheet();toast('Pro desbloqueado (demo)');then&&then();};
+    const ad=b.querySelector('#pwAd');
+    if(ad) ad.onclick=()=>{closeSheet();fakeAd(()=>{SESSION.add(target);toast('Desbloqueado para esta partida');then&&then();});};
+  });
+}
+function fakeAd(done){
+  const a=$('#ad');a.hidden=false;let n=3;$('#adN').textContent=n;
+  const t=setInterval(()=>{n--;if(n<=0){clearInterval(t);a.hidden=true;done();}else $('#adN').textContent=n;},1000);
+}
+
+/* ---------- Jugadores ---------- */
+let D=null;
+function openPlayers(id){
+  const saved=S.last[id]&&S.last[id].draft;
+  D=saved?JSON.parse(JSON.stringify(saved)):{mode:id,names:['','',''],prota:'',partner:'',sol:'soltero',couples:[['',''],['','']]};
+  D.avs=D.names.map((_,i)=>(D.avs&&D.avs[i])||AV[(i+1)%AV.length]);
+  D.cavs=D.couples.map((c,ci)=>[0,1].map(j=>(D.cavs&&D.cavs[ci]&&D.cavs[ci][j])||AV[(ci*2+j)%AV.length]));
+  D.mode=id;
+  renderPlayers();show('v-players');
+}
+function syncDraft(){
+  const pn=$('#prName');if(pn)D.prota=pn.value.trim();
+  const pp=$('#prPartner');if(pp)D.partner=pp.value.trim();
+  if(MODES[D.mode].couples){
+    document.querySelectorAll('#plList input').forEach(i=>{D.couples[+i.dataset.c][+i.dataset.j]=i.value;});
+  }else{
+    document.querySelectorAll('#plList input').forEach(i=>{D.names[+i.dataset.i]=i.value;});
+  }
+}
+function avEl(em,ci,key){return `<button type="button" class="av" style="--avbg:${COL[ci%COL.length]}" data-avk="${key}" aria-label="Cambiar ícono">${em}</button>`;}
+function usedAvs(){return D.avs.concat(...D.cavs);}
+function freeAv(){const u=usedAvs();return AV.find(a=>!u.includes(a))||AV[0];}
+function cycleAv(cur){const u=usedAvs();let i=AV.indexOf(cur);for(let k=0;k<AV.length;k++){i=(i+1)%AV.length;if(!u.includes(AV[i]))return AV[i];}return cur;}
+const protaAv=()=>MODES[D.mode].prota==='desp'?'💍':'🎂';
+function renderPlayers(){
+  const m=MODES[D.mode];
+  while(D.avs.length<D.names.length)D.avs.push(freeAv());D.avs.length=D.names.length;
+  while(D.cavs.length<D.couples.length){const f=freeAv();D.cavs.push([f,AV[(AV.indexOf(f)+1)%AV.length]]);}D.cavs.length=D.couples.length;
+  const chip=$('#plMode');chip.textContent=`${m.emo} ${m.name}`;modeVars(chip,D.mode);
+  let ex='';
+  if(m.prota==='desp'){
+    ex=`<label class="label" for="prName">¿Quién se casa?</label><input type="text" id="prName" maxlength="16" placeholder="Nombre" value="${esc(D.prota)}" autocomplete="off">
+      <span class="label">Es despedida de</span><div class="seg" id="solSeg"><button type="button" data-v="soltero" aria-pressed="${D.sol==='soltero'}">Soltero</button><button type="button" data-v="soltera" aria-pressed="${D.sol==='soltera'}">Soltera</button></div>
+      <label class="label" for="prPartner">¿Con quién se casa?</label><p class="help">Opcional. Personaliza las preguntas.</p><input type="text" id="prPartner" maxlength="16" placeholder="Nombre de la pareja" value="${esc(D.partner)}" autocomplete="off">`;
+  }else if(m.prota==='cumple'){
+    ex=`<label class="label" for="prName">¿Quién está de cumpleaños?</label><input type="text" id="prName" maxlength="16" placeholder="Nombre" value="${esc(D.prota)}" autocomplete="off">`;
+  }
+  $('#plExtra').innerHTML=ex;
+  const ss=$('#solSeg');if(ss)ss.querySelectorAll('button').forEach(b=>b.onclick=()=>{syncDraft();D.sol=b.dataset.v;renderPlayers();});
+  $('#plListLabel').textContent=m.couples?'Parejas':(m.prota?'El resto del grupo':'Jugadores');
+  const list=$('#plList');list.innerHTML='';
+  if(m.couples){
+    D.couples.forEach((c,ci)=>{
+      const box=document.createElement('div');box.className='couple';
+      box.innerHTML=`<div class="cl"><span>Pareja ${ci+1}</span>${D.couples.length>2?'<button type="button">Quitar</button>':''}</div>
+        <div class="prow">${avEl(D.cavs[ci][0],ci*2,`c${ci}-0`)}<input type="text" maxlength="16" placeholder="Nombre" data-c="${ci}" data-j="0" value="${esc(c[0])}" autocomplete="off" aria-label="Pareja ${ci+1}, persona 1"></div>
+        <div class="prow">${avEl(D.cavs[ci][1],ci*2+1,`c${ci}-1`)}<input type="text" maxlength="16" placeholder="Nombre" data-c="${ci}" data-j="1" value="${esc(c[1])}" autocomplete="off" aria-label="Pareja ${ci+1}, persona 2"></div>`;
+      const rb=box.querySelector('.cl button');if(rb)rb.onclick=()=>{syncDraft();D.couples.splice(ci,1);D.cavs.splice(ci,1);renderPlayers();};
+      list.appendChild(box);
+    });
+    $('#plAdd').textContent='Agregar pareja';$('#plAdd').disabled=D.couples.length>=8;
+    $('#plCount').textContent=`${D.couples.length} parejas. Máximo 8.`;
+  }else{
+    const off=m.prota?1:0;
+    D.names.forEach((n,i)=>{
+      const r=document.createElement('div');r.className='prow';
+      r.innerHTML=`${avEl(D.avs[i],i+off,`n${i}`)}<input type="text" maxlength="16" placeholder="Nombre" data-i="${i}" value="${esc(n)}" autocomplete="off" aria-label="Jugador ${i+1}"><button type="button" class="rm" aria-label="Quitar">✕</button>`;
+      r.querySelector('.rm').onclick=()=>{syncDraft();D.names.splice(i,1);D.avs.splice(i,1);renderPlayers();};
+      r.querySelector('input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addPlayer();}});
+      list.appendChild(r);
+    });
+    const max=16-off;
+    $('#plAdd').textContent='Agregar jugador';$('#plAdd').disabled=D.names.length>=max;
+    $('#plCount').textContent=`Hasta 16 jugadores${m.prota?', contando a quien protagoniza':''}.`;
+  }
+  list.querySelectorAll('button.av').forEach(b=>b.onclick=()=>{
+    syncDraft();const k=b.dataset.avk;
+    if(k[0]==='n'){const i=+k.slice(1);D.avs[i]=cycleAv(D.avs[i]);}
+    else{const [ci,j]=k.slice(1).split('-').map(Number);D.cavs[ci][j]=cycleAv(D.cavs[ci][j]);}
+    renderPlayers();
+    const nb=document.querySelector(`#plList button.av[data-avk="${k}"]`);if(nb)nb.focus();
+  });
+  $('#plHelp').textContent=`Escríbanlos en el orden en que están sentados: el teléfono se va pasando en ese orden${m.prota?' y parte con quien protagoniza':''}. Toquen un ícono para cambiarlo.`;
+  $('#plErr').textContent='';
+}
+function addPlayer(){
+  syncDraft();const m=MODES[D.mode];
+  if(m.couples){if(D.couples.length<8){D.couples.push(['','']);const a=freeAv();D.cavs.push([a,AV[(AV.indexOf(a)+1)%AV.length]]);}}
+  else if(D.names.length<16-(m.prota?1:0)){D.names.push('');D.avs.push(freeAv());}
+  renderPlayers();
+  const ins=document.querySelectorAll('#plList input');if(ins.length)(m.couples?ins[ins.length-2]:ins[ins.length-1]).focus();
+}
+$('#plAdd').onclick=addPlayer;
+$('#plNext').onclick=()=>{
+  syncDraft();const m=MODES[D.mode];let all=[];
+  if(m.couples){
+    const full=D.couples.map(c=>[c[0].trim(),c[1].trim()]).filter(c=>c[0]&&c[1]);
+    if(full.length<2){$('#plErr').textContent='Escriban al menos 2 parejas completas.';return;}
+    all=full.flat();
+  }else{
+    const others=D.names.map(n=>n.trim()).filter(Boolean);
+    if(m.prota&&!D.prota){$('#plErr').textContent=m.prota==='desp'?'Escriban el nombre de quien se casa.':'Escriban el nombre de quien está de cumpleaños.';return;}
+    all=m.prota?[D.prota,...others]:others;
+    if(all.length<2){$('#plErr').textContent='Se necesitan al menos 2 jugadores.';return;}
+  }
+  const low=all.map(x=>x.toLowerCase());
+  if(new Set(low).size!==low.length){$('#plErr').textContent='Hay nombres repetidos. Agreguen una inicial para diferenciarlos.';return;}
+  S.last[D.mode]=Object.assign(S.last[D.mode]||{},{draft:JSON.parse(JSON.stringify(D))});save();
+  openSettings();
+};
+document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{if(b.dataset.back==='home')goHome();else{renderPlayers();show('v-players');}});
+
+/* ---------- Ajustes ---------- */
+let CFG=null;
+const SET=[
+  {id:'phone',type:'seg',label:'El teléfono',opts:[['persona','Lo tiene uno','Pasa si la carta es para otro'],['pasar','Se va pasando','Cada carta, otro'],['centro','Al centro','Lee cualquiera']]},
+  {id:'rounds',type:'seg',label:'Rondas',quick:1,opts:[[3,'3'],[5,'5'],[8,'8'],[12,'12']]},
+  {id:'spice',type:'seg',label:'Picante',quick:1,opts:[[1,'Suave','🌶️'],[2,'Atrevido','🌶️🌶️'],[3,'Picante','🌶️🌶️🌶️'],[4,'Sin censura','🔥',"spice4"]]},
+  {id:'max',type:'seg',label:'Castigo máximo',quick:1,opts:[['leve','Leve','3 sorbos'],['fuerte','Fuerte','Vaso al seco'],['prenda','Prenda','Picante 3+','prenda']]},
+  {id:'drink',type:'seg',label:'¿Qué toman?',quick:1,opts:[['alc','Con alcohol'],['sin','Sin alcohol']]},
+  {id:'mv',type:'seg',label:'Movimiento',opts:[[0,'Sentados'],[1,'Se puede parar'],[2,'Sin límites','Salir, gritar']]},
+  {id:'later',type:'seg',label:'Después van a',opts:[['none','Ningún lado'],['disco','Disco'],['bar','Bar'],['fiesta','Fiesta']]},
+  {id:'score',type:'tog',label:'Puntaje, ganador y perdedor',hint:'Podio final y condena para el último lugar.'},
+  {id:'powers',type:'tog',label:'Comodines',hint:'Escudo, Rebote y Cambio. Se ganan cumpliendo retos.'},
+  {id:'quests',type:'tog',label:'Side quests y misiones secretas'},
+  {id:'rules',type:'tog',label:'Reglas temporales'},
+  {id:'esc',type:'tog',under:'spice',label:'Escalada',hint:'El picante parte suave y sube ronda a ronda hasta el nivel elegido.'},
+  {id:'ruleta',type:'tog',under:'spice',lock:'ruleta',label:'Ruleta 🎰',hint:'El peor castigo lo decide una ruleta con sorpresas, sin pasar del castigo máximo elegido.'},
+  {id:'chaos',type:'tog',label:'Eventos sorpresa',hint:'Robos de comodines, terremotos y rescates.'},
+  {id:'cats',type:'chips',label:'Tipos de carta',opts:[['retos','Retos'],['verdades','Verdades'],['yonunca','Yo nunca'],['votos','Votaciones'],['duelos','Duelos'],['juegos','Minijuegos']]}
+];
+const HINTS={
+  phone:{persona:'Una persona lee. Cuando una carta es para alguien en particular, el juego avisa y se le pasa el teléfono.',pasar:'Cada carta la lee una persona distinta, en el orden de la lista.',centro:'El teléfono queda en la mesa y lee quien quiera.'},
+  spice:{1:'Nada subido de tono. Perfecto para la familia o el trabajo.',2:'Coqueteo y algo de chisme.',3:'Preguntas hot. Nada de contacto entre jugadores, salvo en Parejas.',4:'Todo vale. Solo para grupos con mucha confianza.'},
+  max:{leve:'Lo peor que puede tocar son 3 sorbos.',fuerte:'Lo peor que puede tocar es un vaso al seco.',prenda:'Lo peor que puede tocar es quitarse una prenda. Requiere picante 3 o más.'},
+  drink:{alc:'Los castigos son sorbos de lo que estén tomando.',sin:'Los castigos son sorbos de jugo, bebida o agua. Se quitan las cartas de alcohol.'}
+};
+function lockedOpt(tag){return tag==='spice4'?!canSpice4():tag==='prenda'?!canPrenda():tag==='ruleta'?!canRuleta():false;}
+function fixedOff(id,val){
+  const f=MODES[D.mode].fixed;if(!f)return false;
+  if(id==='spice')return val!==f.spice;
+  if(id==='max')return f.minMax==='fuerte'&&val==='leve';
+  if(id==='esc')return true;
+  return false;
+}
+function openSettings(){
+  const saved=S.last[D.mode]&&S.last[D.mode].cfg;
+  const sv=saved?JSON.parse(JSON.stringify(saved)):{};if(!sv.v){delete sv.phone;}
+  CFG=JSON.parse(JSON.stringify(Object.assign({},DEFAULT_CFG,PRESET[D.mode],sv)));CFG.v=2;
+  CFG.cats=Object.assign({},DEFAULT_CFG.cats,CFG.cats);
+  if(CFG.spice===4&&!canSpice4())CFG.spice=3;
+  if(CFG.max==='prenda'&&!canPrenda())CFG.max='fuerte';
+  const fx=MODES[D.mode].fixed;
+  if(fx){CFG.spice=fx.spice;CFG.esc=fx.esc;if(fx.minMax==='fuerte'&&CFG.max==='leve')CFG.max='fuerte';}
+  if(CFG.max==='ruleta'){CFG.max='fuerte';CFG.ruleta=true;}
+  if(CFG.ruleta&&!canRuleta())CFG.ruleta=false;
+  const chip=$('#stMode');chip.textContent=`${MODES[D.mode].emo} ${MODES[D.mode].name}`;modeVars(chip,D.mode);
+  renderSettings();show('v-settings');
+}
+function nPlayers(){const m=MODES[D.mode];return m.couples?D.couples.filter(c=>c[0].trim()&&c[1].trim()).length*2:D.names.filter(n=>n.trim()).length+(m.prota?1:0);}
+const roundLenFor=n=>clamp(n+Math.ceil(n/2),6,18);
+function togEl(s){
+  const b=document.createElement('button');b.type='button';b.className='tog';b.setAttribute('role','switch');
+  const fixed=fixedOff(s.id);
+  const disabled=(s.id==='powers'&&!CFG.score)||fixed;
+  const lk=s.lock&&lockedOpt(s.lock);
+  b.setAttribute('aria-checked',!!CFG[s.id]&&!disabled&&!lk);
+  if(disabled)b.setAttribute('aria-disabled','true');
+  const hint=fixed?'En Hardcore el picante va a fondo desde la primera carta.':(s.id==='powers'&&!CFG.score)?'Requiere el puntaje activado.':s.hint;
+  b.innerHTML=`<span>${s.label}${lk?' <em class="lk2">Nivel 2</em>':''}${hint?`<small>${hint}</small>`:''}</span><i class="sw" aria-hidden="true"></i>`;
+  b.onclick=()=>{
+    if(disabled)return;
+    if(lk){paywall(s.lock,()=>{CFG[s.id]=true;renderSettings();});return;}
+    CFG[s.id]=!CFG[s.id];renderSettings();
+  };
+  return b;
+}
+const levelAt=(r,R,mx,esc)=>esc?clamp(Math.ceil(mx*r/R),1,mx):mx;
+function rampEl(){
+  const R=CFG.rounds,mx=CFG.spice,el=document.createElement('div');el.className='ramp-wrap';
+  const lv=[];for(let r=1;r<=R;r++)lv.push(levelAt(r,R,mx,CFG.esc));
+  const chil=l=>l===4?'🔥':'🌶️'.repeat(l);
+  let msg;
+  if(mx===1)msg='Con picante Suave no hay nada que subir: todas las rondas van en Suave.';
+  else if(CFG.esc)msg=`Parte en Suave y llega a ${SPICE_NAMES[mx]} en la ronda ${lv.indexOf(mx)+1} de ${R}.`;
+  else msg=`Las ${R} rondas van en ${SPICE_NAMES[mx]} desde la primera carta.`;
+  el.innerHTML=`<div class="ramp">${lv.map((l,i)=>`<div class="rl${l}"><b>${i+1}</b><span>${chil(l)}</span></div>`).join('')}</div><p class="help">${msg}</p>`;
+  return el;
+}
+function renderSettings(){
+  const q=$('#stQuick'),mo=$('#stMore');q.innerHTML='';mo.innerHTML='';
+  let togBox=null;
+  SET.forEach(s=>{
+    const host=s.quick?q:mo;
+    if(s.type==='seg'){
+      const wrap=document.createElement('div');
+      wrap.innerHTML=`<span class="label">${s.label}</span><div class="seg"></div>${HINTS[s.id]?`<p class="help" style="margin-top:8px">${HINTS[s.id][CFG[s.id]]||''}</p>`:''}`;
+      const seg=wrap.querySelector('.seg');
+      s.opts.forEach(o=>{
+        const b=document.createElement('button');b.type='button';
+        const lk=o[3]&&lockedOpt(o[3]);
+        if(fixedOff(s.id,o[0]))b.disabled=true;
+        b.setAttribute('aria-pressed',CFG[s.id]===o[0]);
+        b.innerHTML=`${o[1]}${o[2]?`<small>${o[2]}</small>`:''}${lk?`<span class="lk">${o[3]==='ruleta'?'Nivel 2':'Pro'}</span>`:''}`;
+        b.onclick=()=>{
+          if(lk){paywall(o[3],()=>{CFG[s.id]=o[0];renderSettings();});return;}
+          CFG[s.id]=o[0];renderSettings();
+        };
+        seg.appendChild(b);
+      });
+      if(s.id==='max'&&CFG.max==='prenda'&&CFG.spice<3) wrap.querySelector('.help').textContent='Con picante bajo 3, la prenda se cambia por vaso al seco.';
+      if(s.id==='spice'&&MODES[D.mode].fixed) wrap.querySelector('.help').textContent='En Hardcore el picante siempre es Sin censura.';
+      if(s.id==='max'&&CFG.ruleta) wrap.querySelector('.help').textContent+=' Con la Ruleta encendida, el peor castigo se sortea, pero nunca pasa de este límite.';
+      const subs=SET.filter(u=>u.under===s.id);
+      if(subs.length){const tb=document.createElement('div');tb.className='toggles';subs.forEach(u=>{tb.appendChild(togEl(u));if(u.id==='esc')tb.appendChild(rampEl());});wrap.appendChild(tb);}
+      host.appendChild(wrap);
+    }else if(s.type==='tog'){
+      if(s.under)return;
+      if(!togBox){togBox=document.createElement('div');togBox.className='toggles';const l=document.createElement('span');l.className='label';l.textContent='Mecánicas';host.appendChild(l);host.appendChild(togBox);}
+      togBox.appendChild(togEl(s));
+    }else if(s.type==='chips'){
+      const wrap=document.createElement('div');
+      wrap.innerHTML=`<span class="label">${s.label}</span><div class="chipsel"></div>`;
+      s.opts.forEach(o=>{
+        const b=document.createElement('button');b.type='button';b.setAttribute('aria-pressed',!!CFG.cats[o[0]]);b.textContent=o[1];
+        b.onclick=()=>{const on=Object.values(CFG.cats).filter(Boolean).length;if(CFG.cats[o[0]]&&on<=1)return;CFG.cats[o[0]]=!CFG.cats[o[0]];renderSettings();};
+        wrap.querySelector('.chipsel').appendChild(b);
+      });
+      host.appendChild(wrap);
+    }
+  });
+  const n=nPlayers(),cards=CFG.rounds*roundLenFor(n);
+  $('#stSummary').textContent=`${n} jugadores, ${CFG.rounds} rondas: unas ${cards} cartas y cerca de ${Math.round(cards*0.5)} minutos.`;
+}
+$('#stStart').onclick=()=>{
+  S.last[D.mode]=Object.assign(S.last[D.mode]||{},{cfg:JSON.parse(JSON.stringify(CFG))});save();
+  startGame();
+};
+
+/* ---------- Partida ---------- */
+let G=null,current=null,lock=false;
+const pl=n=>G.players.find(p=>p.name===n);
+const sortedPlayers=()=>G.players.slice().sort((a,b)=>b.pts-a.pts||a.pen-b.pen);
+const leader=()=>sortedPlayers()[0].name;
+const lastPlace=()=>{const s=sortedPlayers();return s[s.length-1].name;};
+const maxEff=()=>(G.cfg.max==='prenda'&&G.cfg.spice<3)?'fuerte':G.cfg.max;
+const drinkEmo=()=>G.cfg.drink==='sin'?'🧃':'🥃';
+const gm=()=>G.golden?2:1;
+const textOf=c=>[c.txt,c.sub,c.h,c.label,c.end].join(' ');
+const activeQuests=()=>G.events.filter(e=>e.kind==='mision'||e.kind==='secreta').length;
+function step32(s){s=(s+0x6D2B79F5)|0;let t=Math.imul(s^(s>>>15),1|s);t=(t+Math.imul(t^(t>>>7),61|t))^t;return [((t^(t>>>14))>>>0)/4294967296,s];}
+function rD(){const [v,s]=step32(G.rs);G.rs=s;return v;}
+function rM(){const [v,s]=step32(G.rm);G.rm=s;return v;}
+const pickD=a=>a[Math.floor(rD()*a.length)];
+const pickM=a=>a[Math.floor(rM()*a.length)];
+const shuffleD=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(rD()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function maxX(s){let m=0;String(s).replace(/\{x(\d)\}/g,(_,d)=>{m=Math.max(m,+d);return'';});return m;}
+
+function pen(k){
+  const sorb=n=>n===1?'1 sorbo':`${n} sorbos`;
+  if(k<=3) return sorb(k);
+  const me=maxEff();
+  if(k===4) return me==='leve'?sorb(3):sorb(5);
+  if(G.cfg.ruleta) return 'girar la ruleta 🎰';
+  return {leve:sorb(3),fuerte:'vaso al seco',prenda:'quitarse una prenda 👕'}[me];
+}
+function rep(k){return 'reparte '+(k===1?'1 sorbo':`${Math.min(k,5)} sorbos`);}
+
+function curLevel(){return levelAt(G.round,G.rounds,G.cfg.spice,G.cfg.esc);}
+
+function startGame(){
+  const m=MODES[D.mode];
+  let names=[],avs=[],partners={},prota=null,partner=null;
+  if(m.couples){
+    D.couples.forEach((c,ci)=>{const a=c[0].trim(),b=c[1].trim();if(!a||!b)return;names.push(a,b);avs.push(D.cavs[ci][0],D.cavs[ci][1]);partners[a]=b;partners[b]=a;});
+  }else{
+    D.names.forEach((n,i)=>{if(n.trim()){names.push(n.trim());avs.push(D.avs[i]);}});
+    if(m.prota){prota=D.prota;partner=D.partner||null;names.unshift(prota);avs.unshift(protaAv());}
+  }
+  const cfg=JSON.parse(JSON.stringify(CFG));
+  if(!cfg.score) cfg.powers=false;
+  G={mode:D.mode,M:m,cfg,prota,partner,sol:D.sol,partners,
+    players:names.map((n,i)=>({name:n,av:avs[i],col:COL[i%COL.length],pts:0,done:0,pen:0,used:0,quests:0,fails:0,streak:0,pw:{escudo:cfg.powers?1:0,rebote:0,cambio:0}})),
+    round:1,rounds:cfg.rounds,inRound:0,roundLen:roundLenFor(names.length),count:0,used:new Set(),events:[],later:[],
+    lastType:null,turn:0,rs:(Math.random()*2**31)|0,rm:(Math.random()*2**31)|0,reader:0,keepReader:false,hist:[],holder:names[0],golden:false,L:1,force:null,lastWasEvent:false,packs:m.pack,wasLast:new Set(),powersUsed:0,newAch:[],finished:false};
+  G.L=curLevel();
+  if(m.prota==='desp'){G.protaLabel=G.sol==='soltera'?'Para la novia':'Para el novio';G.protaEmo=G.sol==='soltera'?'👰':'🤵';}
+  else if(m.prota==='cumple'){G.protaLabel='Para quien cumple años';G.protaEmo='🎂';}
+  $('#stage').innerHTML='';$('#gScore').hidden=!cfg.score;
+  updLater();show('v-game');
+  if(names.length>=10) unlockAch('multitud');
+  if(D.mode==='parejas') unlockAch('cupido');
+  if(D.mode==='despedida') unlockAch('altar');
+  if(D.mode==='caos') unlockAch('caos');
+  const passTxt=cfg.phone==='pasar'?' Cada carta dice quién la lee; después, el teléfono pasa a la siguiente persona de la lista.':cfg.phone==='persona'?` Parte leyendo ${names[0]}. Cuando una carta sea para otra persona, el juego avisa y se le pasa el teléfono.`:'';
+  const sub=(cfg.score?`Cumplan retos para sumar puntos. Quien gane se corona y quien quede último paga la condena final.${cfg.powers?' Cada jugador parte con un escudo 🛡️.':''}`:'Toquen la pantalla para pasar de carta.')+passTxt;
+  render({type:'inicio',html:`${names.length} jugadores, ${cfg.rounds} rondas. Que empiece la previa.`,sub,tap:true},innerWidth/2,innerHeight/2);
+}
+
+function eligible(c,relax,forceP){
+  const cfg=G.cfg;
+  if(G.used.has(c.id)) return false;
+  if(c.l>G.L) return false;
+  if(c.m>cfg.mv) return false;
+  if(c.k!=='base'&&!G.packs.includes(c.k)) return false;
+  const cat=CAT[c.t];if(cat&&!cfg.cats[cat]) return false;
+  if(c.alc&&cfg.drink==='sin') return false;
+  if(c.so&&!cfg.score) return false;
+  if(c.pw&&!cfg.powers) return false;
+  if(c.t==='regla'&&(!cfg.rules||G.events.filter(e=>e.kind==='regla').length>=3)) return false;
+  if((c.t==='mision'||c.t==='secreta')&&(!cfg.quests||activeQuests()>=2)) return false;
+  if(c.t==='despues'&&cfg.later==='none') return false;
+  if(c.dur&&G.rounds*G.roundLen-G.count-1<c.dur) return false;
+  if((c.t==='agua'||c.t==='castigo')&&G.count<6) return false;
+  const all=textOf(c);
+  if(/\{p3\}/.test(all)&&G.players.length<3) return false;
+  if(forceP&&!['reto','verdad'].includes(c.t)) return false;
+  if(!relax&&c.t===G.lastType) return false;
+  return true;
+}
+function drawCard(forceP){
+  let pool=[],tot=0;
+  const pass=relax=>{pool=[];tot=0;for(const c of CARDS){if(!eligible(c,relax,forceP))continue;let w=1;if(c.k!=='base')w*=(c.t==='prota'?1.1:2.4);if(c.l===G.L)w*=1.6;if(PERSONAL.includes(c.t))w*=1.25;pool.push([c,w]);tot+=w;}};
+  pass(false);
+  if(!pool.length){G.used.clear();pass(false);}
+  if(!pool.length)pass(true);
+  if(!pool.length)return null;
+  let r=rD()*tot;
+  for(const [c,w] of pool){r-=w;if(r<=0){G.used.add(c.id);return c;}}
+  const c=pool[pool.length-1][0];G.used.add(c.id);return c;
+}
+function pickNames(c,forceP){
+  const all=textOf(c),P=G.players.map(p=>p.name),L=P.length;
+  const usesPr=/\{(pr|pa|tpa)\}/.test(all);
+  let p=forceP||null;
+  if(!p){
+    if(c.t==='prota'&&!/\{p\}/.test(all)) p=G.prota;
+    else{p=P[G.turn%L];G.turn++;if(usesPr&&p===G.prota&&L>1){p=P[G.turn%L];G.turn++;}}
+  }
+  const pp=G.partners[p]||null;
+  const ex=new Set([p]);if(usesPr&&G.prota)ex.add(G.prota);if(/\{pp\}/.test(all)&&pp)ex.add(pp);
+  let pool=shuffleD(P.filter(x=>!ex.has(x)));
+  if(pool.length<2)pool=pool.concat(shuffleD(P.filter(x=>x!==p&&!pool.includes(x))));
+  return {p,p2:pool[0]||p,p3:pool[1]||pool[0]||p,pp};
+}
+function fill(str,nm,html=true){
+  if(!str) return '';
+  nm=nm||{};
+  const w=v=>html?B(v):String(v);
+  const map={
+    p:()=>w(nm.p),p2:()=>w(nm.p2),p3:()=>w(nm.p3),pr:()=>w(G.prota||''),
+    pa:()=>G.partner?w(G.partner):(html?`la pareja de ${w(G.prota)}`:`la pareja de ${G.prota}`),
+    tpa:()=>G.partner?w(G.partner):'tu pareja',
+    pp:()=>nm.pp?w(nm.pp):'su pareja',
+    lead:()=>w(leader()),last:()=>w(lastPlace()),
+    lugar:()=>({disco:'la disco',bar:'el bar',fiesta:'la fiesta',none:'la salida'})[G.cfg.later],
+    sol:()=>G.sol==='soltera'?'soltera':'soltero'
+  };
+  return str.replace(/\{([a-z]+)(\d?)\}/g,(m,k,d)=>{
+    if(k==='x') return pen(+d);
+    if(k==='r') return rep(+d);
+    const f=map[k+d];return f?f():m;
+  });
+}
+function give(name,k){const P=pl(name);k=k||pickM(Object.keys(POW));P.pw[k]++;return k;}
+function didIt(name,base){
+  const P=pl(name);P.pts+=base*gm();P.done++;P.streak++;
+  if(G.cfg.powers&&P.streak%3===0){const k=give(name);toast(`🎁 ${name} gana un ${POW[k].name} ${POW[k].emo} por 3 retos seguidos`);}
+}
+function penal(name){const P=pl(name);P.pen++;P.streak=0;}
+
+function next(x,y){
+  if(!G||G.finished) return;
+  if(G.keepReader)G.keepReader=false;else G.reader++;
+  G.events.sort((a,b)=>a.due-b.due);
+  if(G.events.length&&G.events[0].due<=G.count) return showEvent(G.events.shift(),x,y);
+  if(G.force){const f=G.force;G.force=null;const c=drawCard(f);if(c){G.count++;G.inRound++;return showCard(c,x,y,f);}}
+  if(G.inRound>=G.roundLen){
+    if(G.round>=G.rounds){if(G.events.length)return showEvent(G.events.shift(),x,y);G.completed=true;return finish();}
+    return showRoundEnd(x,y);
+  }
+  if(G.cfg.chaos&&G.count>2&&!G.lastWasEvent&&rD()<(G.mode==='caos'?.22:.12)){G.lastWasEvent=true;return showChaos(x,y);}
+  G.lastWasEvent=false;
+  const c=drawCard();if(!c){G.completed=true;return finish();}
+  G.count++;G.inRound++;
+  showCard(c,x,y);
+}
+
+function isRuleta(card){return G.cfg.ruleta&&/\{x5\}/.test(card.txt+(card.sub||'')+(TYPES[card.t].sub||''));}
+function showCard(card,x,y,forceP){
+  const nm=pickNames(card,forceP);
+  G.lastType=card.t;
+  const T=TYPES[card.t];
+  const c={type:card.t,html:fill(card.txt,nm),sub:'',tap:true,actions:[],l:card.l};
+  const subSrc=card.sub||T.sub;if(subSrc)c.sub=fill(subSrc,nm);
+  const sc=G.cfg.score;
+  const penK=card.pen||maxX(card.txt+(card.sub||'')+(T.sub||''))||2;
+  if(isRuleta(card)) c.ruleta=true;
+  switch(card.t){
+    case 'reto':case 'verdad':case 'castigo':case 'prota':case 'pareja':{
+      const target=card.t==='prota'?G.prota:nm.p;
+      c.forWho=target;
+      if(sc){
+        c.tap=false;
+        const base=card.t==='castigo'?1:card.t==='verdad'?2:(card.l>=3?3:2);
+        const okLabel=card.t==='verdad'?'✅ Respondió':card.t==='castigo'?'✅ Lo cumplió':'✅ Lo hizo';
+        c.actions=[{label:okLabel,fn:(a,b)=>{didIt(target,base);next(a,b);}}];
+        if(c.ruleta){c.ruleta=false;c.actions.push({label:'🎰 Girar la ruleta',spin:true,fn:()=>penal(target)});}
+        else c.actions.push({label:`${drinkEmo()} Castigo`,fn:(a,b)=>{penal(target);next(a,b);}});
+        if(G.cfg.powers)c.powers={name:target,penK};
+        c.sub=(c.sub?c.sub+' ':'')+`${B(target)} suma ${base*gm()} puntos si lo hace.`;
+      }
+      break;}
+    case 'duelo':
+      c.sub=`Quien pierda: ${pen(penK)}.`;
+      if(sc){
+        c.tap=false;const pair=[nm.p,nm.p2];
+        c.actions=pair.map((w,i)=>({label:`🏆 Ganó ${w}`,fn:(a,b)=>{const P=pl(w);P.pts+=2*gm();P.done++;penal(pair[1-i]);next(a,b);}}));
+      }
+      break;
+    case 'voto':
+      if(sc){c.chips=G.players.map(p=>p.name);c.chipMode='vote';}
+      break;
+    case 'juego':
+      if(sc){c.chips=G.players.map(p=>p.name);c.chipMode='win';}
+      break;
+    case 'regla':
+      G.events.push({kind:'regla',due:G.count+card.dur,label:fill(card.label,nm,false),end:fill(card.end,nm)});
+      c.sub=`Dura las próximas ${card.dur} cartas. El juego avisa cuando termine.`;
+      break;
+    case 'mision':{
+      const who=card.pair?[nm.p,nm.p2]:[nm.p];const pr=!!card.pair;
+      G.events.push({kind:'mision',due:G.count+card.dur,who,text:fill(card.txt,nm),label:`Side quest de ${who.join(' y ')}`});
+      c.sub=`${pr?'Tienen':'Tiene'} las próximas ${card.dur} cartas. Si lo ${pr?'logran':'logra'}: ${sc?'+4 puntos':rep(3)}. Si ${pr?'fallan':'falla'}: ${pen(3)}.`;
+      break;}
+    case 'secreta':{
+      const hidden=fill(card.h,nm);
+      G.events.push({kind:'secreta',due:G.count+card.dur,who:[nm.p],hidden});
+      c.tap=false;c.reveal={who:nm.p,text:hidden};c.forWho=nm.p;
+      c.sub=`Dura las próximas ${card.dur} cartas. Si la cumple: ${sc?'+4 puntos':rep(3)}. Si no: ${pen(3)}.`;
+      break;}
+    case 'despues':
+      G.later.push({html:fill(card.txt,nm),done:false});updLater();
+      break;
+    case 'bonus':
+      if(card.pw){const k=give(nm.p);c.sub=`Le tocó ${POW[k].emo} ${POW[k].name}: ${POW[k].desc}`;}
+      else if(sc){pl(nm.p).pts+=1;c.sub='Además suma 1 punto.';}
+      break;
+  }
+  if(card.t==='prota'){c.label=G.protaLabel;c.emo=G.protaEmo;}
+  render(c,x,y);
+}
+
+function showEvent(ev,x,y){
+  if(ev.kind==='regla') return render({type:'reglafin',html:ev.end,tap:true},x,y);
+  const sec=ev.kind==='secreta',two=ev.who.length>1,whoH=ev.who.map(B).join(' y ');
+  const html=sec?`La misión de ${whoH} era:<span class="small">${ev.hidden}</span>¿La cumplió?`:`¿${whoH} ${two?'cumplieron':'cumplió'} la side quest?<span class="small">${ev.text}</span>`;
+  const res=(ok,a,b)=>{
+    ev.who.forEach(w=>{const P=pl(w);if(ok){if(G.cfg.score)P.pts+=4*gm();P.quests++;}else{P.fails++;P.pen++;}});
+    if(ok&&sec) unlockAch('agente');
+    const each=two?' cada uno':'';
+    render({type:sec?'secretafin':'misionfin',html:`${whoH}: ${ok?(G.cfg.score?`+${4*gm()} puntos${each}`:rep(3)):pen(3)+each}.`,sub:ok?'Misión cumplida.':'Misión fallida. Queda en el registro.',tap:true},a,b);
+  };
+  render({type:sec?'secretafin':'misionfin',html,tap:false,actions:[
+    {label:two?'Sí, cumplieron':'Sí, cumplió',fn:(a,b)=>res(true,a,b)},
+    {label:two?'No, fallaron':'No, falló',fn:(a,b)=>res(false,a,b)}]},x,y);
+}
+
+const RE=[
+  {need:()=>G.cfg.score,txt:'Ronda dorada: todo lo que se cumpla vale el doble.',fn:()=>{G.golden=true;}},
+  {need:()=>G.cfg.powers,txt:'Rescate: {last} recibe un escudo 🛡️.',fn:()=>give(lastPlace(),'escudo')},
+  {need:()=>G.cfg.powers,txt:'Lluvia de comodines: todos reciben uno sorpresa.',fn:()=>G.players.forEach(p=>give(p.name))},
+  {need:()=>G.cfg.score,txt:'Impuesto al líder: {lead} parte la ronda con {x2}.'},
+  {need:()=>true,txt:'Brindis de ronda: todos {x1}.'}
+];
+function lbHTML(n){
+  return `<ul class="lb">${sortedPlayers().slice(0,n).map((p,i)=>`<li><span class="mini" style="--avbg:${p.col}">${p.av}</span><span class="n">${i+1}. ${esc(p.name)}</span><span class="s">${p.pts}</span></li>`).join('')}</ul>`;
+}
+function showRoundEnd(x,y){
+  const done=G.round;G.round++;G.inRound=0;const prevL=G.L;G.L=curLevel();G.golden=false;
+  if(G.cfg.score)G.wasLast.add(lastPlace());
+  const subs=[];
+  const pool=RE.filter(e=>e.need());
+  if(pool.length&&rD()<.65){const e=pickD(pool);subs.push(`Ronda ${G.round}: ${fill(e.txt,{})}`);e.fn&&e.fn();}
+  if(G.L>prevL)subs.push(`El picante sube a ${SPICE_NAMES[G.L]} 🌶️`);
+  render({type:'ronda',html:`Fin de la ronda ${done} de ${G.rounds}`,extra:G.cfg.score?lbHTML(3):'',sub:subs.join('<br>'),tap:true},x,y);
+}
+
+const CHAOS=[
+  {need:()=>true,run:()=>`Apagón: todos cierran los ojos hasta que ${B(pickD(G.players).name)} diga «luz». Quien los abra antes: ${pen(2)}.`},
+  {need:()=>G.cfg.powers&&G.players.length>1,run:()=>{
+    const [a,b]=shuffleD(G.players.slice()).slice(0,2);const ks=Object.keys(b.pw).filter(k=>b.pw[k]>0);
+    if(!ks.length){const k=give(a.name);return `Regalo del caos: ${B(a.name)} recibe ${POW[k].emo} ${POW[k].name}.`;}
+    const k=pickD(ks);b.pw[k]--;a.pw[k]++;return `Robo: ${B(a.name)} le roba ${POW[k].emo} ${POW[k].name} a ${B(b.name)}.`;}},
+  {need:()=>G.cfg.score,run:()=>{const L=leader();G.players.forEach(p=>{if(p.name!==L)p.pts+=1;});return `Lluvia de puntos: todos suman 1, menos ${B(L)}.`;}},
+  {need:()=>G.cfg.score&&G.mode==='caos'&&G.players.length>1,run:()=>{const s=sortedPlayers(),a=s[0],z=s[s.length-1];[a.pts,z.pts]=[z.pts,a.pts];return `Terremoto: ${B(a.name)} y ${B(z.name)} intercambian sus puntajes.`;}},
+  {need:()=>G.cfg.mv>=1,run:()=>`Todos se cambian de puesto. Quien quede donde estaba: ${pen(2)}.`},
+  {need:()=>true,run:()=>`Espejo: hasta la próxima carta, todos imitan cada gesto de ${B(pickD(G.players).name)}. Quien falle: ${pen(1)}.`},
+  {need:()=>true,run:()=>`Todo al revés: hasta que termine la ronda, quien tenga que tomar reparte, y quien reparta toma.`},
+  {need:()=>G.cfg.score,run:()=>{const z=lastPlace();pl(z).pts+=3;return `Rescate: ${B(z)} recibe 3 puntos de regalo.`;}}
+];
+function showChaos(x,y){const e=pickD(CHAOS.filter(c=>c.need()));render({type:'evento',html:e.run(),tap:true},x,y);}
+
+/* ---------- Ruleta ---------- */
+function ruletaOpts(){
+  const me=G?maxEff():'fuerte',sp=G?G.cfg.spice:2,mv=G?G.cfg.mv:1;
+  const o=['¡Salvación! No pasa nada 😇','3 sorbos','2 sorbos y repartes 2','La mesa elige entre 1 y 3 sorbos'];
+  if(me!=='leve'){
+    o.push('Vaso al seco','5 sorbos y eliges a quien se toma otros 5','3 sorbos ahora y 3 en la próxima carta');
+    if(!G||G.cfg.drink!=='sin')o.push('Un shot de lo que elija la mesa');
+    if(sp>=3)o.push('Leer en voz alta tu último chat con quien elija la mesa','Foto con tu peor cara en tu historia por una hora');
+  }
+  if(me==='prenda'&&sp>=3)o.push('Quitarse una prenda (los accesorios cuentan)','Quitarse una prenda (los accesorios cuentan)');
+  if(sp>=4&&me!=='leve')o.push('La mesa dicta un mensaje y lo mandas a tu último chat','Tu fondo de pantalla lo elige la mesa hasta mañana');
+  if(G&&G.mode==='hardcore'){
+    o.push('La mesa elige un contacto y le mandas un audio cantando','Respondes con la verdad cualquier pregunta que te haga la mesa','Subes la historia que dicte la mesa por una hora','Pasas tu celular desbloqueado a la mesa por 15 segundos');
+    if(G.cfg.powers)o.push('Pierdes todos tus comodines');
+  }
+  if(mv>=1)o.push('Bailar 30 segundos la canción que elija la mesa');
+  if(mv>=2)o.push('Salir a la puerta y gritar «¡viva la previa!»');
+  return o;
+}
+function spin(box,done){
+  const opts=shuffle(ruletaOpts());let i=0,delay=45;const end=Date.now()+2300;
+  box.classList.remove('done');
+  S.spins++;save();if(S.spins>=5)unlockAch('ruleta');
+  if(reduceMotion){box.textContent=rnd(opts);box.classList.add('done');done&&done();return;}
+  const tick=()=>{box.textContent=opts[i++%opts.length];if(Date.now()<end){delay*=1.13;setTimeout(tick,delay);}else{box.classList.add('done');done&&done();}};
+  tick();
+}
+
+/* ---------- Render de cartas ---------- */
+function btnCenter(e){const r=e.currentTarget.getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2];}
+function assignReader(c){
+  if(c.reader!==undefined)return;
+  const mode=G.cfg.phone,L=G.players.length;
+  if(mode==='centro'||L<2){c.reader=null;return;}
+  if(mode==='persona'){
+    if(c.forWho&&c.forWho!==G.holder){c.passTo=true;G.holder=c.forWho;}
+    c.reader=G.holder;
+  }else{c.reader=G.players[G.reader%L].name;c.nextReader=G.players[(G.reader+1)%L].name;}
+}
+function snap(){return JSON.stringify({players:G.players,events:G.events,later:G.later,used:[...G.used],round:G.round,inRound:G.inRound,count:G.count,lastType:G.lastType,turn:G.turn,golden:G.golden,L:G.L,force:G.force,lastWasEvent:G.lastWasEvent,wasLast:[...G.wasLast],powersUsed:G.powersUsed,holder:G.holder,reader:G.reader,keepReader:G.keepReader,rs:G.rs,rm:G.rm});}
+function restore(s){const o=JSON.parse(s);Object.assign(G,o);G.used=new Set(o.used);G.wasLast=new Set(o.wasLast);updLater();}
+function render(c,x,y){
+  const T=TYPES[c.type];
+  c.hold=false;
+  assignReader(c);
+  const layer=document.createElement('div');
+  layer.className='layer t-'+c.type;
+  layer.style.setProperty('--cbg',T.bg);layer.style.setProperty('--cfg',T.fg);
+  const label=c.label||T.label,emo=c.emo||(c.type==='castigo'?drinkEmo():T.emo);
+  const len=c.html.replace(/<[^>]+>/g,'').length;
+  const avOf=n=>{const P=pl(n);return P?esc(P.av)+' ':'';};
+  let topLine='';
+  if(c.passTo)topLine=`<div class="reader pass"><span aria-hidden="true">📱</span> Para ${avOf(c.reader)}<b>${esc(c.reader)}</b>: pásenle el teléfono</div>`;
+  else if(c.reader)topLine=`<div class="reader"><span aria-hidden="true">📱</span> Lee ${avOf(c.reader)}<b>${esc(c.reader)}</b></div>`;
+  layer.innerHTML=`<div class="inner">
+    ${topLine}
+    <div class="kind"><span class="emo" aria-hidden="true">${emo}</span><span>${label}</span></div>
+    <p class="txt${len>120?' long':''}">${c.html}</p>
+    ${c.extra||''}
+    ${c.sub?`<p class="sub">${c.sub}</p>`:''}
+    <div class="act"></div><div class="pw"></div><div class="confirm-row"></div>
+    ${c.tap&&G.count<3&&!c.chips?'<p class="hint">Toquen la pantalla para la siguiente carta</p>':''}
+    ${c.nextReader?`<p class="passnext">Después, el teléfono pasa a ${avOf(c.nextReader)}<b>${esc(c.nextReader)}</b></p>`:''}
+  </div>`;
+  const act=layer.querySelector('.act'),pwr=layer.querySelector('.pw'),crow=layer.querySelector('.confirm-row');
+  let sel=null;
+  const conf=document.createElement('button');conf.type='button';conf.className='btn solid confirm';conf.textContent='Confirmar';conf.hidden=true;crow.appendChild(conf);
+  const choose=(b,fn)=>{
+    const same=sel&&sel.b===b;
+    if(sel){sel.b.classList.remove('sel');sel.b.setAttribute('aria-pressed','false');}
+    if(same){sel=null;conf.hidden=true;c.hold=false;return;}
+    b.classList.add('sel');b.setAttribute('aria-pressed','true');sel={b,fn};conf.hidden=false;c.hold=true;
+  };
+  conf.onclick=e=>{e.stopPropagation();if(!sel)return;conf.disabled=true;const [bx,by]=btnCenter(e);sel.fn(bx,by);};
+  const mkChoice=(host,text,fn,cls)=>{const b=document.createElement('button');b.type='button';if(cls)b.className=cls;b.textContent=text;b.setAttribute('aria-pressed','false');b.onclick=e=>{e.stopPropagation();choose(b,fn);};host.appendChild(b);return b;};
+  if(c.ruleta){
+    const sb=document.createElement('button');sb.type='button';sb.className='btn';sb.textContent='🎰 Girar la ruleta';
+    sb.onclick=e=>{e.stopPropagation();sb.remove();const box=document.createElement('div');box.className='rul';act.before(box);spin(box);};
+    act.appendChild(sb);
+  }
+  const spinAction=a=>{
+    act.hidden=true;pwr.hidden=true;crow.hidden=true;
+    const box=document.createElement('div');box.className='rul';act.before(box);
+    spin(box,()=>{
+      a.fn&&a.fn();
+      const row=document.createElement('div');row.className='act';
+      const nb=document.createElement('button');nb.type='button';nb.className='btn solid';nb.textContent='Siguiente';
+      nb.onclick=e=>{e.stopPropagation();const [bx,by]=btnCenter(e);next(bx,by);};
+      row.appendChild(nb);box.after(row);nb.focus();
+    });
+  };
+  (c.actions||[]).forEach(a=>mkChoice(act,a.label,a.spin?()=>spinAction(a):a.fn,'btn'));
+  if(c.powers){
+    const P=pl(c.powers.name);
+    Object.keys(POW).forEach(k=>{
+      if(!P.pw[k])return;
+      const b=mkChoice(pwr,`${POW[k].emo} ${POW[k].name} (${P.pw[k]})`,(bx,by)=>usePower(k,c.powers.name,c.powers.penK,bx,by));
+      b.title=POW[k].desc;
+    });
+  }
+  if(c.chips){
+    const lab=document.createElement('p');lab.className='vlabel';
+    lab.textContent=c.chipMode==='win'?'¿Quién ganó? Suma 2 puntos. Es opcional: si no hay ganador, toquen la pantalla para seguir.':'¿Quién tuvo más votos? Paga el castigo, pero suma 2 puntos. Es opcional: toquen la pantalla para seguir.';
+    const ch=document.createElement('div');ch.className='vchips';
+    c.chips.forEach(n=>mkChoice(ch,`${pl(n).av} ${n}`,(bx,by)=>{const P=pl(n);P.pts+=2*gm();if(c.chipMode==='win')P.done++;else penal(n);next(bx,by);}));
+    act.before(lab);act.before(ch);
+  }
+  if(c.reveal){
+    const box=document.createElement('div');box.className='secret-box';box.setAttribute('role','button');box.tabIndex=0;
+    const idle=`<span>Solo ${esc(c.reveal.who)}: mantén presionado aquí para ver tu misión.</span>`;box.innerHTML=idle;
+    const ok=document.createElement('button');ok.type='button';ok.className='btn solid';ok.textContent='Listo, la memoricé';ok.disabled=true;
+    const showS=e=>{e.preventDefault();box.classList.add('on');box.innerHTML=`<span>${c.reveal.text}</span>`;ok.disabled=false;};
+    const hideS=()=>{box.classList.remove('on');box.innerHTML=idle;};
+    box.addEventListener('pointerdown',showS);
+    ['pointerup','pointerleave','pointercancel'].forEach(ev=>box.addEventListener(ev,hideS));
+    box.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter')showS(e);});
+    box.addEventListener('keyup',hideS);
+    box.addEventListener('contextmenu',e=>e.preventDefault());
+    ok.onclick=e=>{e.stopPropagation();const [bx,by]=btnCenter(e);next(bx,by);};
+    act.before(box);act.appendChild(ok);
+  }
+  const stage=$('#stage');stage.appendChild(layer);
+  $('#v-game').style.setProperty('--gfg',T.fg);
+  current=c;updBar();
+  G.hist.push({s:snap(),c});if(G.hist.length>80)G.hist.shift();
+  $('#gBack').disabled=G.hist.length<2;
+  const cleanup=()=>{[...stage.children].slice(0,-1).forEach(n=>n.remove());};
+  if(!reduceMotion&&x!=null){
+    layer.style.clipPath=`circle(0px at ${x}px ${y}px)`;
+    layer.getBoundingClientRect();
+    layer.style.transition='clip-path .5s cubic-bezier(.2,.7,.2,1)';
+    layer.style.clipPath=`circle(150vmax at ${x}px ${y}px)`;
+    layer.addEventListener('transitionend',cleanup,{once:true});
+    setTimeout(cleanup,800);
+  }else cleanup();
+}
+$('#gBack').onclick=()=>{
+  if(!G||G.finished||G.hist.length<2)return;
+  G.hist.pop();const prev=G.hist.pop();
+  restore(prev.s);render(prev.c,40,40);
+};
+function usePower(k,name,penK,x,y){
+  const P=pl(name);if(!P.pw[k])return;
+  P.pw[k]--;P.used++;G.powersUsed++;if(G.powersUsed>=5)unlockAch('manoso');
+  if(k==='escudo'){toast(`🛡️ ${name} usa un escudo y se salva`);next(x,y);}
+  else if(k==='rebote'){
+    const q=pickM(G.players.filter(o=>o.name!==name));q.pen++;
+    render({type:'evento',label:'Rebote',emo:'↩️',html:`El castigo de ${B(name)} rebota a ${B(q.name)}: ${pen(penK)}.`,ruleta:penK===5&&G.cfg.ruleta,tap:true},x,y);
+  }else{toast(`🔄 ${name} cambia la carta`);G.force=name;G.keepReader=true;next(x,y);}
+}
+function updBar(){
+  $("#gRound").textContent=`Ronda ${G.round}/${G.rounds}`;
+  $('#gChips').innerHTML=G.events.filter(e=>e.kind==='regla'||e.kind==='mision').sort((a,b)=>a.due-b.due).slice(0,4)
+    .map(e=>{const n=Math.max(0,e.due-G.count);return `<span class="chip">${esc(e.label)}: ${n===0?'termina ahora':n===1?'queda 1 carta':`quedan ${n} cartas`}</span>`;}).join('');
+}
+function updLater(){
+  const b=$('#gLater');
+  b.hidden=!G||G.cfg.later==='none';
+  if(G)b.textContent=`🪩 ${G.later.filter(d=>!d.done).length}`;
+}
+
+$('#stage').addEventListener('click',e=>{
+  if(!current||!current.tap||current.hold||lock)return;
+  if(e.target.closest('button,.secret-box'))return;
+  lock=true;setTimeout(()=>lock=false,280);
+  next(e.clientX,e.clientY);
+});
+document.addEventListener('keydown',e=>{
+  if($('#v-game').hidden||!$('#sheet').hidden)return;
+  if((e.key===' '||e.key==='ArrowRight')&&current&&current.tap&&!current.hold&&!e.target.closest('button')){e.preventDefault();next(innerWidth/2,innerHeight/2);}
+});
+
+/* ---------- Hojas del juego ---------- */
+function laterList(el,arr){
+  if(!arr.length){el.innerHTML='<li class="empty">Todavía no hay nada. Ya va a llegar.</li>';return;}
+  el.innerHTML='';
+  arr.forEach(d=>{const li=document.createElement('li');li.innerHTML=`<label><input type="checkbox" ${d.done?'checked':''}><span>${d.html}</span></label>`;li.querySelector('input').onchange=e=>{d.done=e.target.checked;updLater();};el.appendChild(li);});
+}
+$('#gLater').onclick=()=>openSheet(`<h3>Para ${fill('{lugar}')}</h3><p>Márquenlas a medida que se cumplan.</p><ul class="dlist" id="lt"></ul><button type="button" class="secondary" onclick="closeSheet()">Volver al juego</button>`,b=>laterList(b.querySelector('#lt'),G.later));
+$('#gScore').onclick=()=>openSheet(`<h3>Marcador</h3><p>Ronda ${G.round} de ${G.rounds}.${G.golden?' Ronda dorada: puntos dobles.':''}</p>
+  <ul class="rank">${sortedPlayers().map((p,i)=>`<li><span class="mini av" style="--avbg:${p.col};flex:0 0 38px;height:38px;font-size:19px">${p.av}</span><span class="n">${i+1}. ${esc(p.name)}<br><span class="p">${Object.keys(POW).map(k=>p.pw[k]?`${POW[k].emo}${p.pw[k]}`:'').join(' ')||'Sin comodines'}</span></span><span class="s">${p.pts}</span></li>`).join('')}</ul>
+  <button type="button" class="secondary" onclick="closeSheet()">Volver al juego</button>`);
+$('#gPause').onclick=()=>openSheet(`<h3>Pausa</h3><p>Ronda ${G.round} de ${G.rounds}. Van ${G.count} cartas.</p>
+  <div class="menu"><button type="button" class="primary" id="pzR">Seguir jugando</button><button type="button" class="secondary" id="pzE">Terminar y ver resultados</button><button type="button" class="secondary" id="pzQ">Salir sin terminar</button></div>`,
+  b=>{b.querySelector('#pzR').onclick=closeSheet;b.querySelector('#pzE').onclick=()=>{closeSheet();finish();};b.querySelector('#pzQ').onclick=()=>{closeSheet();G.finished=true;goHome();};});
+
+/* ---------- Final ---------- */
+function finish(){
+  if(G.finished)return;G.finished=true;
+  const before=level(S.xp).n;
+  const gain=40+G.count*2+(G.completed&&G.rounds>=8?40:0);
+  S.xp+=gain;S.games++;save();
+  if(G.completed){
+    unlockAch('primera');
+    if(G.rounds>=8)unlockAch('maraton');
+    if(G.cfg.spice===4)unlockAch('sincensura');
+    if(G.cfg.drink==='sin')unlockAch('sano');
+    if(G.cfg.score&&G.wasLast.has(leader()))unlockAch('remontada');
+  }
+  const after=level(S.xp).n;
+  const unl=[];for(let l=before+1;l<=after;l++)if(LEVEL_UNLOCKS[l])unl.push(LEVEL_UNLOCKS[l]);
+  renderEnd(gain,after,unl);
+}
+function renderEnd(gain,lv,unl){
+  const v=$('#v-end'),m=MODES[G.mode],sc=G.cfg.score&&G.players.length>1;
+  const s=sortedPlayers();
+  let h=`<span class="modechip" id="endChip">${m.emo} ${m.name}</span>`;
+  if(sc){
+    const w=s[0],lo=s[s.length-1];
+    h+=`<h2 class="endhead">${esc(w.name)} gana la previa</h2><p class="lead">${w.pts} puntos en ${G.count} cartas.</p>`;
+    const order=s.length>=3?[[s[1],'g2',2],[s[0],'g1',1],[s[2],'g3',3]]:[[s[1],'g2',2],[s[0],'g1',1]];
+    h+=`<div class="pod" style="${s.length<3?'grid-template-columns:1fr 1.15fr':''}">${order.map(([p,g,n])=>`<div class="pcol ${g}">${n===1?'<span class="crown" aria-hidden="true">👑</span>':''}<div class="pav">${p.av}</div><div class="pn">${esc(p.name)}</div><div class="ps">${p.pts} pts</div><div class="blk">${n}</div></div>`).join('')}</div>`;
+    h+=`<div class="loser"><h4>Último lugar</h4><div class="ln">${esc(lo.name)}</div><p style="margin:0 0 4px;opacity:.9">Le toca la condena final.</p><div class="rul" id="condena">🎰</div><div class="act" style="margin-top:14px"><button type="button" class="btn" id="spinC">Girar la condena</button></div></div>`;
+    const AW=[['🦁','Más valentía',p=>p.done,['reto cumplido','retos cumplidos']],[drinkEmo(),'Más castigos',p=>p.pen,['castigo','castigos']],['🃏','Más comodines',p=>p.used,['comodín usado','comodines usados']],['🗺️','Más misiones',p=>p.quests,['misión cumplida','misiones cumplidas']],['🤡','Más misiones fallidas',p=>p.fails,['fallida','fallidas']]];
+    const aw=AW.map(([e,t,f,u])=>{const best=G.players.slice().sort((a,b)=>f(b)-f(a))[0];return f(best)>0?`<div class="award"><div class="ae">${e}</div><strong>${t}</strong><span>${esc(best.name)}</span><small>${f(best)} ${u[f(best)===1?0:1]}</small></div>`:'';}).filter(Boolean);
+    if(aw.length)h+=`<h3 class="secth">Premios de la noche</h3><div class="awards">${aw.join('')}</div>`;
+  }else{
+    h+=`<h2 class="endhead">Se terminó la previa</h2><p class="lead">${G.count} cartas jugadas.</p>`;
+  }
+  if(G.later.length)h+=`<h3 class="secth">Para ${fill('{lugar}')}</h3><ul class="dlist" id="endLater"></ul>`;
+  const newA=G.newAch.map(id=>ACH.find(a=>a.id===id)).filter(Boolean);
+  h+=`<div class="xpbox"><strong>+${gain} XP.</strong> Nivel ${lv}: ${LEVEL_NAMES[lv-1]}
+    ${unl.length||newA.length?`<ul>${unl.map(u=>`<li>Desbloqueaste ${u}</li>`).join('')}${newA.map(a=>`<li>Logro: ${a.emo} ${a.name}</li>`).join('')}</ul>`:''}</div>`;
+  h+=`<div style="margin-top:28px"><button type="button" class="primary" id="enShare">Compartir el resultado</button><button type="button" class="secondary" id="enAgain">Revancha</button><button type="button" class="secondary" id="enHome">Volver al inicio</button></div>`;
+  v.innerHTML=h;modeVars($('#endChip'),G.mode);
+  if(G.later.length)laterList($('#endLater'),G.later);
+  G.condena=null;
+  const sp=$('#spinC');if(sp)sp.onclick=()=>{sp.disabled=true;spin($('#condena'),()=>{G.condena=$('#condena').textContent;});};
+  $('#enShare').onclick=()=>openShare(sc);
+  $('#enAgain').onclick=startGame;
+  $('#enHome').onclick=goHome;
+  show('v-end');
+}
+
+/* ---------- Compartir ---------- */
+const APP_LINK=''; // En la app real: enlace único que abre App Store o Google Play según el teléfono
+function shareText(sc){
+  const m=MODES[G.mode],s=sortedPlayers();
+  let t=sc?`🏆 ${s[0].name} ganó la previa con ${s[0].pts} puntos (modo ${m.name}).\n💀 ${s[s.length-1].name} quedó último${G.condena?` y le tocó: ${G.condena}`:' y pagó la condena final'}.\n¿Quién se anima a la revancha? Jueguen Previa 🥂`
+    :`🥂 Terminamos una previa en modo ${m.name}. ¿Quién se anima? Jueguen Previa.`;
+  if(APP_LINK)t+=`\n${APP_LINK}`;
+  return t;
+}
+function wrapLines(ctx,text,maxW){const words=text.split(' ');const lines=[];let cur='';words.forEach(w=>{const t=cur?cur+' '+w:w;if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=w;}else cur=t;});if(cur)lines.push(cur);return lines;}
+async function shareImage(sc){
+  try{await document.fonts.load('800 100px "Bricolage Grotesque"');}catch(e){}
+  const W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
+  const F=(w,sz)=>`${w} ${sz}px "Bricolage Grotesque", system-ui, sans-serif`;
+  try{x.fontStretch='condensed';}catch(e){}
+  const m=MODES[G.mode],s=sortedPlayers();
+  x.fillStyle='#160B29';x.fillRect(0,0,W,H);
+  const g=x.createRadialGradient(900,260,0,900,260,700);g.addColorStop(0,'rgba(255,90,60,.45)');g.addColorStop(1,'rgba(255,90,60,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.fillStyle='#FFFFFF';x.font=F(800,190);x.textBaseline='alphabetic';x.fillText('previa',80,280);
+  const pw=x.measureText('prev').width,iw=x.measureText('i').width;
+  x.fillStyle='#C2F23F';x.beginPath();x.arc(80+pw+iw/2,128,22,0,Math.PI*2);x.fill();
+  x.fillStyle=m.bg;const chipT=`${m.emo} ${m.name}`;x.font=F(700,46);const cw=x.measureText(chipT).width+64;
+  x.beginPath();x.roundRect?x.roundRect(80,340,cw,84,42):x.rect(80,340,cw,84);x.fill();x.fillStyle=m.fg;x.fillText(chipT,112,398);
+  let y=560;
+  if(sc){
+    let fs=150;x.font=F(800,fs);while(x.measureText(s[0].name).width>920&&fs>80){fs-=10;x.font=F(800,fs);}
+    let wn=s[0].name;while(x.measureText(wn).width>920&&wn.length>2)wn=wn.slice(0,-2)+'…';
+    x.fillStyle='#FF5A3C';x.fillText(wn,80,y);y+=150;
+    x.fillStyle='#FFFFFF';x.font=F(800,96);x.fillText('gana la previa',80,y);y+=70;
+    x.fillStyle='rgba(255,255,255,.7)';x.font=F(500,44);x.fillText(`${s[0].pts} puntos en ${G.count} cartas`,80,y+20);
+    const base=y+700,cols=s.length>=3?[[s[1],2,250,'#C9C3DA'],[s[0],1,360,'#FFC933'],[s[2],3,190,'#E59A6E']]:[[s[1],2,250,'#C9C3DA'],[s[0],1,360,'#FFC933']];
+    const colW=280,gap=30,startX=(W-(cols.length*colW+(cols.length-1)*gap))/2;
+    cols.forEach(([p,n,h,col],i)=>{
+      const cx=startX+i*(colW+gap);
+      x.fillStyle=col;x.beginPath();x.roundRect?x.roundRect(cx,base-h,colW,h,[28,28,0,0]):x.rect(cx,base-h,colW,h);x.fill();
+      x.fillStyle='#160B29';x.font=F(800,96);x.textAlign='center';x.fillText(String(n),cx+colW/2,base-h+100);
+      x.font=F(400,92);x.fillStyle='#FFFFFF';x.fillText((n===1?'👑 ':'')+p.av,cx+colW/2,base-h-120);
+      x.font=F(700,42);const nm=p.name.length>12?p.name.slice(0,11)+'…':p.name;x.fillText(nm,cx+colW/2,base-h-50);
+      x.font=F(500,34);x.fillStyle='rgba(255,255,255,.7)';x.fillText(`${p.pts} pts`,cx+colW/2,base-h-12);x.textAlign='left';
+    });
+    y=base+50;
+    const lo=s[s.length-1];
+    x.fillStyle='#E0101E';x.beginPath();x.roundRect?x.roundRect(80,y,920,G.condena?300:220,40):x.rect(80,y,920,220);x.fill();
+    x.fillStyle='rgba(255,255,255,.85)';x.font=F(600,40);x.fillText('Último lugar',130,y+70);
+    x.fillStyle='#FFFFFF';x.font=F(800,84);x.fillText(`${lo.av} ${lo.name}`,130,y+160);
+    if(G.condena){x.font=F(600,40);wrapLines(x,`Condena: ${G.condena}`,820).slice(0,2).forEach((l,i)=>x.fillText(l,130,y+222+i*46));}
+  }else{
+    x.fillStyle='#FFFFFF';x.font=F(800,120);['Se terminó','la previa'].forEach(l=>{x.fillText(l,80,y);y+=130;});
+    x.fillStyle='rgba(255,255,255,.7)';x.font=F(500,48);x.fillText(`${G.players.length} jugadores, ${G.count} cartas`,80,y+20);
+  }
+  x.fillStyle='rgba(255,255,255,.75)';x.font=F(600,44);x.textAlign='center';x.fillText('¿Revancha? Jueguen Previa 🥂',W/2,H-56);x.textAlign='left';
+  return await new Promise(r=>cv.toBlob(r,'image/png'));
+}
+function openShare(sc){
+  const txt=shareText(sc),enc=encodeURIComponent(txt);
+  openSheet(`<h3>Compartir</h3><p>Para Instagram o TikTok, compartan la imagen. Para el grupo, manden el texto.</p>
+    <div class="shareprev" id="shPrev"><span>Preparando la imagen…</span></div>
+    <div class="menu">
+      <button type="button" class="primary" id="shImg" disabled>📲 Compartir imagen</button>
+      <button type="button" class="secondary" id="shSave" hidden>💾 Guardar imagen</button>
+      <div class="sharerow">
+        <a class="shbtn" target="_blank" rel="noopener" href="https://wa.me/?text=${enc}">WhatsApp</a>
+        <a class="shbtn" target="_blank" rel="noopener" href="https://t.me/share/url?url=${encodeURIComponent(APP_LINK||' ')}&text=${enc}">Telegram</a>
+        <a class="shbtn" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=${enc}">X</a>
+        <button type="button" class="shbtn" id="shCopy">Copiar texto</button>
+      </div>
+      <button type="button" class="secondary" onclick="closeSheet()">Cerrar</button>
+    </div>`,async b=>{
+    b.querySelector('#shCopy').onclick=()=>{
+      if(navigator.clipboard)navigator.clipboard.writeText(txt).then(()=>toast('Texto copiado')).catch(()=>toast('No se pudo copiar'));
+      else toast('No se pudo copiar');
+    };
+    let blob=null;
+    try{blob=await shareImage(sc);}catch(e){}
+    const prev=b.querySelector('#shPrev');
+    if(!blob){prev.innerHTML='<span>No se pudo generar la imagen en este navegador.</span>';return;}
+    const url=URL.createObjectURL(blob);prev.innerHTML=`<img src="${url}" alt="Imagen del resultado para compartir">`;
+    const file=new File([blob],'previa-resultado.png',{type:'image/png'});
+    const imgBtn=b.querySelector('#shImg');
+    const canFiles=!!(navigator.canShare&&navigator.canShare({files:[file]}));
+    if(canFiles){imgBtn.disabled=false;imgBtn.onclick=()=>navigator.share({files:[file],text:txt}).catch(()=>{});}
+    else imgBtn.hidden=true;
+    let dl=null;
+    try{dl=window.claude&&window.claude.use?await window.claude.use('downloads'):null;}catch(e){dl=null;}
+    if(dl){
+      const sb=b.querySelector('#shSave');sb.hidden=false;
+      if(!canFiles)sb.className='primary';
+      sb.onclick=async()=>{try{await dl.save({filename:'previa-resultado.png',data:blob});toast('Imagen guardada');}catch(e){if(e&&e.code==='declined')return;toast('No se pudo guardar la imagen');}};
+    }
+    if(!canFiles&&!dl)prev.insertAdjacentHTML('beforeend','<small>Mantén presionada la imagen para guardarla.</small>');
+  });
+}
+
+/* ---------- Arranque ---------- */
+function boot(){if(!S.age){$('#ageYes').disabled=false;$('#ageMsg').textContent='';show('v-age');}else goHome();}
+boot();
+</script>
+</body></html>
