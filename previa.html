@@ -93,7 +93,7 @@ button.av{border:none;padding:0;cursor:pointer}
 .reader .mini .ic{width:19px;height:19px}
 .reader.pass{width:fit-content;margin:0 auto 14px;padding:6px 14px 6px 8px;border-radius:999px;background:var(--cream);color:var(--ink);letter-spacing:0}
 .confirm-row{margin-top:12px;display:flex;justify-content:center}
-.confirm-row:has(button[hidden]){display:none}
+.confirm-row .btn[hidden]{display:block !important;visibility:hidden}
 .btn.confirm{min-width:200px}
 .lk2{font-style:normal;font-size:11px;font-weight:800;padding:2px 8px;border-radius:99px;background:var(--red);color:var(--ink);margin-left:6px;vertical-align:2px}
 .ramp-wrap{padding:2px 14px 12px;border-top:1px solid var(--butter)}
@@ -104,9 +104,10 @@ button.av{border:none;padding:0;cursor:pointer}
 .shareprev{border-radius:20px;background:var(--cream);min-height:120px;display:grid;place-items:center;padding:12px;margin-bottom:14px;text-align:center;color:var(--muted)}
 .shareprev img{display:block;width:100%;max-width:240px;border-radius:14px;margin:0 auto}
 .shareprev small{display:block;margin-top:8px;font-size:13px}
-.sharerow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.shbtn{display:flex;align-items:center;justify-content:center;padding:14px;border-radius:999px;border:none;background:var(--cream);color:var(--ink);font-size:15px;font-weight:800;text-decoration:none;font-family:inherit}
-.passnext{margin:16px 0 0;font-size:14px;font-weight:700;text-align:center;opacity:.85}
+a.secondary{display:flex;align-items:center;justify-content:center;text-decoration:none}
+.passnext{margin:16px 0 0;font-size:14px;font-weight:700;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px}
+.passnext .mini{width:26px;height:26px}
+.passnext .mini .ic{width:17px;height:17px}
 .rm{flex:0 0 44px;height:44px;border-radius:50%;border:none;background:transparent;color:var(--muted);font-size:17px}
 .couple{border-radius:20px;padding:10px;margin-bottom:10px;background:var(--cream)}
 .couple input[type=text]{background:var(--butter2)}
@@ -207,7 +208,9 @@ details.more[open] summary::after{content:"−"}
 .gbar .gleft,.gbar .gright{display:flex;gap:8px}
 .gbar .ground{font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;text-align:center;white-space:nowrap}
 .chips{position:absolute;left:0;right:0;bottom:0;z-index:5;pointer-events:none;padding:10px 16px calc(env(safe-area-inset-bottom,0px) + 14px);display:flex;flex-wrap:wrap;gap:6px}
-.chip{font-size:12px;font-weight:700;padding:7px 12px;border-radius:999px;background:var(--cream);color:var(--ink)}
+.chip{pointer-events:auto;display:inline-flex;align-items:center;gap:6px;min-height:36px;font-size:12px;font-weight:600;padding:5px 12px 5px 6px;border:none;border-radius:999px;background:var(--cream);color:var(--ink);text-align:left}
+.chip .ic{width:22px;height:22px}
+.chip b{font-weight:800}
 
 /* Hoja inferior */
 .sheet-bg{position:fixed;inset:0;z-index:40;background:rgba(27,26,26,.55);display:flex;align-items:flex-end;justify-content:center}
@@ -838,8 +841,8 @@ const POW={
 };
 const pwTag=k=>`${ic(POW[k].ic,'sm')} ${POW[k].name}`;
 const AV=['smiley','disco','bolt','note','star','hearts','ball','spiral','crown','flame','mic','dice','cassette','vinyl','balloon','drop'];
-const AV_X=['chili','skull','trophy','twohearts']; // íconos exclusivos desde el nivel 4
-const avList=()=>lvlN()>=4?AV.concat(AV_X):AV;
+const AV_X=['chili','skull','trophy','twohearts']; // íconos exclusivos desde el nivel 3
+const avList=()=>lvlN()>=3?AV.concat(AV_X):AV;
 const COL=['#E14936','#EBAF35','#44AEAA','#83AFF1','#FDF3E0'];
 
 const MODES={
@@ -850,7 +853,7 @@ const MODES={
   amigas:{name:'Amigas',ic:'hearts',desc:'Chismes, stalkeo y confesiones.',bg:'#E14936',fg:'#1B1A1A',pack:['chicas']},
   parejas:{name:'Parejas',ic:'twohearts',desc:'Para juntas de parejas. Se ponen a prueba.',bg:'#E14936',fg:'#1B1A1A',pack:['parejas'],couples:true,lock:'pro'},
   hardcore:{name:'Hardcore',ic:'skull',desc:'Sin censura desde la primera carta y retos que no salen en otros modos.',bg:'#1B1A1A',fg:'#FDF3E0',pack:['hard'],lock:'pro',fixed:{spice:4,esc:false,minMax:'fuerte'}},
-  caos:{name:'Caos',ic:'spiral',desc:'Eventos sorpresa que lo cambian todo.',bg:'#EBAF35',fg:'#1B1A1A',pack:[],lock:'lvl3'}
+  caos:{name:'Caos',ic:'spiral',desc:'Eventos sorpresa que lo cambian todo.',bg:'#EBAF35',fg:'#1B1A1A',pack:[],lock:'lvl4'}
 };
 const DEFAULT_CFG={phone:'persona',ruleta:false,rounds:5,spice:2,max:'fuerte',drink:'alc',mv:1,later:'none',score:true,powers:true,quests:true,rules:true,esc:true,chaos:false,
   cats:{retos:true,verdades:true,yonunca:true,votos:true,duelos:true,juegos:true}};
@@ -866,23 +869,31 @@ const PRESET={
 };
 const SPICE_NAMES={1:'Suave',2:'Atrevido',3:'Picante',4:'Sin censura'};
 /* ---------- Niveles, recompensas y logros ----------
- Cada partida suma XP y cada logro da XP extra según su categoría.
+ Cada partida suma XP según su largo y su modo (gameXP, máximo 90) y cada logro da XP extra según su categoría.
  Cada nivel trae una recompensa. Después del nivel 10, cada STAR_XP suma una estrella de leyenda. */
-const LEVELS=[0,150,400,800,1300,2000,3000,4300,6000,8000];
-const STAR_XP=3000;
+const LEVELS=[0,100,250,450,750,1150,1650,2300,3100,4000];
+const STAR_XP=1500;
+const ROUND_XP={3:20,5:35,8:55,12:75};
+const MODE_XP={despedida:5,parejas:5,hardcore:10,caos:10};
+// XP de una partida: completa, la base por rondas más el extra del modo; si se corta antes, la parte jugada de la base
+function gameXP(rounds,mode,completed,count,roundLen){
+  const base=ROUND_XP[rounds]||Math.round(rounds*6.5);
+  if(completed)return Math.min(90,base+(MODE_XP[mode]||0));
+  return Math.round(base*Math.min(1,count/Math.max(1,rounds*roundLen)));
+}
 const LEVEL_NAMES=['Recién llegado','Animador','Alma de la fiesta','Experto en previas','Maestro de ceremonias','Leyenda del barrio','Ícono de la noche','Mito urbano','Patrimonio de la previa','Inmortal'];
 const REWARDS={
   2:{ic:'dice',t:'La Ruleta',d:'El peor castigo se sortea, sin pasar del máximo elegido.'},
-  3:{ic:'spiral',t:'Modo Caos',d:'Eventos sorpresa que lo cambian todo.'},
-  4:{ic:'chili',t:'Íconos exclusivos',d:'Ají, calavera, trofeo y corazones para los jugadores.'},
+  3:{ic:'chili',t:'Íconos exclusivos',d:'Ají, calavera, trofeo y corazones para los jugadores.'},
+  4:{ic:'spiral',t:'Modo Caos',d:'Eventos sorpresa que lo cambian todo.'},
   5:{ic:'star',t:'Pack «Leyendas de la previa»',d:'13 cartas nuevas que se suman a todos los modos.'},
   6:{ic:'rebound',t:'Rebote de regalo',d:'Cada jugador parte con un Rebote además del Escudo.'},
   7:{ic:'trophy',t:'Ronda final dorada',d:'En la última ronda todo lo que se cumpla vale el doble.'},
   8:{ic:'skull',t:'Condenas de leyenda',d:'La condena final suma castigos nuevos, más memorables.'},
-  9:{ic:'disco',t:'Inicio dorado',d:'La pantalla de inicio se vuelve mostaza. Para presumir.'},
-  10:{ic:'crown',t:'Inmortal',d:'El título máximo. Desde aquí, cada 3.000 XP suma una estrella de leyenda.'}
+  9:{ic:'disco',t:'Inicio dorado',d:'La pantalla de inicio se vuelve dorada. Para presumir.'},
+  10:{ic:'crown',t:'Inmortal',d:'El título máximo. Desde aquí, cada 1.500 XP suma una estrella de leyenda.'}
 };
-const TIERS={1:{name:'Bronce',xp:50},2:{name:'Plata',xp:150},3:{name:'Oro',xp:400}};
+const TIERS={1:{name:'Bronce',xp:25},2:{name:'Plata',xp:75},3:{name:'Oro',xp:200}};
 const ACH=[
   {id:'primera',tier:1,ic:'disco',name:'Primera previa',desc:'Terminen una partida.'},
   {id:'sano',tier:1,ic:'drop',name:'Previa sana',desc:'Terminen una partida sin alcohol.'},
@@ -895,13 +906,13 @@ const ACH=[
   {id:'sincensura',tier:2,ic:'flame',name:'Sin censura',desc:'Terminen una partida con el picante al máximo.'},
   {id:'caos',tier:2,ic:'spiral',name:'Caos total',desc:'Terminen una partida en modo Caos.'},
   {id:'manoso',tier:2,ic:'swap',name:'Mañas',desc:'Usen 5 comodines en una misma partida.'},
-  {id:'remontada',tier:2,ic:'bolt',name:'Remontada',desc:'Gana alguien que fue último en alguna ronda.'},
+  {id:'remontada',tier:2,ic:'bolt',name:'Remontada',desc:'Gana alguien que iba último a mitad de la partida, con 4 jugadores o más.'},
   {id:'sinmiedo',tier:2,ic:'star',name:'Sin miedo',desc:'Cumplan 30 retos en una misma partida.'},
   {id:'tres',tier:2,ic:'note',name:'Noche larga',desc:'Terminen 3 partidas el mismo día.'},
   {id:'coleccion',tier:2,ic:'balloon',name:'Coleccionistas',desc:'Jueguen los 8 modos.',prog:()=>[S.st.modes.length,8]},
   {id:'agente',tier:2,ic:'hearts',name:'Agentes secretos',desc:'Cumplan 5 misiones secretas.',prog:()=>[S.st.secret,5]},
-  {id:'imposible',tier:3,ic:'mic',name:'Misión imposible',desc:'Cumplan 3 misiones en una misma partida.'},
-  {id:'invicto',tier:3,ic:'shield',name:'Intocable',desc:'En una partida de 5 rondas o más, alguien cumple 5 retos y no paga ningún castigo.'},
+  {id:'imposible',tier:3,ic:'mic',name:'Misión imposible',desc:'Cumplan 5 misiones en una misma partida.'},
+  {id:'invicto',tier:3,ic:'shield',name:'Intocable',desc:'En una partida de 8 rondas o más, alguien cumple 8 retos y no paga ningún castigo.'},
   {id:'sobrevivientes',tier:3,ic:'skull',name:'Sobrevivientes',desc:'Terminen una partida Hardcore de 12 rondas.'},
   {id:'casallena',tier:3,ic:'smiley',name:'Casa llena',desc:'Jueguen con 16 personas, el máximo.'},
   {id:'veterano',tier:3,ic:'crown',name:'Veteranos',desc:'Terminen 25 partidas.',prog:()=>[S.st.done,25]},
@@ -932,7 +943,7 @@ function unlocked(id){
   const m=MODES[id];
   if(!m.lock) return true;
   if(isPro()||SESSION.has(id)) return true;
-  if(m.lock==='lvl3') return level(S.xp).n>=3;
+  if(m.lock==='lvl4') return level(S.xp).n>=4;
   return false;
 }
 const canRuleta=()=>isPro()||level(S.xp).n>=2||SESSION.has('ruleta');
@@ -985,7 +996,7 @@ function renderHome(){
     b.type='button';b.className='mode'+(i===0?' featured':'')+(unlocked(id)?'':' locked');
     modeVars(b,id);
     let badge='';
-    if(!unlocked(id)) badge=m.lock==='pro'?'<span class="badge">Pro</span>':`<span class="badge">${ic('lock','sm')} Nivel 3</span>`;
+    if(!unlocked(id)) badge=m.lock==='pro'?'<span class="badge">Pro</span>':`<span class="badge">${ic('lock','sm')} Nivel 4</span>`;
     b.innerHTML=`${badge}<span class="em">${ic(m.ic)}</span><span><span class="nm">${m.name}</span><span class="ds">${m.desc}</span></span>`;
     b.onclick=()=>{if(unlocked(id))openPlayers(id);else if(m.lock==='pro')paywall(id,()=>openPlayers(id));else lvlLock(id);};
     g.appendChild(b);
@@ -1011,8 +1022,8 @@ $('#lvlBtn').onclick=()=>{
 $('#resetDemo').onclick=()=>openSheet(`<h3>¿Reiniciar la demo?</h3><p>Se borran el nivel, los logros, Pro y la verificación de edad.</p><div class="menu"><button type="button" class="primary" id="rsY">Reiniciar</button><button type="button" class="secondary" onclick="closeSheet()">Cancelar</button></div>`,b=>{b.querySelector('#rsY').onclick=()=>{S=freshS();save();SESSION.clear();closeSheet();boot();};});
 
 function lvlLock(id){
-  const need=LEVELS[2]-S.xp;
-  openSheet(`<h3>${MODES[id].name}</h3><p>Se desbloquea al llegar al nivel 3. Les faltan ${fmt(need)} XP: unas pocas partidas más.</p>
+  const need=LEVELS[3]-S.xp;
+  openSheet(`<h3>${MODES[id].name}</h3><p>Se desbloquea al llegar al nivel 4. Les faltan ${fmt(need)} XP: unas pocas partidas más.</p>
     <div class="menu"><button type="button" class="primary" id="lkPro">Jugarlo ya con Pro</button><button type="button" class="secondary" onclick="closeSheet()">Entendido</button></div>`,
     b=>{b.querySelector('#lkPro').onclick=()=>paywall(id,()=>openPlayers(id));});
 }
@@ -1432,7 +1443,7 @@ function showCard(card,x,y,forceP){
         if(c.ruleta){c.ruleta=false;c.actions.push({label:'Girar la ruleta',spin:true,fn:()=>penal(target)});}
         else c.actions.push({label:'Castigo',fn:(a,b)=>{penal(target);next(a,b);}});
         if(G.cfg.powers)c.powers={name:target,penK};
-        c.sub=(c.sub?c.sub+' ':'')+`${B(target)} suma ${base*gm()} puntos si lo hace.`;
+        c.sub=(c.sub?c.sub+' ':'')+`${B(target)} suma ${base*gm()} puntos si ${card.t==='verdad'?'responde':card.t==='castigo'?'lo cumple':'lo hace'}.`;
       }
       break;}
     case 'duelo':
@@ -1449,7 +1460,7 @@ function showCard(card,x,y,forceP){
       if(sc){c.chips=G.players.map(p=>p.name);c.chipMode='win';}
       break;
     case 'regla':
-      G.events.push({kind:'regla',due:G.count+card.dur,label:fill(card.label,nm,false),end:fill(card.end,nm)});
+      G.events.push({kind:'regla',due:G.count+card.dur,label:fill(card.label,nm,false),text:fill(card.txt,nm),end:fill(card.end,nm)});
       c.sub=`Dura las próximas ${card.dur} cartas. El juego avisa cuando termine.`;
       break;
     case 'mision':{
@@ -1482,7 +1493,7 @@ function showEvent(ev,x,y){
   const res=(ok,a,b)=>{
     ev.who.forEach(w=>{const P=pl(w);if(ok){if(G.cfg.score)P.pts+=4*gm();P.quests++;}else{P.fails++;P.pen++;}});
     if(ok){
-      G.questsOk++;if(G.questsOk>=3)unlockAch('imposible');
+      G.questsOk++;if(G.questsOk>=5)unlockAch('imposible');
       if(sec){S.st.secret++;save();if(S.st.secret>=5)unlockAch('agente');}
     }
     const each=two?' cada uno':'';
@@ -1504,7 +1515,7 @@ const RE=[
  Solo se muestra una carta si hay un evento de ronda; el resto se avisa con un mensaje corto. */
 function showRoundEnd(x,y){
   G.round++;G.inRound=0;const prevL=G.L;G.L=curLevel();G.golden=false;
-  if(G.cfg.score)G.wasLast.add(lastPlace());
+  if(G.cfg.score){G.wasLast.add(lastPlace());if(G.round-1===Math.ceil(G.rounds/2))G.lastHalf=lastPlace();}
   const notes=[];
   if(G.L>prevL)notes.push(`El picante sube a ${SPICE_NAMES[G.L]}`);
   let ev=null;
@@ -1572,7 +1583,7 @@ function assignReader(c){
     c.reader=G.holder;
   }else{c.reader=G.players[G.reader%L].name;c.nextReader=G.players[(G.reader+1)%L].name;}
 }
-function snap(){return JSON.stringify({players:G.players,events:G.events,later:G.later,used:[...G.used],round:G.round,inRound:G.inRound,count:G.count,lastType:G.lastType,turn:G.turn,golden:G.golden,L:G.L,force:G.force,lastWasEvent:G.lastWasEvent,wasLast:[...G.wasLast],powersUsed:G.powersUsed,holder:G.holder,reader:G.reader,keepReader:G.keepReader,rs:G.rs,rm:G.rm});}
+function snap(){return JSON.stringify({players:G.players,events:G.events,later:G.later,used:[...G.used],round:G.round,inRound:G.inRound,count:G.count,lastType:G.lastType,turn:G.turn,golden:G.golden,L:G.L,force:G.force,lastWasEvent:G.lastWasEvent,wasLast:[...G.wasLast],lastHalf:G.lastHalf||null,powersUsed:G.powersUsed,holder:G.holder,reader:G.reader,keepReader:G.keepReader,rs:G.rs,rm:G.rm});}
 function restore(s){const o=JSON.parse(s);Object.assign(G,o);G.used=new Set(o.used);G.wasLast=new Set(o.wasLast);updLater();}
 function render(c,x,y){
   const T=TYPES[c.type],th=TH[T.th];
@@ -1644,6 +1655,8 @@ function render(c,x,y){
     c.chips.forEach(n=>{const P0=pl(n);mkChoice(ch,'',(bx,by)=>{const P=pl(n);P.pts+=2*gm();if(c.chipMode==='win')P.done++;else penal(n);next(bx,by);},null,`${avHTML(P0.av,P0.col,'mini')} ${esc(n)}`);});
     act.before(lab);act.before(ch);
   }
+  // El espacio del botón Confirmar queda reservado en las cartas con opciones, para que nada salte al aparecer
+  if(!layer.querySelector('.act [aria-pressed],.pw button,.vchips button'))crow.hidden=true;
   if(c.reveal){
     const box=document.createElement('div');box.className='secret-box';box.setAttribute('role','button');box.tabIndex=0;
     const idle=`<span>Solo ${esc(c.reveal.who)}: mantén presionado aquí para ver tu misión.</span>`;box.innerHTML=idle;
@@ -1689,9 +1702,12 @@ function usePower(k,name,penK,x,y){
 }
 function updBar(){
   $("#gRound").textContent=`Ronda ${G.round}/${G.rounds}`;
-  $('#gChips').innerHTML=G.events.filter(e=>e.kind==='regla'||e.kind==='mision').sort((a,b)=>a.due-b.due).slice(0,4)
-    .map(e=>{const n=Math.max(0,e.due-G.count);return `<span class="chip">${esc(e.label)}: ${n===0?'termina ahora':n===1?'queda 1 carta':`quedan ${n} cartas`}</span>`;}).join('');
+  const evs=G.events.filter(e=>e.kind==='regla'||e.kind==='mision').sort((a,b)=>a.due-b.due).slice(0,4);
+  $('#gChips').innerHTML=evs.map((e,i)=>`<button type="button" class="chip" data-i="${i}">${ic(e.kind==='regla'?'mic':'cassette')}<span><b>${e.kind==='regla'?'Regla':'Side quest'}:</b> ${esc(e.kind==='regla'?e.label:e.who.join(' y '))} · ${remTxt(e)}</span></button>`).join('');
+  $('#gChips').querySelectorAll('.chip').forEach(b=>b.onclick=ev=>{ev.stopPropagation();const e=evs[+b.dataset.i];
+    openSheet(`<h3>${e.kind==='regla'?'Regla activa':'Side quest'}</h3><p>${e.text||esc(e.label)}</p><p><b>${remTxt(e)[0].toUpperCase()+remTxt(e).slice(1)}.</b></p><button type="button" class="secondary" onclick="closeSheet()">Volver al juego</button>`);});
 }
+function remTxt(e){const n=Math.max(0,e.due-G.count);return n===0?'termina con esta carta':n===1?'queda 1 carta':`quedan ${n} cartas`;}
 function updLater(){
   const b=$('#gLater');
   b.hidden=!G||G.cfg.later==='none';
@@ -1734,7 +1750,7 @@ function bankStats(){
 function finish(){
   if(G.finished)return;G.finished=true;
   const L0=level(G.xp0);
-  const gain=40+G.count*2+(G.completed&&G.rounds>=8?40:0);
+  const gain=gameXP(G.rounds,G.mode,!!G.completed,G.count,G.roundLen);
   S.xp+=gain;S.games++;save();
   bankStats();
   if(G.completed){
@@ -1751,9 +1767,9 @@ function finish(){
     if(S.st.dayN>=3)unlockAch('tres');
     if(S.st.done>=25)unlockAch('veterano');
     if(G.cfg.score){
-      if(G.wasLast.has(leader()))unlockAch('remontada');
+      if(G.players.length>=4&&G.lastHalf&&G.lastHalf===leader())unlockAch('remontada');
       if(G.players.reduce((a,q)=>a+q.done,0)>=30)unlockAch('sinmiedo');
-      if(G.rounds>=5&&G.players.some(q=>q.pen===0&&q.done>=5))unlockAch('invicto');
+      if(G.rounds>=8&&G.players.some(q=>q.pen===0&&q.done>=8))unlockAch('invicto');
     }
   }
   if(lvlN()>=10)unlockAch('inmortal');
@@ -1854,42 +1870,36 @@ async function shareImage(sc){
   return await new Promise(r=>cv.toBlob(r,'image/png'));
 }
 function openShare(sc){
-  const txt=shareText(sc),enc=encodeURIComponent(txt);
-  openSheet(`<h3>Compartir</h3><p>Para Instagram o TikTok, compartan la imagen. Para el grupo, manden el texto.</p>
+  // Un solo botón: comparte la imagen y el texto juntos si el teléfono lo permite; si no, lo que se pueda
+  const txt=shareText(sc);
+  openSheet(`<h3>Compartir</h3><p>Compartan el resultado en historias o en el grupo.</p>
     <div class="shareprev" id="shPrev"><span>Preparando la imagen…</span></div>
     <div class="menu">
-      <button type="button" class="primary" id="shImg" disabled>Compartir imagen</button>
-      <button type="button" class="secondary" id="shSave" hidden>Guardar imagen</button>
-      <div class="sharerow">
-        <a class="shbtn" target="_blank" rel="noopener" href="https://wa.me/?text=${enc}">WhatsApp</a>
-        <a class="shbtn" target="_blank" rel="noopener" href="https://t.me/share/url?url=${encodeURIComponent(APP_LINK||' ')}&text=${enc}">Telegram</a>
-        <a class="shbtn" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=${enc}">X</a>
-        <button type="button" class="shbtn" id="shCopy">Copiar texto</button>
-      </div>
+      <button type="button" class="primary" id="shGo" disabled>Compartir</button>
+      <a class="secondary" id="shSave" hidden download="previa-resultado.png">Guardar imagen</a>
       <button type="button" class="secondary" onclick="closeSheet()">Cerrar</button>
     </div>`,async b=>{
-    b.querySelector('#shCopy').onclick=()=>{
-      if(navigator.clipboard)navigator.clipboard.writeText(txt).then(()=>toast('Texto copiado')).catch(()=>toast('No se pudo copiar'));
-      else toast('No se pudo copiar');
-    };
+    const go=b.querySelector('#shGo'),prev=b.querySelector('#shPrev'),save=b.querySelector('#shSave');
     let blob=null;
     try{blob=await shareImage(sc);}catch(e){}
-    const prev=b.querySelector('#shPrev');
-    if(!blob){prev.innerHTML='<span>No se pudo generar la imagen en este navegador.</span>';return;}
-    const url=URL.createObjectURL(blob);prev.innerHTML=`<img src="${url}" alt="Imagen del resultado para compartir">`;
-    const file=new File([blob],'previa-resultado.png',{type:'image/png'});
-    const imgBtn=b.querySelector('#shImg');
-    const canFiles=!!(navigator.canShare&&navigator.canShare({files:[file]}));
-    if(canFiles){imgBtn.disabled=false;imgBtn.onclick=()=>navigator.share({files:[file],text:txt}).catch(()=>{});}
-    else imgBtn.hidden=true;
-    let dl=null;
-    try{dl=window.claude&&window.claude.use?await window.claude.use('downloads'):null;}catch(e){dl=null;}
-    if(dl){
-      const sb=b.querySelector('#shSave');sb.hidden=false;
-      if(!canFiles)sb.className='primary';
-      sb.onclick=async()=>{try{await dl.save({filename:'previa-resultado.png',data:blob});toast('Imagen guardada');}catch(e){if(e&&e.code==='declined')return;toast('No se pudo guardar la imagen');}};
-    }
-    if(!canFiles&&!dl)prev.insertAdjacentHTML('beforeend','<small>Mantén presionada la imagen para guardarla.</small>');
+    const file=blob?new File([blob],'previa-resultado.png',{type:'image/png'}):null;
+    const can=d=>{try{return !!(navigator.canShare&&navigator.canShare(d));}catch(e){return false;}};
+    if(blob){
+      const url=URL.createObjectURL(blob);
+      prev.innerHTML=`<img src="${url}" alt="Imagen del resultado para compartir">`;
+      save.href=url;save.hidden=false;
+    }else prev.innerHTML='<span>No se pudo generar la imagen en este teléfono.</span>';
+    const withLink=APP_LINK?{url:APP_LINK}:{};
+    go.disabled=false;
+    go.onclick=async()=>{
+      try{
+        if(file&&can({files:[file],text:txt}))await navigator.share({files:[file],text:txt,...withLink});
+        else if(file&&can({files:[file]}))await navigator.share({files:[file]});
+        else if(navigator.share)await navigator.share({text:txt,...withLink});
+        else if(navigator.clipboard){await navigator.clipboard.writeText(txt);toast('Texto copiado. Guarden la imagen para compartirla.');}
+        else toast('Este navegador no permite compartir. Guarden la imagen.');
+      }catch(e){if(e&&e.name!=='AbortError')toast('No se pudo compartir');}
+    };
   });
 }
 
