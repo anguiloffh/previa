@@ -31,7 +31,7 @@ function run(mode,cfgMod,players,seed){
     if(/undefined|null|NaN/.test(layer.textContent)) errs.push('bad text: '+layer.textContent.slice(0,160));
     const rul=layer.querySelector('.rul + .act button, .act button');
     const pw=[...layer.querySelectorAll('.pw button')];
-    const btns=[...layer.querySelectorAll('.act button:not([disabled])')].filter(b=>b.textContent!=='Girar la ruleta');
+    const btns=[...layer.querySelectorAll('.act button:not([disabled])')].filter(b=>!(b.textContent==='Girar la ruleta'&&!b.hasAttribute('aria-pressed')));
     const chips=[...layer.querySelectorAll('.vchips button')];
     const sb=layer.querySelector('.secret-box');
     if(sb){sb.dispatchEvent(new w.Event('pointerdown'));}
