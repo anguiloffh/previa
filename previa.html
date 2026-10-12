@@ -196,10 +196,6 @@ details.more[open] summary::after{content:"−"}
 .rul{margin-top:16px;border-radius:24px;background:var(--cream);color:var(--ink);padding:18px;font-family:var(--disp);font-size:clamp(17px,4.8vw,23px);line-height:1.3;text-align:center;min-height:96px;display:grid;place-items:center}
 .rul .ic{width:44px;height:44px}
 .rul.done{background:var(--must)}
-.lb{list-style:none;margin:18px 0 0;padding:0}
-.lb li{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--butter);font-size:17px;font-weight:700}
-.lb li .n{flex:1}
-.lb li .s{font-family:var(--disp)}
 .mini{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--avbg)}
 .mini .ic{width:22px;height:22px}
 .gbar{position:absolute;top:0;left:0;right:0;z-index:5;padding:calc(env(safe-area-inset-top,0px) + 14px) 16px 10px;display:flex;justify-content:space-between;align-items:center;gap:10px;pointer-events:none}
@@ -830,7 +826,7 @@ const TYPES={
   bonus:{label:'Premio',ic:'star',th:'must'},
   agua:{label:'Pausa',ic:'drop',th:'blue'},
   evento:{label:'Evento sorpresa',ic:'spiral',th:'red'},
-  ronda:{label:'Fin de ronda',ic:'note',th:'butter'},
+  ronda:{label:'Nueva ronda',ic:'note',th:'butter'},
   inicio:{label:'Empieza la previa',ic:'disco',th:'teal'}
 };
 const CAT={reto:'retos',castigo:'retos',verdad:'verdades',yonunca:'yonunca',voto:'votos',duelo:'duelos',juego:'juegos'};
@@ -1504,18 +1500,21 @@ const RE=[
   {need:()=>G.cfg.score,txt:'Impuesto al líder: {lead} parte la ronda con {x2}.'},
   {need:()=>true,txt:'Brindis de ronda: todos {x1}.'}
 ];
-function lbHTML(n){
-  return `<ul class="lb">${sortedPlayers().slice(0,n).map((p,i)=>`<li>${avHTML(p.av,p.col,'mini')}<span class="n">${i+1}. ${esc(p.name)}</span><span class="s">${p.pts}</span></li>`).join('')}</ul>`;
-}
+/* Cambio de ronda: sin resumen de puntajes (el marcador está en el botón del trofeo).
+ Solo se muestra una carta si hay un evento de ronda; el resto se avisa con un mensaje corto. */
 function showRoundEnd(x,y){
-  const done=G.round;G.round++;G.inRound=0;const prevL=G.L;G.L=curLevel();G.golden=false;
+  G.round++;G.inRound=0;const prevL=G.L;G.L=curLevel();G.golden=false;
   if(G.cfg.score)G.wasLast.add(lastPlace());
-  const subs=[];
+  const notes=[];
+  if(G.L>prevL)notes.push(`El picante sube a ${SPICE_NAMES[G.L]}`);
+  let ev=null;
   const pool=RE.filter(e=>e.need());
-  if(pool.length&&rD()<.65){const e=pickD(pool);subs.push(`Ronda ${G.round}: ${fill(e.txt,{})}`);e.fn&&e.fn();}
-  if(G.L>prevL)subs.push(`El picante sube a ${SPICE_NAMES[G.L]}.`);
-  if(G.round===G.rounds&&G.lv0>=7&&G.cfg.score&&!G.golden){G.golden=true;subs.push('Última ronda dorada: todo lo que se cumpla vale el doble.');}
-  render({type:'ronda',html:`Fin de la ronda ${done} de ${G.rounds}`,extra:G.cfg.score?lbHTML(3):'',sub:subs.join('<br>'),tap:true},x,y);
+  if(pool.length&&rD()<.65){ev=pickD(pool);ev.fn&&ev.fn();}
+  if(G.round===G.rounds&&G.lv0>=7&&G.cfg.score&&!G.golden){G.golden=true;notes.push('Última ronda dorada: todo vale el doble');}
+  if(ev)return render({type:'ronda',label:`Ronda ${G.round} de ${G.rounds}`,html:fill(ev.txt,{}),sub:notes.join('. ')+(notes.length?'.':''),tap:true},x,y);
+  toast(notes.length?`Ronda ${G.round} de ${G.rounds}. ${notes.join('. ')}.`:`Ronda ${G.round} de ${G.rounds}`);
+  G.keepReader=true;
+  next(x,y);
 }
 
 const CHAOS=[
