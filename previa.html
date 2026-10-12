@@ -57,13 +57,13 @@ button{font:inherit;cursor:pointer;color:inherit}
 
 /* Modos */
 .h2{font-size:28px;font-weight:800;font-stretch:80%;letter-spacing:-.01em;margin:0 0 12px}
-.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.mode{position:relative;border:none;border-radius:24px;padding:16px;min-height:158px;background:var(--mbg);color:var(--mfg);text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mode{position:relative;min-width:0;overflow-wrap:break-word;border:none;border-radius:24px;padding:16px;min-height:158px;background:var(--mbg);color:var(--mfg);text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
 .mode.featured{grid-column:span 2;min-height:176px}
 .mode .em{font-size:36px;line-height:1}
-.mode .nm{font-size:26px;font-weight:800;font-stretch:78%;line-height:1;letter-spacing:-.01em}
+.mode .nm{display:block;font-size:clamp(20px,calc(10vw - 11px),26px);font-weight:800;font-stretch:78%;line-height:1;letter-spacing:-.01em}
 .mode.featured .nm{font-size:40px}
-.mode .ds{font-size:14px;line-height:1.3;opacity:.85;margin-top:4px;max-width:30ch}
+.mode .ds{display:block;font-size:14px;line-height:1.3;opacity:.85;margin-top:4px;max-width:30ch}
 .badge{position:absolute;top:12px;right:12px;font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.2)}
 .mode.locked .em{filter:grayscale(.3)}
 .foot{margin-top:30px;font-size:14px;color:var(--muted);line-height:1.5}
