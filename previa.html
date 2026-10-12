@@ -46,11 +46,12 @@ button{font:inherit;cursor:pointer;color:inherit}
 .tagline{text-align:center;font-weight:700;font-size:17px;margin:12px 0 24px}
 
 /* Nivel */
-.lvl{display:flex;align-items:center;gap:12px;width:100%;padding:8px 16px 8px 8px;background:var(--cream);border:none;border-radius:999px;text-align:left;margin:0 0 22px}
+.lvl{display:flex;align-items:center;gap:12px;width:100%;padding:10px 18px 10px 10px;background:var(--cream);border:none;border-radius:28px;text-align:left;margin:0 0 22px}
 .lvlnum{flex:0 0 40px;height:40px;border-radius:50%;background:var(--must);display:grid;place-items:center;font-family:var(--disp);font-size:16px}
 .lvlinfo{flex:1;min-width:0}
-.lvlinfo strong{display:block;font-size:15px;font-weight:800}
-.lvlinfo small{display:block;font-size:12px;font-weight:500;margin-top:1px}
+.lvlinfo strong,.lvlinfo small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lvlinfo strong{font-size:15px;font-weight:800}
+.lvlinfo small{font-size:12px;font-weight:500;margin-top:1px}
 .bar{display:block;height:6px;border-radius:99px;background:var(--butter);margin-top:6px;overflow:hidden}
 .bar i{display:block;height:100%;border-radius:99px;background:var(--teal)}
 
@@ -97,9 +98,9 @@ button.av{border:none;padding:0;cursor:pointer}
 .lk2{font-style:normal;font-size:11px;font-weight:800;padding:2px 8px;border-radius:99px;background:var(--red);color:var(--ink);margin-left:6px;vertical-align:2px}
 .ramp-wrap{padding:2px 14px 12px;border-top:1px solid var(--butter)}
 .ramp-wrap .help{margin:10px 0 0}
-.ramp{display:grid;grid-template-columns:repeat(auto-fill,minmax(30px,1fr));gap:5px;margin-top:12px;align-items:end;height:46px}
-.ramp div{display:flex;align-items:flex-end;justify-content:center;border-radius:7px;font-size:11px;font-weight:800;padding-bottom:3px}
-.ramp .rl1{height:16px;background:var(--teal)}.ramp .rl2{height:26px;background:var(--must)}.ramp .rl3{height:36px;background:var(--red)}.ramp .rl4{height:46px;background:var(--ink);color:var(--cream)}
+.ramp{display:flex;align-items:flex-end;gap:4px;margin-top:12px;height:50px}
+.ramp div{flex:1 1 0;min-width:0;display:flex;align-items:flex-end;justify-content:center;border-radius:7px;font-size:11px;font-weight:800;line-height:1;padding-bottom:5px}
+.ramp .rl1{height:22px;background:var(--teal)}.ramp .rl2{height:31px;background:var(--must)}.ramp .rl3{height:40px;background:var(--red)}.ramp .rl4{height:50px;background:var(--ink);color:var(--cream)}
 .shareprev{border-radius:20px;background:var(--cream);min-height:120px;display:grid;place-items:center;padding:12px;margin-bottom:14px;text-align:center;color:var(--muted)}
 .shareprev img{display:block;width:100%;max-width:240px;border-radius:14px;margin:0 auto}
 .shareprev small{display:block;margin-top:8px;font-size:13px}
@@ -238,6 +239,19 @@ details.more[open] summary::after{content:"−"}
 .achs strong{display:block;font-size:15px;font-weight:800}
 .achs small{display:block;font-size:13px;color:var(--muted)}
 .achs li.off strong{color:var(--muted)}
+.achs small b{display:inline-block;font-weight:800;color:var(--ink);margin-left:4px}
+.rewards li{gap:10px}
+.rewards .rn{flex:0 0 30px;height:30px;border-radius:50%;background:var(--must);display:grid;place-items:center;font-family:var(--disp);font-size:13px}
+.rewards li.off .rn{background:var(--line)}
+.rewards .ae{width:34px}
+.rewards .ae .ic{width:30px;height:30px}
+.bar.big{height:10px;background:var(--cream);margin:0 0 4px}
+.sheeth{font-family:var(--disp);font-weight:400;font-size:15px;text-transform:uppercase;margin:22px 0 8px}
+.tierh{display:flex;align-items:center;gap:8px;font-size:13px !important;font-weight:700;margin:14px 0 4px !important}
+.tier{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;color:var(--ink)}
+.tier.t1{background:#E3A06B}.tier.t2{background:#C9D3DD}.tier.t3{background:var(--must)}
+.view.gold{--vbg:var(--must)}
+.view.gold .hero{--hbg:var(--must);--hsw:var(--must2)}
 .dlist{list-style:none;margin:0;padding:0}
 .dlist li{border-top:1px solid var(--line)}
 .dlist label{display:flex;gap:12px;align-items:flex-start;padding:13px 2px;font-size:16px;line-height:1.35;cursor:pointer}
@@ -757,6 +771,21 @@ A('voto',4,"¿Quién de esta mesa tiene la vida amorosa más desastrosa?",{sub:"
 A('regla',4,"{p} puede hacerle una pregunta a cualquiera en cualquier momento y hay que responder con la verdad. Quien se niegue: {x4}.",{dur:10,label:"Interrogatorio de {p}",end:"Se acabó el interrogatorio de {p}."});
 A('regla',3,"Cada garabato cuesta {x2}.",{dur:8,label:"Sin garabatos",end:"Ya se puede volver a decir garabatos."});
 A('mision',4,"{p}: consigue que alguien de la mesa confiese algo que nunca ha contado.",{dur:10});
+/* ---------- PACK «LEYENDAS DE LA PREVIA» (se desbloquea en el nivel 5) ---------- */
+PK='leyenda';
+A('reto',1,"{p}, tienes 30 segundos para convencer a la mesa de que te nombre alma de la fiesta. Si nadie te vota, {x2}.");
+A('reto',2,"{p}, cuenta la mejor previa de tu vida como si fuera el tráiler de una película. Si la mesa no aplaude, {x2}.");
+A('reto',2,"{p}, {p2} te pone un apodo y solo puedes responder a ese nombre hasta la próxima ronda. Si te equivocas, {x2}.");
+A('reto',3,"{p}, llama a alguien que no ves hace más de un año y dile que te acordaste de esa persona por una canción. Si no te atreves, {x4}.");
+A('verdad',1,"{p}, ¿cuál es la anécdota que siempre cuentas y que la mesa ya se sabe de memoria? Cuéntala en 15 segundos o {x2}.");
+A('verdad',2,"{p}, ¿qué es lo que nadie de esta mesa sabe de ti? Responde o {x3}.");
+A('verdad',3,"{p}, ¿a quién de esta mesa le contarías tu secreto más grande, y cuál es? Responde o {x4}.");
+A('todos',1,"Ronda de leyendas: cada uno cuenta en una frase su mejor recuerdo con alguien de la mesa. Quien se quede en blanco: {x2}.");
+A('voto',1,"¿Quién de esta mesa va a ser leyenda en 20 años?");
+A('voto',2,"¿Quién de esta mesa sería el primero en desaparecer de una fiesta sin avisar?");
+A('duelo',1,"{p} contra {p2}: imiten a la persona más famosa que se les ocurra. La mesa elige la mejor imitación.",{pen:2});
+A('juego',1,"Famosos en cadena: {p} dice un famoso y quien sigue debe decir otro cuyo nombre empiece con la última letra del anterior. Quien se trabe: {x2}.");
+A('regla',2,"Quien diga la palabra «previa»: {x1}.",{dur:8,label:"Prohibido decir previa",end:"Ya se puede volver a decir previa."});
 /* ===================== MOTOR ===================== */
 const $=q=>document.querySelector(q);
 const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -813,6 +842,8 @@ const POW={
 };
 const pwTag=k=>`${ic(POW[k].ic,'sm')} ${POW[k].name}`;
 const AV=['smiley','disco','bolt','note','star','hearts','ball','spiral','crown','flame','mic','dice','cassette','vinyl','balloon','drop'];
+const AV_X=['chili','skull','trophy','twohearts']; // íconos exclusivos desde el nivel 4
+const avList=()=>lvlN()>=4?AV.concat(AV_X):AV;
 const COL=['#E14936','#EBAF35','#44AEAA','#83AFF1','#FDF3E0'];
 
 const MODES={
@@ -838,36 +869,68 @@ const PRESET={
   caos:{spice:3,max:'fuerte',ruleta:true,chaos:true}
 };
 const SPICE_NAMES={1:'Suave',2:'Atrevido',3:'Picante',4:'Sin censura'};
-const LEVELS=[0,100,300,600,1000];
-const LEVEL_NAMES=['Recién llegado','Animador','Alma de la fiesta','Leyenda de la previa','Inmortal'];
-const LEVEL_UNLOCKS={2:'la Ruleta',3:'el modo Caos'};
+/* ---------- Niveles, recompensas y logros ----------
+ Cada partida suma XP y cada logro da XP extra según su categoría.
+ Cada nivel trae una recompensa. Después del nivel 10, cada STAR_XP suma una estrella de leyenda. */
+const LEVELS=[0,150,400,800,1300,2000,3000,4300,6000,8000];
+const STAR_XP=3000;
+const LEVEL_NAMES=['Recién llegado','Animador','Alma de la fiesta','Experto en previas','Maestro de ceremonias','Leyenda del barrio','Ícono de la noche','Mito urbano','Patrimonio de la previa','Inmortal'];
+const REWARDS={
+  2:{ic:'dice',t:'La Ruleta',d:'El peor castigo se sortea, sin pasar del máximo elegido.'},
+  3:{ic:'spiral',t:'Modo Caos',d:'Eventos sorpresa que lo cambian todo.'},
+  4:{ic:'chili',t:'Íconos exclusivos',d:'Ají, calavera, trofeo y corazones para los jugadores.'},
+  5:{ic:'star',t:'Pack «Leyendas de la previa»',d:'13 cartas nuevas que se suman a todos los modos.'},
+  6:{ic:'rebound',t:'Rebote de regalo',d:'Cada jugador parte con un Rebote además del Escudo.'},
+  7:{ic:'trophy',t:'Ronda final dorada',d:'En la última ronda todo lo que se cumpla vale el doble.'},
+  8:{ic:'skull',t:'Condenas de leyenda',d:'La condena final suma castigos nuevos, más memorables.'},
+  9:{ic:'disco',t:'Inicio dorado',d:'La pantalla de inicio se vuelve mostaza. Para presumir.'},
+  10:{ic:'crown',t:'Inmortal',d:'El título máximo. Desde aquí, cada 3.000 XP suma una estrella de leyenda.'}
+};
+const TIERS={1:{name:'Bronce',xp:50},2:{name:'Plata',xp:150},3:{name:'Oro',xp:400}};
 const ACH=[
-  {id:'primera',ic:'disco',name:'Primera previa',desc:'Terminen una partida.'},
-  {id:'maraton',ic:'vinyl',name:'Maratón',desc:'Terminen una partida de 8 rondas o más.'},
-  {id:'multitud',ic:'smiley',name:'Multitud',desc:'Jueguen con 10 personas o más.'},
-  {id:'ruleta',ic:'spiral',name:'Adicción a la ruleta',desc:'Giren la ruleta 5 veces.'},
-  {id:'sincensura',ic:'flame',name:'Sin censura',desc:'Terminen una partida con el picante al máximo.'},
-  {id:'agente',ic:'hearts',name:'Agente secreto',desc:'Alguien cumple una misión secreta.'},
-  {id:'manoso',ic:'dice',name:'Mañas',desc:'Usen 5 comodines en una partida.'},
-  {id:'sano',ic:'drop',name:'Previa sana',desc:'Terminen una partida sin alcohol.'},
-  {id:'cupido',ic:'twohearts',name:'Cupido',desc:'Jueguen el modo Parejas.'},
-  {id:'altar',ic:'ring',name:'Rumbo al altar',desc:'Jueguen una despedida.'},
-  {id:'caos',ic:'spiral',name:'Caos total',desc:'Jueguen el modo Caos.'},
-  {id:'remontada',ic:'bolt',name:'Remontada',desc:'Gana alguien que fue último en alguna ronda.'}
+  {id:'primera',tier:1,ic:'disco',name:'Primera previa',desc:'Terminen una partida.'},
+  {id:'sano',tier:1,ic:'drop',name:'Previa sana',desc:'Terminen una partida sin alcohol.'},
+  {id:'cumple',tier:1,ic:'cake',name:'Que los cumpla feliz',desc:'Jueguen el modo Cumpleaños.'},
+  {id:'altar',tier:1,ic:'ring',name:'Rumbo al altar',desc:'Jueguen una despedida.'},
+  {id:'cupido',tier:1,ic:'twohearts',name:'Cupido',desc:'Jueguen el modo Parejas.'},
+  {id:'multitud',tier:1,ic:'smiley',name:'Multitud',desc:'Jueguen con 10 personas o más.'},
+  {id:'ruleta',tier:1,ic:'dice',name:'Adicción a la ruleta',desc:'Giren la ruleta 10 veces.',prog:()=>[S.spins,10]},
+  {id:'maraton',tier:2,ic:'cassette',name:'Maratón',desc:'Terminen una partida de 12 rondas.'},
+  {id:'sincensura',tier:2,ic:'flame',name:'Sin censura',desc:'Terminen una partida con el picante al máximo.'},
+  {id:'caos',tier:2,ic:'spiral',name:'Caos total',desc:'Terminen una partida en modo Caos.'},
+  {id:'manoso',tier:2,ic:'swap',name:'Mañas',desc:'Usen 5 comodines en una misma partida.'},
+  {id:'remontada',tier:2,ic:'bolt',name:'Remontada',desc:'Gana alguien que fue último en alguna ronda.'},
+  {id:'sinmiedo',tier:2,ic:'star',name:'Sin miedo',desc:'Cumplan 30 retos en una misma partida.'},
+  {id:'tres',tier:2,ic:'note',name:'Noche larga',desc:'Terminen 3 partidas el mismo día.'},
+  {id:'coleccion',tier:2,ic:'balloon',name:'Coleccionistas',desc:'Jueguen los 8 modos.',prog:()=>[S.st.modes.length,8]},
+  {id:'agente',tier:2,ic:'hearts',name:'Agentes secretos',desc:'Cumplan 5 misiones secretas.',prog:()=>[S.st.secret,5]},
+  {id:'imposible',tier:3,ic:'mic',name:'Misión imposible',desc:'Cumplan 3 misiones en una misma partida.'},
+  {id:'invicto',tier:3,ic:'shield',name:'Intocable',desc:'En una partida de 5 rondas o más, alguien cumple 5 retos y no paga ningún castigo.'},
+  {id:'sobrevivientes',tier:3,ic:'skull',name:'Sobrevivientes',desc:'Terminen una partida Hardcore de 12 rondas.'},
+  {id:'casallena',tier:3,ic:'smiley',name:'Casa llena',desc:'Jueguen con 16 personas, el máximo.'},
+  {id:'veterano',tier:3,ic:'crown',name:'Veteranos',desc:'Terminen 25 partidas.',prog:()=>[S.st.done,25]},
+  {id:'milcartas',tier:3,ic:'vinyl',name:'Mil cartas',desc:'Jueguen 1.000 cartas en total.',prog:()=>[S.st.cards,1000]},
+  {id:'horas',tier:3,ic:'phone',name:'Diez horas de previa',desc:'Sumen 10 horas de juego.',prog:()=>[Math.floor(S.st.ms/36e5),10]},
+  {id:'inmortal',tier:3,ic:'trophy',name:'Inmortales',desc:'Lleguen al nivel 10.'}
 ];
+const fmt=n=>Number(n).toLocaleString('es-CL');
 
 /* ---------- Persistencia ---------- */
-function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,spins:0,last:{}}}
+const freshSt=()=>({cards:0,ms:0,secret:0,done:0,modes:[],day:'',dayN:0});
+function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,spins:0,last:{},st:freshSt()}}
 let S=freshS();
-try{S=Object.assign(freshS(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+try{S=Object.assign(freshS(),JSON.parse(localStorage.getItem(KEY)||'{}'));S.st=Object.assign(freshSt(),S.st);}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const SESSION=new Set();
 
 function level(xp){
   let n=1;for(let i=0;i<LEVELS.length;i++) if(xp>=LEVELS[i]) n=i+1;
   const cur=LEVELS[n-1],nxt=LEVELS[n]||null;
-  return {n,name:LEVEL_NAMES[n-1],next:nxt,pct:nxt?Math.round((xp-cur)/(nxt-cur)*100):100};
+  const over=nxt?0:xp-cur,stars=Math.floor(over/STAR_XP);
+  return {n,name:LEVEL_NAMES[n-1],next:nxt,stars,nextStar:nxt?null:cur+(stars+1)*STAR_XP,
+    pct:nxt?Math.round((xp-cur)/(nxt-cur)*100):Math.round(over%STAR_XP/STAR_XP*100)};
 }
+const lvlN=()=>level(S.xp).n;
 const isPro=()=>S.pro;
 function unlocked(id){
   const m=MODES[id];
@@ -902,10 +965,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#sheet').hidden
 function modeVars(el,id){el.style.setProperty('--mbg',MODES[id].bg);el.style.setProperty('--mfg',MODES[id].fg);}
 function unlockAch(id){
   if(S.ach.includes(id)) return;
-  S.ach.push(id);save();
-  const a=ACH.find(x=>x.id===id);
-  if(G&&G.newAch) G.newAch.push(id);
-  toast(`Logro desbloqueado: ${a.name}`);
+  const a=ACH.find(x=>x.id===id),xp=TIERS[a.tier].xp;
+  S.ach.push(id);S.xp+=xp;save();
+  if(G&&G.newAch){G.newAch.push(id);G.achXP+=xp;}
+  toast(`Logro desbloqueado: ${a.name} (+${xp} XP)`);
 }
 
 /* ---------- Edad ---------- */
@@ -916,9 +979,10 @@ $('#ageNo').onclick=()=>{$('#ageMsg').textContent='Previa es solo para mayores d
 function goHome(){renderHome();show('v-home');}
 function renderHome(){
   const L=level(S.xp);
-  $('#lvlBtn').innerHTML=`<span class="lvlnum">${L.n}</span><span class="lvlinfo"><strong>${L.name}</strong>
-    <small>${L.next?`${S.xp} de ${L.next} XP para el nivel ${L.n+1}`:'Nivel máximo'}. Logros: ${S.ach.length} de ${ACH.length}.</small>
+  $('#lvlBtn').innerHTML=`<span class="lvlnum">${L.n}</span><span class="lvlinfo"><strong>${L.name}${L.stars?` · ★ ${L.stars}`:''}</strong>
+    <small>${L.next?`${fmt(S.xp)}/${fmt(L.next)} XP`:`${fmt(S.xp)} XP`} · Logros ${S.ach.length}/${ACH.length}</small>
     <span class="bar"><i style="width:${L.pct}%"></i></span></span>`;
+  $('#v-home').classList.toggle('gold',L.n>=9);
   const g=$('#modes');g.innerHTML='';
   Object.entries(MODES).forEach(([id,m],i)=>{
     const b=document.createElement('button');
@@ -935,16 +999,24 @@ function renderHome(){
 $('#proBtn').onclick=()=>{if(S.pro)openSheet(`<h3>Pro activo</h3><p>En esta demo tienes todo desbloqueado.</p><button type="button" class="secondary" id="unpro">Volver a la versión gratis</button>`,b=>{b.querySelector('#unpro').onclick=()=>{S.pro=false;save();closeSheet();renderHome();};});else paywall(null,renderHome);};
 $('#lvlBtn').onclick=()=>{
   const L=level(S.xp);
-  openSheet(`<h3>Nivel ${L.n}: ${L.name}</h3>
-    <p>Cada partida suma experiencia. Al subir de nivel se desbloquean cosas: nivel 2, ${LEVEL_UNLOCKS[2]}; nivel 3, ${LEVEL_UNLOCKS[3]}.</p>
-    <ul class="achs">${ACH.map(a=>`<li class="${S.ach.includes(a.id)?'':'off'}"><span class="ae">${ic(a.ic)}</span><span><strong>${a.name}</strong><small>${a.desc}</small></span></li>`).join('')}</ul>
+  const prog=L.next?`${fmt(S.xp)} de ${fmt(L.next)} XP para el nivel ${L.n+1}.`
+    :`${L.stars?`Llevan ${L.stars} ${L.stars===1?'estrella':'estrellas'} de leyenda. `:''}La próxima estrella llega a los ${fmt(L.nextStar)} XP.`;
+  const rew=Object.entries(REWARDS).map(([n,r])=>{const on=L.n>=+n;return `<li class="${on?'':'off'}"><span class="rn">${n}</span><span class="ae">${ic(r.ic)}</span><span><strong>${r.t}</strong><small>${r.d}</small></span></li>`;}).join('');
+  const achLi=a=>{const on=S.ach.includes(a.id);const p=!on&&a.prog?a.prog():null;
+    return `<li class="${on?'':'off'}"><span class="ae">${ic(a.ic)}</span><span><strong>${a.name}</strong><small>${a.desc}${p?` <b>${fmt(Math.min(p[0],p[1]))} de ${fmt(p[1])}</b>`:''}</small></span></li>`;};
+  const tiers=[1,2,3].map(t=>`<p class="tierh"><span class="tier t${t}">${TIERS[t].name}</span> +${TIERS[t].xp} XP cada uno</p><ul class="achs">${ACH.filter(a=>a.tier===t).map(achLi).join('')}</ul>`).join('');
+  openSheet(`<h3>Nivel ${L.n} · ${L.name}</h3>
+    <p>${prog} Cada partida suma XP y cada logro da XP extra.</p>
+    <span class="bar big"><i style="width:${L.pct}%"></i></span>
+    <h4 class="sheeth">Recompensas por nivel</h4><ul class="achs rewards">${rew}</ul>
+    <h4 class="sheeth">Logros · ${S.ach.length} de ${ACH.length}</h4>${tiers}
     <button type="button" class="secondary" onclick="closeSheet()">Cerrar</button>`);
 };
 $('#resetDemo').onclick=()=>openSheet(`<h3>¿Reiniciar la demo?</h3><p>Se borran el nivel, los logros, Pro y la verificación de edad.</p><div class="menu"><button type="button" class="primary" id="rsY">Reiniciar</button><button type="button" class="secondary" onclick="closeSheet()">Cancelar</button></div>`,b=>{b.querySelector('#rsY').onclick=()=>{S=freshS();save();SESSION.clear();closeSheet();boot();};});
 
 function lvlLock(id){
   const need=LEVELS[2]-S.xp;
-  openSheet(`<h3>${MODES[id].name}</h3><p>Se desbloquea al llegar al nivel 3. Les faltan ${need} XP: una o dos partidas más.</p>
+  openSheet(`<h3>${MODES[id].name}</h3><p>Se desbloquea al llegar al nivel 3. Les faltan ${fmt(need)} XP: unas pocas partidas más.</p>
     <div class="menu"><button type="button" class="primary" id="lkPro">Jugarlo ya con Pro</button><button type="button" class="secondary" onclick="closeSheet()">Entendido</button></div>`,
     b=>{b.querySelector('#lkPro').onclick=()=>paywall(id,()=>openPlayers(id));});
 }
@@ -976,7 +1048,7 @@ let D=null;
 function openPlayers(id){
   const saved=S.last[id]&&S.last[id].draft;
   D=saved?JSON.parse(JSON.stringify(saved)):{mode:id,names:['','',''],prota:'',partner:'',sol:'soltero',couples:[['',''],['','']]};
-  const okAv=a=>AV.includes(a);
+  const okAv=a=>avList().includes(a);
   D.avs=D.names.map((_,i)=>okAv(D.avs&&D.avs[i])?D.avs[i]:AV[(i+1)%AV.length]);
   D.cavs=D.couples.map((c,ci)=>[0,1].map(j=>okAv(D.cavs&&D.cavs[ci]&&D.cavs[ci][j])?D.cavs[ci][j]:AV[(ci*2+j)%AV.length]));
   D.mode=id;
@@ -993,8 +1065,8 @@ function syncDraft(){
 }
 function avEl(em,ci,key){return `<button type="button" class="av" style="--avbg:${COL[ci%COL.length]}" data-avk="${key}" aria-label="Cambiar ícono">${ic(em)}</button>`;}
 function usedAvs(){return D.avs.concat(...D.cavs);}
-function freeAv(){const u=usedAvs();return AV.find(a=>!u.includes(a))||AV[0];}
-function cycleAv(cur){const u=usedAvs();let i=AV.indexOf(cur);for(let k=0;k<AV.length;k++){i=(i+1)%AV.length;if(!u.includes(AV[i]))return AV[i];}return cur;}
+function freeAv(){const u=usedAvs(),L=avList();return L.find(a=>!u.includes(a))||L[0];}
+function cycleAv(cur){const u=usedAvs(),L=avList();let i=L.indexOf(cur);for(let k=0;k<L.length;k++){i=(i+1)%L.length;if(!u.includes(L[i]))return L[i];}return cur;}
 const protaAv=()=>MODES[D.mode].prota==='desp'?'ring':'cake';
 const chipHTML=id=>`${ic(MODES[id].ic)} ${MODES[id].name}`;
 function renderPlayers(){
@@ -1084,16 +1156,13 @@ const SET=[
   {id:'max',type:'seg',label:'Castigo máximo',quick:1,opts:[['leve','Leve','3 sorbos'],['fuerte','Fuerte','Vaso al seco'],['prenda','Prenda','Picante 3+','prenda']]},
   {id:'drink',type:'seg',label:'¿Qué toman?',quick:1,opts:[['alc','Con alcohol'],['sin','Sin alcohol']]},
   {id:'mv',type:'seg',label:'Movimiento',opts:[[0,'Sentados'],[1,'Se puede parar'],[2,'Sin límites','Salir, gritar']]},
-  {id:'later',type:'seg',label:'Después van a',opts:[['none','Ningún lado'],['disco','Disco'],['bar','Bar'],['fiesta','Fiesta']]},
-  {id:'score',type:'tog',label:'Puntaje, ganador y perdedor',hint:'Podio final y condena para el último lugar.'},
-  {id:'powers',type:'tog',label:'Comodines',hint:'Escudo, Rebote y Cambio. Se ganan cumpliendo retos.'},
-  {id:'quests',type:'tog',label:'Side quests y misiones secretas'},
-  {id:'rules',type:'tog',label:'Reglas temporales'},
+  {id:'later',type:'seg',label:'Después van a',opts:[['none','Ningún lado'],['disco','Disco o fiesta'],['bar','Bar']]},
   {id:'esc',type:'tog',under:'spice',label:'Escalada',hint:'El picante parte suave y sube ronda a ronda hasta el nivel elegido.'},
   {id:'ruleta',type:'tog',under:'spice',lock:'ruleta',label:'Ruleta',hint:'El peor castigo lo decide una ruleta con sorpresas, sin pasar del castigo máximo elegido.'},
-  {id:'chaos',type:'tog',label:'Eventos sorpresa',hint:'Robos de comodines, terremotos y rescates.'},
-  {id:'cats',type:'chips',label:'Tipos de carta',opts:[['retos','Retos'],['verdades','Verdades'],['yonunca','Yo nunca'],['votos','Votaciones'],['duelos','Duelos'],['juegos','Minijuegos']]}
 ];
+/* Mecánicas y tipos de carta: vienen fijos según el modo (DEFAULT_CFG + PRESET), no se eligen */
+const MECH=['score','powers','quests','rules','chaos','cats'];
+const MECH_NAMES={score:'puntaje y podio',powers:'comodines',quests:'side quests y misiones secretas',rules:'reglas temporales',chaos:'eventos sorpresa'};
 const HINTS={
   phone:{persona:'Una persona lee. Cuando una carta es para alguien en particular, el juego avisa y se le pasa el teléfono.',pasar:'Cada carta la lee una persona distinta, en el orden de la lista.',centro:'El teléfono queda en la mesa y lee quien quiera.'},
   spice:{1:'Nada subido de tono. Perfecto para la familia o el trabajo.',2:'Coqueteo y algo de chisme.',3:'Preguntas hot. Nada de contacto entre jugadores, salvo en Parejas.',4:'Todo vale. Solo para grupos con mucha confianza.'},
@@ -1112,7 +1181,9 @@ function openSettings(){
   const saved=S.last[D.mode]&&S.last[D.mode].cfg;
   const sv=saved?JSON.parse(JSON.stringify(saved)):{};if(!sv.v){delete sv.phone;}
   CFG=JSON.parse(JSON.stringify(Object.assign({},DEFAULT_CFG,PRESET[D.mode],sv)));CFG.v=2;
-  CFG.cats=Object.assign({},DEFAULT_CFG.cats,CFG.cats);
+  const base=JSON.parse(JSON.stringify(Object.assign({},DEFAULT_CFG,PRESET[D.mode])));
+  MECH.forEach(k=>{CFG[k]=base[k];});
+  if(CFG.later==='fiesta')CFG.later='disco';
   if(CFG.spice===4&&!canSpice4())CFG.spice=3;
   if(CFG.max==='prenda'&&!canPrenda())CFG.max='fuerte';
   const fx=MODES[D.mode].fixed;
@@ -1127,11 +1198,11 @@ const roundLenFor=n=>clamp(n+Math.ceil(n/2),6,18);
 function togEl(s){
   const b=document.createElement('button');b.type='button';b.className='tog';b.setAttribute('role','switch');
   const fixed=fixedOff(s.id);
-  const disabled=(s.id==='powers'&&!CFG.score)||fixed;
+  const disabled=fixed;
   const lk=s.lock&&lockedOpt(s.lock);
   b.setAttribute('aria-checked',!!CFG[s.id]&&!disabled&&!lk);
   if(disabled)b.setAttribute('aria-disabled','true');
-  const hint=fixed?'En Hardcore el picante va a fondo desde la primera carta.':(s.id==='powers'&&!CFG.score)?'Requiere el puntaje activado.':s.hint;
+  const hint=fixed?'En Hardcore el picante va a fondo desde la primera carta.':s.hint;
   b.innerHTML=`<span>${s.label}${lk?' <em class="lk2">Nivel 2</em>':''}${hint?`<small>${hint}</small>`:''}</span><i class="sw" aria-hidden="true"></i>`;
   b.onclick=()=>{
     if(disabled)return;
@@ -1153,7 +1224,6 @@ function rampEl(){
 }
 function renderSettings(){
   const q=$('#stQuick'),mo=$('#stMore');q.innerHTML='';mo.innerHTML='';
-  let togBox=null;
   SET.forEach(s=>{
     const host=s.quick?q:mo;
     if(s.type==='seg'){
@@ -1178,21 +1248,11 @@ function renderSettings(){
       const subs=SET.filter(u=>u.under===s.id);
       if(subs.length){const tb=document.createElement('div');tb.className='toggles';subs.forEach(u=>{tb.appendChild(togEl(u));if(u.id==='esc')tb.appendChild(rampEl());});wrap.appendChild(tb);}
       host.appendChild(wrap);
-    }else if(s.type==='tog'){
-      if(s.under)return;
-      if(!togBox){togBox=document.createElement('div');togBox.className='toggles';const l=document.createElement('span');l.className='label';l.textContent='Mecánicas';host.appendChild(l);host.appendChild(togBox);}
-      togBox.appendChild(togEl(s));
-    }else if(s.type==='chips'){
-      const wrap=document.createElement('div');
-      wrap.innerHTML=`<span class="label">${s.label}</span><div class="chipsel"></div>`;
-      s.opts.forEach(o=>{
-        const b=document.createElement('button');b.type='button';b.setAttribute('aria-pressed',!!CFG.cats[o[0]]);b.textContent=o[1];
-        b.onclick=()=>{const on=Object.values(CFG.cats).filter(Boolean).length;if(CFG.cats[o[0]]&&on<=1)return;CFG.cats[o[0]]=!CFG.cats[o[0]];renderSettings();};
-        wrap.querySelector('.chipsel').appendChild(b);
-      });
-      host.appendChild(wrap);
     }
   });
+  const inc=MECH.filter(k=>k!=='cats'&&CFG[k]).map(k=>MECH_NAMES[k]);
+  const last=inc.pop();
+  mo.insertAdjacentHTML('beforeend',`<p class="help" style="margin-top:18px">Este modo incluye ${inc.length?inc.join(', ')+' y '+last:last}.</p>`);
   const n=nPlayers(),cards=CFG.rounds*roundLenFor(n);
   $('#stSummary').textContent=`${n} jugadores, ${CFG.rounds} rondas: unas ${cards} cartas y cerca de ${Math.round(cards*0.5)} minutos.`;
 }
@@ -1241,22 +1301,27 @@ function startGame(){
     if(m.prota){prota=D.prota;partner=D.partner||null;names.unshift(prota);avs.unshift(protaAv());}
   }
   const cfg=JSON.parse(JSON.stringify(CFG));
+  const lv0=lvlN();
   if(!cfg.score) cfg.powers=false;
   G={mode:D.mode,M:m,cfg,prota,partner,sol:D.sol,partners,
-    players:names.map((n,i)=>({name:n,av:avs[i],col:COL[i%COL.length],pts:0,done:0,pen:0,used:0,quests:0,fails:0,streak:0,pw:{escudo:cfg.powers?1:0,rebote:0,cambio:0}})),
+    players:names.map((n,i)=>({name:n,av:avs[i],col:COL[i%COL.length],pts:0,done:0,pen:0,used:0,quests:0,fails:0,streak:0,pw:{escudo:cfg.powers?1:0,rebote:cfg.powers&&lv0>=6?1:0,cambio:0}})),
     round:1,rounds:cfg.rounds,inRound:0,roundLen:roundLenFor(names.length),count:0,used:new Set(),events:[],later:[],
-    lastType:null,turn:0,rs:(Math.random()*2**31)|0,rm:(Math.random()*2**31)|0,reader:0,keepReader:false,hist:[],holder:names[0],golden:false,L:1,force:null,lastWasEvent:false,packs:m.pack,wasLast:new Set(),powersUsed:0,newAch:[],finished:false};
+    lastType:null,turn:0,rs:(Math.random()*2**31)|0,rm:(Math.random()*2**31)|0,reader:0,keepReader:false,hist:[],holder:names[0],golden:false,L:1,force:null,lastWasEvent:false,packs:lv0>=5?m.pack.concat('leyenda'):m.pack,wasLast:new Set(),powersUsed:0,newAch:[],finished:false,
+    lv0,xp0:S.xp,achXP:0,ms:0,tLast:0,questsOk:0};
   G.L=curLevel();
   if(m.prota==='desp'){G.protaLabel=G.sol==='soltera'?'Para la novia':'Para el novio';G.protaIc='ring';}
   else if(m.prota==='cumple'){G.protaLabel='Para quien cumple años';G.protaIc='cake';}
   $('#stage').innerHTML='';$('#gScore').hidden=!cfg.score;
   updLater();show('v-game');
   if(names.length>=10) unlockAch('multitud');
+  if(names.length>=16) unlockAch('casallena');
   if(D.mode==='parejas') unlockAch('cupido');
   if(D.mode==='despedida') unlockAch('altar');
-  if(D.mode==='caos') unlockAch('caos');
+  if(D.mode==='cumple') unlockAch('cumple');
+  if(!S.st.modes.includes(D.mode)){S.st.modes.push(D.mode);save();}
+  if(S.st.modes.length>=8) unlockAch('coleccion');
   const passTxt=cfg.phone==='pasar'?' Cada carta dice quién la lee; después, el teléfono pasa a la siguiente persona de la lista.':cfg.phone==='persona'?` Parte leyendo ${names[0]}. Cuando una carta sea para otra persona, el juego avisa y se le pasa el teléfono.`:'';
-  const sub=(cfg.score?`Cumplan retos para sumar puntos. Quien gane se corona y quien quede último paga la condena final.${cfg.powers?` Cada jugador parte con un ${pwTag('escudo')}.`:''}`:'Toquen la pantalla para pasar de carta.')+passTxt;
+  const sub=(cfg.score?`Cumplan retos para sumar puntos. Quien gane se corona y quien quede último paga la condena final.${cfg.powers?` Cada jugador parte con un ${pwTag('escudo')}${lv0>=6?` y un ${pwTag('rebote')}`:''}.`:''}`:'Toquen la pantalla para pasar de carta.')+passTxt;
   render({type:'inicio',html:`${names.length} jugadores, ${cfg.rounds} rondas. Que empiece la previa.`,sub,tap:true},innerWidth/2,innerHeight/2);
 }
 
@@ -1283,7 +1348,7 @@ function eligible(c,relax,forceP){
 }
 function drawCard(forceP){
   let pool=[],tot=0;
-  const pass=relax=>{pool=[];tot=0;for(const c of CARDS){if(!eligible(c,relax,forceP))continue;let w=1;if(c.k!=='base')w*=(c.t==='prota'?1.1:2.4);if(c.l===G.L)w*=1.6;if(PERSONAL.includes(c.t))w*=1.25;pool.push([c,w]);tot+=w;}};
+  const pass=relax=>{pool=[];tot=0;for(const c of CARDS){if(!eligible(c,relax,forceP))continue;let w=1;if(c.k==='leyenda')w*=1.3;else if(c.k!=='base')w*=(c.t==='prota'?1.1:2.4);if(c.l===G.L)w*=1.6;if(PERSONAL.includes(c.t))w*=1.25;pool.push([c,w]);tot+=w;}};
   pass(false);
   if(!pool.length){G.used.clear();pass(false);}
   if(!pool.length)pass(true);
@@ -1316,7 +1381,7 @@ function fill(str,nm,html=true){
     tpa:()=>G.partner?w(G.partner):'tu pareja',
     pp:()=>nm.pp?w(nm.pp):'su pareja',
     lead:()=>w(leader()),last:()=>w(lastPlace()),
-    lugar:()=>({disco:'la disco',bar:'el bar',fiesta:'la fiesta',none:'la salida'})[G.cfg.later],
+    lugar:()=>({disco:'la fiesta',bar:'el bar',none:'la salida'})[G.cfg.later]||'la salida',
     sol:()=>G.sol==='soltera'?'soltera':'soltero'
   };
   return str.replace(/\{([a-z]+)(\d?)\}/g,(m,k,d)=>{
@@ -1420,7 +1485,10 @@ function showEvent(ev,x,y){
   const html=sec?`La misión de ${whoH} era:<span class="small">${ev.hidden}</span>¿La cumplió?`:`¿${whoH} ${two?'cumplieron':'cumplió'} la side quest?<span class="small">${ev.text}</span>`;
   const res=(ok,a,b)=>{
     ev.who.forEach(w=>{const P=pl(w);if(ok){if(G.cfg.score)P.pts+=4*gm();P.quests++;}else{P.fails++;P.pen++;}});
-    if(ok&&sec) unlockAch('agente');
+    if(ok){
+      G.questsOk++;if(G.questsOk>=3)unlockAch('imposible');
+      if(sec){S.st.secret++;save();if(S.st.secret>=5)unlockAch('agente');}
+    }
     const each=two?' cada uno':'';
     render({type:sec?'secretafin':'misionfin',html:`${whoH}: ${ok?(G.cfg.score?`+${4*gm()} puntos${each}`:rep(3)):pen(3)+each}.`,sub:ok?'Misión cumplida.':'Misión fallida. Queda en el registro.',tap:true},a,b);
   };
@@ -1446,6 +1514,7 @@ function showRoundEnd(x,y){
   const pool=RE.filter(e=>e.need());
   if(pool.length&&rD()<.65){const e=pickD(pool);subs.push(`Ronda ${G.round}: ${fill(e.txt,{})}`);e.fn&&e.fn();}
   if(G.L>prevL)subs.push(`El picante sube a ${SPICE_NAMES[G.L]}.`);
+  if(G.round===G.rounds&&G.lv0>=7&&G.cfg.score&&!G.golden){G.golden=true;subs.push('Última ronda dorada: todo lo que se cumpla vale el doble.');}
   render({type:'ronda',html:`Fin de la ronda ${done} de ${G.rounds}`,extra:G.cfg.score?lbHTML(3):'',sub:subs.join('<br>'),tap:true},x,y);
 }
 
@@ -1465,7 +1534,7 @@ const CHAOS=[
 function showChaos(x,y){const e=pickD(CHAOS.filter(c=>c.need()));render({type:'evento',html:e.run(),tap:true},x,y);}
 
 /* ---------- Ruleta ---------- */
-function ruletaOpts(){
+function ruletaOpts(final){
   const me=G?maxEff():'fuerte',sp=G?G.cfg.spice:2,mv=G?G.cfg.mv:1;
   const o=['¡Salvación! No pasa nada','3 sorbos','2 sorbos y repartes 2','La mesa elige entre 1 y 3 sorbos'];
   if(me!=='leve'){
@@ -1481,12 +1550,13 @@ function ruletaOpts(){
   }
   if(mv>=1)o.push('Bailar 30 segundos la canción que elija la mesa');
   if(mv>=2)o.push('Salir a la puerta y gritar «¡viva la previa!»');
+  if(final&&G&&G.lv0>=8)o.push('Organizar la próxima previa, con picoteo incluido','Hablar en tercera persona hasta que termine la noche','La mesa elige tu foto de perfil por 24 horas','Contar la historia más vergonzosa de tu vida, sin saltarte detalles','Ser el DJ de la mesa, pero cada canción la puede vetar quien ganó');
   return o;
 }
-function spin(box,done){
-  const opts=shuffle(ruletaOpts());let i=0,delay=45;const end=Date.now()+2300;
+function spin(box,done,final){
+  const opts=shuffle(ruletaOpts(final));let i=0,delay=45;const end=Date.now()+2300;
   box.classList.remove('done');
-  S.spins++;save();if(S.spins>=5)unlockAch('ruleta');
+  S.spins++;save();if(S.spins>=10)unlockAch('ruleta');
   if(reduceMotion){box.textContent=rnd(opts);box.classList.add('done');done&&done();return;}
   const tick=()=>{box.textContent=opts[i++%opts.length];if(Date.now()<end){delay*=1.13;setTimeout(tick,delay);}else{box.classList.add('done');done&&done();}};
   tick();
@@ -1508,6 +1578,7 @@ function restore(s){const o=JSON.parse(s);Object.assign(G,o);G.used=new Set(o.us
 function render(c,x,y){
   const T=TYPES[c.type],th=TH[T.th];
   c.hold=false;
+  const now=Date.now();if(G.tLast)G.ms+=Math.min(now-G.tLast,180000);G.tLast=now; // tiempo jugado, sin contar pausas largas
   assignReader(c);
   const layer=document.createElement('div');
   layer.className='layer t-'+c.type;
@@ -1651,26 +1722,47 @@ $('#gScore').onclick=()=>openSheet(`<h3>Marcador</h3><p>Ronda ${G.round} de ${G.
   <button type="button" class="secondary" onclick="closeSheet()">Volver al juego</button>`);
 $('#gPause').onclick=()=>openSheet(`<h3>Pausa</h3><p>Ronda ${G.round} de ${G.rounds}. Van ${G.count} cartas.</p>
   <div class="menu"><button type="button" class="primary" id="pzR">Seguir jugando</button><button type="button" class="secondary" id="pzE">Terminar y ver resultados</button><button type="button" class="secondary" id="pzQ">Salir sin terminar</button></div>`,
-  b=>{b.querySelector('#pzR').onclick=closeSheet;b.querySelector('#pzE').onclick=()=>{closeSheet();finish();};b.querySelector('#pzQ').onclick=()=>{closeSheet();G.finished=true;goHome();};});
+  b=>{b.querySelector('#pzR').onclick=closeSheet;b.querySelector('#pzE').onclick=()=>{closeSheet();finish();};b.querySelector('#pzQ').onclick=()=>{closeSheet();G.finished=true;bankStats();goHome();};});
 
 /* ---------- Final ---------- */
+/* Suma cartas y tiempo jugado a las estadísticas, aunque la partida no se termine */
+function bankStats(){
+  if(G.banked)return;G.banked=true;
+  S.st.cards+=G.count;S.st.ms+=G.ms;save();
+  if(S.st.cards>=1000)unlockAch('milcartas');
+  if(S.st.ms>=36e6)unlockAch('horas');
+}
 function finish(){
   if(G.finished)return;G.finished=true;
-  const before=level(S.xp).n;
+  const L0=level(G.xp0);
   const gain=40+G.count*2+(G.completed&&G.rounds>=8?40:0);
   S.xp+=gain;S.games++;save();
+  bankStats();
   if(G.completed){
+    S.st.done++;
+    const today=new Date().toLocaleDateString('sv');
+    if(S.st.day===today)S.st.dayN++;else{S.st.day=today;S.st.dayN=1;}
+    save();
     unlockAch('primera');
-    if(G.rounds>=8)unlockAch('maraton');
+    if(G.rounds>=12)unlockAch('maraton');
     if(G.cfg.spice===4)unlockAch('sincensura');
     if(G.cfg.drink==='sin')unlockAch('sano');
-    if(G.cfg.score&&G.wasLast.has(leader()))unlockAch('remontada');
+    if(G.mode==='caos')unlockAch('caos');
+    if(G.mode==='hardcore'&&G.rounds>=12)unlockAch('sobrevivientes');
+    if(S.st.dayN>=3)unlockAch('tres');
+    if(S.st.done>=25)unlockAch('veterano');
+    if(G.cfg.score){
+      if(G.wasLast.has(leader()))unlockAch('remontada');
+      if(G.players.reduce((a,q)=>a+q.done,0)>=30)unlockAch('sinmiedo');
+      if(G.rounds>=5&&G.players.some(q=>q.pen===0&&q.done>=5))unlockAch('invicto');
+    }
   }
-  const after=level(S.xp).n;
-  const unl=[];for(let l=before+1;l<=after;l++)if(LEVEL_UNLOCKS[l])unl.push(LEVEL_UNLOCKS[l]);
-  renderEnd(gain,after,unl);
+  if(lvlN()>=10)unlockAch('inmortal');
+  const L1=level(S.xp);
+  const unl=[];for(let l=L0.n+1;l<=L1.n;l++)if(REWARDS[l])unl.push(REWARDS[l].t);
+  renderEnd(gain,L1,unl,L1.stars-L0.stars);
 }
-function renderEnd(gain,lv,unl){
+function renderEnd(gain,L,unl,starsUp){
   const v=$('#v-end'),m=MODES[G.mode],sc=G.cfg.score&&G.players.length>1;
   const s=sortedPlayers();
   let h=`<header class="hero red${sc?' end-hero':''}" style="--swy:-360px">${SWIRL}<div class="topnav" style="justify-content:center"><span class="modechip" style="--mbg:#FDF3E0;--mfg:#1B1A1A">${chipHTML(G.mode)}</span></div>`;
@@ -1690,13 +1782,15 @@ function renderEnd(gain,lv,unl){
   h+='</header>';
   if(G.later.length)p+=`<h3 class="secth">Para ${fill('{lugar}')}</h3><ul class="dlist" id="endLater"></ul>`;
   const newA=G.newAch.map(id=>ACH.find(a=>a.id===id)).filter(Boolean);
-  p+=`<div class="xpbox"><strong>+${gain} XP.</strong> Nivel ${lv}: ${LEVEL_NAMES[lv-1]}
-    ${unl.length||newA.length?`<ul>${unl.map(u=>`<li>Desbloqueaste ${u}</li>`).join('')}${newA.map(a=>`<li>Logro: ${a.name}</li>`).join('')}</ul>`:''}</div>`;
+  const items=[...unl.map(u=>`Desbloquearon: ${u}`),...(starsUp>0?['¡Nueva estrella de leyenda!']:[]),...newA.map(a=>`Logro: ${a.name} (+${TIERS[a.tier].xp} XP)`)];
+  p+=`<div class="xpbox"><strong>+${fmt(gain+G.achXP)} XP</strong>${G.achXP?` (partida +${fmt(gain)}, logros +${fmt(G.achXP)})`:''}. Nivel ${L.n}: ${L.name}${L.stars?` · ★ ${L.stars}`:''}
+    <span class="bar big" style="margin-top:10px"><i style="width:${L.pct}%"></i></span>
+    ${items.length?`<ul>${items.map(t=>`<li>${t}</li>`).join('')}</ul>`:''}</div>`;
   p+=`<div class="endbtns"><button type="button" class="primary" id="enShare">Compartir el resultado</button><button type="button" class="secondary" id="enAgain">Revancha</button><button type="button" class="secondary" id="enHome">Volver al inicio</button></div>`;
   v.innerHTML=h+`<section class="panel end-panel">${p}</section>`;
   if(G.later.length)laterList($('#endLater'),G.later);
   G.condena=null;
-  const sp=$('#spinC');if(sp)sp.onclick=()=>{sp.disabled=true;spin($('#condena'),()=>{G.condena=$('#condena').textContent;});};
+  const sp=$('#spinC');if(sp)sp.onclick=()=>{sp.disabled=true;spin($('#condena'),()=>{G.condena=$('#condena').textContent;},true);};
   $('#enShare').onclick=()=>openShare(sc);
   $('#enAgain').onclick=startGame;
   $('#enHome').onclick=goHome;
