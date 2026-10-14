@@ -300,6 +300,14 @@ details.more[open] summary::after{content:"−"}
 .xpbox ul{margin:10px 0 0;padding-left:20px;font-size:14px;line-height:1.5}
 .secth{font-family:var(--disp);font-weight:400;font-size:16px;text-transform:uppercase;margin:26px 0 10px}
 .endbtns{margin-top:26px}
+.photobtn{display:flex;align-items:center;justify-content:center;gap:10px}
+.photobtn .ic{width:26px;height:26px}
+.phnote{margin:8px 4px 0;font-size:13px;color:var(--muted);text-align:center}
+.polaroid{margin:0 auto;max-width:280px;background:var(--cream);padding:12px 12px 0;border-radius:6px;box-shadow:0 0 0 3px var(--ink),9px 9px 0 3px var(--ink)}
+.polaroid.gold{background:linear-gradient(135deg,#F7D774,#EBAF35 45%,#F9E3A0 70%,#C98E1A)}
+.polaroid img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;box-shadow:0 0 0 2px var(--ink)}
+.polaroid figcaption{font-family:var(--disp);font-size:15px;text-transform:uppercase;text-align:center;padding:12px 4px 14px;overflow-wrap:anywhere}
+.phact{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px}
 
 /* Toast y anuncio */
 .toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 68px);transform:translate(-50%,-20px);z-index:60;background:var(--ink);color:var(--butter);padding:11px 18px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:90vw;text-align:center}
@@ -346,6 +354,12 @@ details.more[open] summary::after{content:"−"}
 <symbol id="i-phone" viewBox="0 0 48 48"><rect x="13" y="4" width="22" height="40" rx="5" fill="#FDF3E0" stroke="#1B1A1A" stroke-width="2.4"/><rect x="16.5" y="9" width="15" height="26" rx="1.5" fill="#83AFF1"/><circle cx="24" cy="39.5" r="1.8" fill="#1B1A1A"/></symbol>
 <symbol id="i-chili" viewBox="0 0 48 48"><path d="M32 14c-6 1-9 6-11 12-2 7-6 12-12 15 13 1 25-7 26-21 0-3-1-5-3-6z" fill="#E14936" stroke="#1B1A1A" stroke-width="2.6" stroke-linejoin="round"/><path d="M32 14c0-4 2-7 6-9" fill="none" stroke="#44AEAA" stroke-width="4" stroke-linecap="round"/></symbol>
 <symbol id="i-back" viewBox="0 0 48 48"><path d="M29 12 17 24l12 12" fill="none" stroke="#1B1A1A" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-gem" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M14 8h20l10 12-20 22L4 20z" fill="#83AFF1"/><path d="M4 20h40M18 20l6-12 6 12M18 20l6 22 6-22" fill="none" stroke-width="2"/></g><path d="M12 15l3-4" stroke="#FDF3E0" stroke-width="2.4" stroke-linecap="round"/></symbol>
+<symbol id="i-shades" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M2 17h44" fill="none" stroke-width="3"/><path d="M5 17h16v5a8 8 0 0 1-8 8h0a8 8 0 0 1-8-8z" fill="#1B1A1A"/><path d="M27 17h16v5a8 8 0 0 1-8 8h0a8 8 0 0 1-8-8z" fill="#1B1A1A"/></g><path d="M9 21l4-2M31 21l4-2" stroke="#83AFF1" stroke-width="2.4" stroke-linecap="round"/></symbol>
+<symbol id="i-rocket" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M19 34h10l-5 12z" fill="#EBAF35"/><path d="M16 22l-8 9v6l8-4zM32 22l8 9v6l-8-4z" fill="#E14936"/><path d="M24 2c8 6 11 16 9 32H15C13 18 16 8 24 2z" fill="#FDF3E0"/><circle cx="24" cy="17" r="4.5" fill="#83AFF1"/></g></symbol>
+<symbol id="i-partyhat" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M24 7l14 34H10z" fill="#44AEAA"/><circle cx="24" cy="6" r="4" fill="#EBAF35"/></g><g fill="#E14936"><circle cx="22" cy="20" r="2.6"/><circle cx="28" cy="29" r="2.6"/><circle cx="18" cy="34" r="2.6"/></g><path d="M9 41h30" stroke="#1B1A1A" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-frame" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><rect x="8" y="4" width="32" height="40" rx="2" fill="#EBAF35"/><rect x="12" y="8" width="24" height="24" fill="#83AFF1"/></g><circle cx="29" cy="15" r="3" fill="#FDF3E0"/><path d="M12 32l8-9 6 6 4-3 6 6z" fill="#44AEAA"/></symbol>
+<symbol id="i-camera" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M16 14l3-6h10l3 6" fill="#EBAF35"/><rect x="4" y="14" width="40" height="27" rx="5" fill="#44AEAA"/><circle cx="24" cy="27" r="8.5" fill="#FDF3E0"/><circle cx="24" cy="27" r="4" fill="#83AFF1" stroke-width="2"/></g><circle cx="37" cy="20" r="2" fill="#FDF3E0"/></symbol>
 </svg>
 
 <!-- Edad -->
@@ -426,6 +440,7 @@ details.more[open] summary::after{content:"−"}
 <!-- Final -->
 <main id="v-end" class="view red" hidden></main>
 
+<input type="file" accept="image/*" id="photoIn" hidden>
 <div class="sheet-bg" id="sheet" hidden><div class="sheet" role="dialog" aria-modal="true" id="sheetBody"></div></div>
 <div class="toast" id="toast" role="status"></div>
 <div class="ad" id="ad" hidden><div><p>Anuncio de prueba</p><div class="adn" id="adN">3</div><p>En la app real, aquí va un video de unos segundos.</p></div></div>
@@ -488,13 +503,13 @@ A('reto',4,"{p}, cambia tu foto de perfil por la que elija la mesa hasta mañana
  [2,"¿cuál es la mentira más grande que le dijiste a una pareja?",3],[2,"¿qué es lo más loco que has hecho por alguien que te gustaba?",3],
  [2,"¿qué ex te escribiría hoy si supiera que estás de fiesta?",3],[2,"¿cuál es tu récord de citas en una misma semana?",3],
  [2,"¿qué es lo más caro que has comprado con unos tragos encima?",2],[2,"¿a quién de esta mesa le robarías la vida por un día?",2],
- [2,"¿qué opinas de verdad del último ex de {p2}?",4],[2,"¿alguna vez stalkeaste tanto que diste like sin querer? Cuenta.",2],
+ [2,"¿qué opinas de verdad del último ex de {p2}?",4],[2,"¿alguna vez, mirando el perfil de alguien, le diste like sin querer a una foto antigua? Cuenta.",2],
  [3,"¿con cuántas personas has estado?",4],[3,"¿cuál es el lugar más raro donde lo has hecho?",4],
  [3,"¿cuál es la fantasía que nunca has cumplido?",5],[3,"¿cuál fue tu peor experiencia en la cama?",4],
- [3,"resume el mensaje más atrevido que has mandado, sin leerlo.",4],[3,"¿alguna vez te fijaste en la pareja de un amigo? Sin nombres.",5],
- [3,"¿qué es lo que más te prende de alguien?",3],[3,"¿te han pillado alguna vez? Cuenta la historia.",4],
+ [3,"cuenta de memoria qué decía el mensaje más atrevido que has mandado. No hace falta mostrarlo.",4],[3,"¿alguna vez te fijaste en la pareja de un amigo? Sin nombres.",5],
+ [3,"¿qué es lo que más te prende de alguien?",3],[3,"¿alguna vez te pillaron en pleno momento íntimo? Cuenta la historia.",4],
  [3,"si tuvieras que besar a alguien de esta mesa, ¿a quién?",5],
- [4,"cuenta tu experiencia más vergonzosa en la cama, con detalles.",5],[4,"¿cuál es tu récord en una sola noche?",5],
+ [4,"cuenta tu experiencia más vergonzosa en la cama, con detalles.",5],[4,"¿cuál es tu récord de veces en una sola noche?",5],
  [4,"¿alguna vez fingiste en la cama?",4],[4,"describe tu fantasía más rara.",5],
  [4,"¿con qué ex volverías solo por una noche?",5],[4,"¿qué es lo más atrevido que has hecho en un lugar público?",5]
 ].forEach(([l,q,k])=>A('verdad',l,"{p}, "+q+" Responde o {x"+k+"}."));
@@ -704,7 +719,7 @@ A('reto',1,"{p}, haz tu mejor pose para Instagram. La mesa califica: menos de 7,
 A('voto',1,"¿Quién tiene el peor gusto para elegir pareja?");
 A('voto',1,"¿Quién es la más dramática?");
 A('voto',1,"¿Quién es la mejor detective para stalkear?");
-A('verdad',2,"{p}, ¿cuál es el mensaje que escribiste y borraste antes de mandarlo? Responde o {x3}.");
+A('verdad',2,"{p}, ¿alguna vez escribiste un mensaje y lo borraste justo antes de mandarlo? ¿A quién era y qué decía? Responde o {x3}.");
 A('yonunca',1,"Yo nunca le he pedido a una amiga que revise el perfil de alguien antes de una cita.");
 A('yonunca',2,"Yo nunca he usado la ropa de una amiga sin pedírsela.");
 A('yonunca',3,"Yo nunca he tenido un ex que me gustaba más que mi pareja de ese momento.");
@@ -842,7 +857,8 @@ const POW={
 const pwTag=k=>`${ic(POW[k].ic,'sm')} ${POW[k].name}`;
 const AV=['smiley','disco','bolt','note','star','hearts','ball','spiral','crown','flame','mic','dice','cassette','vinyl','balloon','drop'];
 const AV_X=['chili','skull','trophy','twohearts']; // íconos exclusivos desde el nivel 3
-const avList=()=>lvlN()>=3?AV.concat(AV_X):AV;
+const AV_PRO=['gem','shades','rocket','partyhat']; // pack de íconos Pro: Anual y Para siempre, desde el nivel 4
+const avList=()=>{const n=lvlN();return AV.concat(n>=3?AV_X:[],n>=4&&proPlus()?AV_PRO:[]);};
 const COL=['#E14936','#EBAF35','#44AEAA','#83AFF1','#FDF3E0'];
 
 const MODES={
@@ -893,6 +909,12 @@ const REWARDS={
   9:{ic:'disco',t:'Inicio dorado',d:'La pantalla de inicio se vuelve dorada. Para presumir.'},
   10:{ic:'crown',t:'Inmortal',d:'El título máximo. Desde aquí, cada 1.500 XP suma una estrella de leyenda.'}
 };
+/* Anual y Para siempre ya tienen Ruleta y Caos, así que en los niveles 2 y 4 reciben otro premio. El Pase de noche mantiene los normales. */
+const REWARDS_PRO={
+  2:{ic:'frame',t:'Marco dorado',d:'La imagen para compartir y la foto del grupo llevan marco dorado.'},
+  4:{ic:'gem',t:'Íconos Pro',d:'Diamante, lentes de sol, cohete y gorro de fiesta para los jugadores.'}
+};
+const rewardAt=n=>(proPlus()&&REWARDS_PRO[n])||REWARDS[n];
 const TIERS={1:{name:'Bronce',xp:25},2:{name:'Plata',xp:75},3:{name:'Oro',xp:200}};
 const ACH=[
   {id:'primera',tier:1,ic:'disco',name:'Primera previa',desc:'Terminen una partida.'},
@@ -924,7 +946,7 @@ const fmt=n=>Number(n).toLocaleString('es-CL');
 
 /* ---------- Persistencia ---------- */
 const freshSt=()=>({cards:0,ms:0,secret:0,done:0,modes:[],day:'',dayN:0});
-function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,spins:0,last:{},st:freshSt()}}
+function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,spins:0,last:{},st:freshSt()}}
 let S=freshS();
 try{S=Object.assign(freshS(),JSON.parse(localStorage.getItem(KEY)||'{}'));S.st=Object.assign(freshSt(),S.st);}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -939,6 +961,9 @@ function level(xp){
 }
 const lvlN=()=>level(S.xp).n;
 const isPro=()=>S.pro;
+const PLANS={noche:'Pase de noche',anual:'Anual',siempre:'Para siempre'};
+const proPlus=()=>S.pro&&(S.plan==='anual'||S.plan==='siempre'); // planes con premios propios
+const goldFrame=()=>proPlus()&&lvlN()>=2;
 function unlocked(id){
   const m=MODES[id];
   if(!m.lock) return true;
@@ -1003,12 +1028,22 @@ function renderHome(){
   });
   const pb=$('#proBtn');pb.textContent=S.pro?'Pro activo':'Previa Pro';pb.classList.toggle('pro',!S.pro);
 }
-$('#proBtn').onclick=()=>{if(S.pro)openSheet(`<h3>Pro activo</h3><p>En esta demo tienes todo desbloqueado.</p><button type="button" class="secondary" id="unpro">Volver a la versión gratis</button>`,b=>{b.querySelector('#unpro').onclick=()=>{S.pro=false;save();closeSheet();renderHome();};});else paywall(null,renderHome);};
+$('#proBtn').onclick=()=>{
+  if(!S.pro)return paywall(null,renderHome);
+  if(!PLANS[S.plan]){S.plan='noche';save();}
+  openSheet(`<h3>Pro activo</h3><p>Plan: ${PLANS[S.plan]}. En esta demo tienes todo desbloqueado.</p>
+    <p class="demo-note">Prototipo: cambia de plan para probar los premios de cada uno.</p>
+    <div class="plans">${Object.entries(PLANS).map(([k,n])=>`<button type="button" class="plan" data-p="${k}" aria-pressed="${k===S.plan}"><span><strong>${n}</strong></span></button>`).join('')}</div>
+    <button type="button" class="secondary" id="unpro">Volver a la versión gratis</button>`,b=>{
+    b.querySelectorAll('.plan').forEach(x=>x.onclick=()=>{S.plan=x.dataset.p;save();b.querySelectorAll('.plan').forEach(y=>y.setAttribute('aria-pressed',y.dataset.p===S.plan));});
+    b.querySelector('#unpro').onclick=()=>{S.pro=false;S.plan=null;save();closeSheet();renderHome();};
+  });
+};
 $('#lvlBtn').onclick=()=>{
   const L=level(S.xp);
   const prog=L.next?`${fmt(S.xp)} de ${fmt(L.next)} XP para el nivel ${L.n+1}.`
     :`${L.stars?`Llevan ${L.stars} ${L.stars===1?'estrella':'estrellas'} de leyenda. `:''}La próxima estrella llega a los ${fmt(L.nextStar)} XP.`;
-  const rew=Object.entries(REWARDS).map(([n,r])=>{const on=L.n>=+n;return `<li class="${on?'':'off'}"><span class="rn">${n}</span><span class="ae">${ic(r.ic)}</span><span><strong>${r.t}</strong><small>${r.d}</small></span></li>`;}).join('');
+  const rew=Object.keys(REWARDS).map(n=>{const r=rewardAt(n),on=L.n>=+n;return `<li class="${on?'':'off'}"><span class="rn">${n}</span><span class="ae">${ic(r.ic)}</span><span><strong>${r.t}</strong><small>${r.d}</small></span></li>`;}).join('');
   const achLi=a=>{const on=S.ach.includes(a.id);const p=!on&&a.prog?a.prog():null;
     return `<li class="${on?'':'off'}"><span class="ae">${ic(a.ic)}</span><span><strong>${a.name}</strong><small>${a.desc}${p?` <b>${fmt(Math.min(p[0],p[1]))} de ${fmt(p[1])}</b>`:''}</small></span></li>`;};
   const tiers=[1,2,3].map(t=>`<p class="tierh"><span class="tier t${t}">${TIERS[t].name}</span> +${TIERS[t].xp} XP cada uno</p><ul class="achs">${ACH.filter(a=>a.tier===t).map(achLi).join('')}</ul>`).join('');
@@ -1031,7 +1066,7 @@ function lvlLock(id){
 /* ---------- Paywall de demo ---------- */
 function paywall(target,then){
   let plan='noche';
-  const plans=[['noche','Pase de noche','24 horas de todo. Ideal para un evento.','US$ 2,99'],['anual','Anual','Equivale a US$ 1,25 al mes.','US$ 14,99','Más elegido'],['siempre','Para siempre','Un solo pago.','US$ 29,99']];
+  const plans=[['noche','Pase de noche','24 horas de todo. Ideal para un evento.','US$ 2,99'],['anual','Anual','US$ 1,25 al mes, con premios Pro en los niveles 2 y 4.','US$ 14,99','Más elegido'],['siempre','Para siempre','Un solo pago, con premios Pro en los niveles 2 y 4.','US$ 29,99']];
   openSheet(`<h3>Previa Pro</h3><p>Una persona paga y juega toda la mesa.</p>
     <ul class="benefits"><li>${ic('ring')} Despedida, Parejas y Hardcore</li><li>${ic('flame')} Picante sin censura</li><li>${ic('spiral')} Ruleta y Caos sin esperar a subir de nivel</li><li>${ic('star')} Packs nuevos cada mes</li><li>${ic('shield')} Sin anuncios</li></ul>
     <div class="plans">${plans.map(p=>`<button type="button" class="plan" data-p="${p[0]}" aria-pressed="${p[0]===plan}"><span><strong>${p[1]}${p[4]?`<span class="tag">${p[4]}</span>`:''}</strong><small>${p[2]}</small></span><span class="pr">${p[3]}</span></button>`).join('')}</div>
@@ -1040,7 +1075,7 @@ function paywall(target,then){
     <p class="demo-note">Prototipo: no se cobra nada.</p>`,
   b=>{
     b.querySelectorAll('.plan').forEach(x=>x.onclick=()=>{plan=x.dataset.p;b.querySelectorAll('.plan').forEach(y=>y.setAttribute('aria-pressed',y.dataset.p===plan));});
-    b.querySelector('#pwBuy').onclick=()=>{S.pro=true;save();closeSheet();toast('Pro desbloqueado (demo)');then&&then();};
+    b.querySelector('#pwBuy').onclick=()=>{S.pro=true;S.plan=plan;save();closeSheet();toast('Pro desbloqueado (demo)');then&&then();};
     const ad=b.querySelector('#pwAd');
     if(ad) ad.onclick=()=>{closeSheet();fakeAd(()=>{SESSION.add(target);toast('Desbloqueado para esta partida');then&&then();});};
   });
@@ -1310,6 +1345,7 @@ function startGame(){
   const cfg=JSON.parse(JSON.stringify(CFG));
   const lv0=lvlN();
   if(!cfg.score) cfg.powers=false;
+  dropPhoto();
   G={mode:D.mode,M:m,cfg,prota,partner,sol:D.sol,partners,
     players:names.map((n,i)=>({name:n,av:avs[i],col:COL[i%COL.length],pts:0,done:0,pen:0,used:0,quests:0,fails:0,streak:0,pw:{escudo:cfg.powers?1:0,rebote:cfg.powers&&lv0>=6?1:0,cambio:0}})),
     round:1,rounds:cfg.rounds,inRound:0,roundLen:roundLenFor(names.length),count:0,used:new Set(),events:[],later:[],
@@ -1520,7 +1556,7 @@ function showRoundEnd(x,y){
   if(G.L>prevL)notes.push(`El picante sube a ${SPICE_NAMES[G.L]}`);
   let ev=null;
   const pool=RE.filter(e=>e.need());
-  if(pool.length&&rD()<.65){ev=pickD(pool);ev.fn&&ev.fn();}
+  if(pool.length&&rD()<1/3){ev=pickD(pool);ev.fn&&ev.fn();}
   if(G.round===G.rounds&&G.lv0>=7&&G.cfg.score&&!G.golden){G.golden=true;notes.push('Última ronda dorada: todo vale el doble');}
   if(ev)return render({type:'ronda',label:`Ronda ${G.round} de ${G.rounds}`,html:fill(ev.txt,{}),sub:notes.join('. ')+(notes.length?'.':''),tap:true},x,y);
   toast(notes.length?`Ronda ${G.round} de ${G.rounds}. ${notes.join('. ')}.`:`Ronda ${G.round} de ${G.rounds}`);
@@ -1774,7 +1810,7 @@ function finish(){
   }
   if(lvlN()>=10)unlockAch('inmortal');
   const L1=level(S.xp);
-  const unl=[];for(let l=L0.n+1;l<=L1.n;l++)if(REWARDS[l])unl.push(REWARDS[l].t);
+  const unl=[];for(let l=L0.n+1;l<=L1.n;l++)if(REWARDS[l])unl.push(rewardAt(l).t);
   renderEnd(gain,L1,unl,L1.stars-L0.stars);
 }
 function renderEnd(gain,L,unl,starsUp){
@@ -1801,15 +1837,44 @@ function renderEnd(gain,L,unl,starsUp){
   p+=`<div class="xpbox"><strong>+${fmt(gain+G.achXP)} XP</strong>${G.achXP?` (partida +${fmt(gain)}, logros +${fmt(G.achXP)})`:''}. Nivel ${L.n}: ${L.name}${L.stars?` · ★ ${L.stars}`:''}
     <span class="bar big" style="margin-top:10px"><i style="width:${L.pct}%"></i></span>
     ${items.length?`<ul>${items.map(t=>`<li>${t}</li>`).join('')}</ul>`:''}</div>`;
+  p+=`<h3 class="secth">Foto del grupo</h3><div id="phBox"></div>`;
   p+=`<div class="endbtns"><button type="button" class="primary" id="enShare">Compartir el resultado</button><button type="button" class="secondary" id="enAgain">Revancha</button><button type="button" class="secondary" id="enHome">Volver al inicio</button></div>`;
   v.innerHTML=h+`<section class="panel end-panel">${p}</section>`;
   if(G.later.length)laterList($('#endLater'),G.later);
   G.condena=null;
   const sp=$('#spinC');if(sp)sp.onclick=()=>{sp.disabled=true;spin($('#condena'),()=>{G.condena=$('#condena').textContent;},true);};
+  renderPhoto();
   $('#enShare').onclick=()=>openShare(sc);
   $('#enAgain').onclick=startGame;
   $('#enHome').onclick=goHome;
   show('v-end');
+}
+
+/* ---------- Foto del grupo ----------
+ La foto solo vive en la memoria de esta partida: no se guarda ni se envía a ningún lado.
+ Únicamente aparece dentro de la imagen que el grupo decida compartir. */
+function dropPhoto(){if(G&&G.photo){URL.revokeObjectURL(G.photo.url);G.photo=null;}}
+function pickPhoto(done){
+  const inp=$('#photoIn');inp.value='';
+  inp.onchange=()=>{
+    const f=inp.files&&inp.files[0];if(!f)return;
+    const url=URL.createObjectURL(f),img=new Image();
+    img.onload=()=>{dropPhoto();G.photo={img,url};renderPhoto();done&&done();};
+    img.onerror=()=>{URL.revokeObjectURL(url);toast('No se pudo abrir la foto');};
+    img.src=url;
+  };
+  inp.click();
+}
+function photoCaption(){const s=sortedPlayers();return G.cfg.score&&G.players.length>1?`${s[0].name} gana la previa`:'Se terminó la previa';}
+function renderPhoto(){
+  const box=$('#phBox');if(!box)return;
+  box.innerHTML=G.photo
+    ?`<figure class="polaroid${goldFrame()?' gold':''}"><img src="${G.photo.url}" alt="Foto del grupo"><figcaption>${esc(photoCaption())}</figcaption></figure>
+      <div class="phact"><button type="button" class="btn" id="phAdd">Cambiar foto</button><button type="button" class="btn" id="phDel">Quitar</button></div>`
+    :`<button type="button" class="secondary photobtn" id="phAdd">${ic('camera')}Agregar foto del grupo</button>
+      <p class="phnote">Sale dentro de la imagen para compartir. La foto se queda en este teléfono.</p>`;
+  box.querySelector('#phAdd').onclick=()=>pickPhoto();
+  const del=box.querySelector('#phDel');if(del)del.onclick=()=>{dropPhoto();renderPhoto();};
 }
 
 /* ---------- Compartir ---------- */
@@ -1831,42 +1896,76 @@ async function shareImage(sc){
   const box=(X,Y,w,h,r)=>{x.beginPath();x.roundRect?x.roundRect(X,Y,w,h,r):x.rect(X,Y,w,h);x.fill();};
   const fitText=(t,font,size,min,maxW)=>{let fs=size;x.font=font(fs);while(x.measureText(t).width>maxW&&fs>min){fs-=6;x.font=font(fs);}while(x.measureText(t).width>maxW&&t.length>2)t=t.slice(0,-2)+'…';return t;};
   const m=MODES[G.mode],s=sortedPlayers();
+  const ph=G.photo&&G.photo.img,gold=goldFrame();
+  const GOLD=(X0,Y0,X1,Y1)=>{const g=x.createLinearGradient(X0,Y0,X1,Y1);g.addColorStop(0,'#F7D774');g.addColorStop(.45,'#EBAF35');g.addColorStop(.7,'#F9E3A0');g.addColorStop(1,'#C98E1A');return g;};
+  // Foto del grupo en un marco tipo polaroid (dorado con el premio Pro). Devuelve dónde empieza el pie del marco.
+  const polaroid=(X,Y,w,photoH,capH,pad)=>{
+    const h=pad+photoH+capH,pw=w-2*pad;
+    x.fillStyle=INK;box(X+16,Y+16,w,h,10);
+    x.fillStyle=gold?GOLD(X,Y,X+w,Y+h):CREAM;box(X,Y,w,h,10);
+    x.lineWidth=6;x.strokeStyle=INK;x.beginPath();x.roundRect?x.roundRect(X,Y,w,h,10):x.rect(X,Y,w,h);x.stroke();
+    const iw=ph.naturalWidth,ih=ph.naturalHeight,r=Math.max(pw/iw,photoH/ih),sw=pw/r,sh=photoH/r;
+    x.drawImage(ph,(iw-sw)/2,(ih-sh)/2,sw,sh,X+pad,Y+pad,pw,photoH);
+    x.lineWidth=4;x.strokeRect(X+pad,Y+pad,pw,photoH);
+    return Y+pad+photoH;
+  };
   x.fillStyle='#44AEAA';x.fillRect(0,0,W,H);
   try{const blade=new Path2D('M0 0C40-30 60-90 40-150L100-150C110-80 70-20 0 0z');x.save();x.translate(W/2,470);x.scale(4.4,4.4);x.fillStyle='#60BFBA';for(let i=0;i<6;i++){x.fill(blade);x.rotate(Math.PI/3);}x.restore();}catch(e){}
   x.textAlign='center';x.textBaseline='alphabetic';
-  x.fillStyle=INK;x.font=DISP(150);x.fillText('PREVIA',W/2,250);
-  x.font=F(800,42);const chipT=m.name.toUpperCase(),cw=x.measureText(chipT).width+90;
-  x.fillStyle=CREAM;box(W/2-cw/2,300,cw,84,42);x.fillStyle=INK;x.fillText(chipT,W/2,356);
+  // Con foto en una partida con puntaje, la cabecera se achica para dejar sitio al polaroid sobre el podio
+  const tight=!!(ph&&sc);
+  x.fillStyle=INK;x.font=DISP(tight?110:150);x.fillText('PREVIA',W/2,tight?170:250);
+  x.font=F(800,tight?36:42);const chipT=m.name.toUpperCase(),cw=x.measureText(chipT).width+(tight?76:90);
+  x.fillStyle=CREAM;box(W/2-cw/2,tight?200:300,cw,tight?70:84,tight?35:42);x.fillStyle=INK;x.fillText(chipT,W/2,tight?248:356);
   if(sc){
-    const wn=fitText(s[0].name.toUpperCase(),DISP,170,70,960);
-    x.fillStyle=INK;x.fillText(wn,W/2,600);
-    x.font=F(800,56);x.fillText('GANA LA PREVIA',W/2,690);
-    x.font=F(600,40);x.fillText(`${s[0].pts} puntos en ${G.count} cartas`,W/2,750);
-    x.fillStyle=BUTTER;box(0,840,W,H-840,[64,64,0,0]);
-    const base=1330,cols=s.length>=3?[[s[1],2,200,'#EBAF35'],[s[0],1,280,CREAM],[s[2],3,150,'#44AEAA']]:[[s[1],2,200,'#EBAF35'],[s[0],1,280,CREAM]];
-    const colW=270,gap=30,startX=(W-(cols.length*colW+(cols.length-1)*gap))/2;
+    let sheetY=840;
+    if(ph){
+      const cy=polaroid(200,300,680,465,150,30);
+      x.fillStyle=INK;x.fillText(fitText(s[0].name.toUpperCase(),DISP,64,36,600),W/2,cy+70);
+      x.font=F(800,32);x.fillText(`GANA LA PREVIA · ${s[0].pts} PTS`,W/2,cy+124);
+      sheetY=1010;
+    }else{
+      const wn=fitText(s[0].name.toUpperCase(),DISP,170,70,960);
+      x.fillStyle=INK;x.fillText(wn,W/2,600);
+      x.font=F(800,56);x.fillText('GANA LA PREVIA',W/2,690);
+      x.font=F(600,40);x.fillText(`${s[0].pts} puntos en ${G.count} cartas`,W/2,750);
+    }
+    x.fillStyle=BUTTER;box(0,sheetY,W,H-sheetY,[64,64,0,0]);
+    const P=ph?{base:1450,hs:[190,140,100],colW:240,gap:26,cr:50,co:140,nf:34,pf:28,no:58,nb:[80,64]}
+              :{base:1330,hs:[280,200,150],colW:270,gap:30,cr:58,co:170,nf:40,pf:32,no:62,nb:[100,80]};
+    const base=P.base,cols=s.length>=3?[[s[1],2,P.hs[1],'#EBAF35'],[s[0],1,P.hs[0],CREAM],[s[2],3,P.hs[2],'#44AEAA']]:[[s[1],2,P.hs[1],'#EBAF35'],[s[0],1,P.hs[0],CREAM]];
+    const colW=P.colW,gap=P.gap,startX=(W-(cols.length*colW+(cols.length-1)*gap))/2;
     cols.forEach(([p,n,h,col],i)=>{
-      const cx=startX+i*(colW+gap),mid=cx+colW/2;
+      const cx=startX+i*(colW+gap),mid=cx+colW/2,ns=P.nb[n===1?0:1];
       x.fillStyle=col;box(cx,base-h,colW,h,[30,30,0,0]);
-      x.fillStyle=INK;x.font=DISP(n===1?100:80);x.fillText(String(n),mid,base-h/2+(n===1?40:30));
-      x.fillStyle=p.col;x.beginPath();x.arc(mid,base-h-170,58,0,Math.PI*2);x.fill();
+      x.fillStyle=INK;x.font=DISP(ns);x.fillText(String(n),mid,base-h/2+Math.round(ns*.38));
+      x.fillStyle=p.col;x.beginPath();x.arc(mid,base-h-P.co,P.cr,0,Math.PI*2);x.fill();
       x.lineWidth=6;x.strokeStyle=INK;x.stroke();
-      x.fillStyle=INK;x.font=F(900,60);x.fillText(p.name.slice(0,1).toUpperCase(),mid,base-h-149);
-      x.fillText(fitText(p.name,w=>F(800,w),40,26,colW),mid,base-h-62);
-      x.font=F(600,32);x.fillText(`${p.pts} pts`,mid,base-h-20);
+      x.fillStyle=INK;x.font=F(900,Math.round(P.cr*1.03));x.fillText(p.name.slice(0,1).toUpperCase(),mid,base-h-P.co+Math.round(P.cr*.36));
+      x.fillText(fitText(p.name,w=>F(800,w),P.nf,26,colW),mid,base-h-P.no);
+      x.font=F(600,P.pf);x.fillText(`${p.pts} pts`,mid,base-h-20);
     });
-    const lo=s[s.length-1],y=base+60,bh=G.condena?330:240;
-    x.fillStyle=INK;box(80,y,920,bh,40);
-    x.textAlign='left';x.fillStyle=BUTTER;x.font=F(800,36);x.fillText('ÚLTIMO LUGAR',130,y+76);
-    x.fillText(fitText(lo.name.toUpperCase(),DISP,80,44,820),130,y+170);
-    if(G.condena){x.font=F(600,38);wrapLines(x,`Condena: ${G.condena}`,820).slice(0,2).forEach((l,i)=>x.fillText(l,130,y+236+i*48));}
+    const Q=ph?{gap:50,bh:G.condena?280:200,t:32,tY:62,nY:140,nmax:64,cf:34,cY:200,cl:42}
+              :{gap:60,bh:G.condena?330:240,t:36,tY:76,nY:170,nmax:80,cf:38,cY:236,cl:48};
+    const lo=s[s.length-1],y=base+Q.gap;
+    x.fillStyle=INK;box(80,y,920,Q.bh,40);
+    x.textAlign='left';x.fillStyle=BUTTER;x.font=F(800,Q.t);x.fillText('ÚLTIMO LUGAR',130,y+Q.tY);
+    x.fillText(fitText(lo.name.toUpperCase(),DISP,Q.nmax,40,820),130,y+Q.nY);
+    if(G.condena){x.font=F(600,Q.cf);wrapLines(x,`Condena: ${G.condena}`,820).slice(0,2).forEach((l,i)=>x.fillText(l,130,y+Q.cY+i*Q.cl));}
     x.textAlign='center';
+  }else if(ph){
+    const cy=polaroid(150,460,780,540,170,30);
+    x.fillStyle=INK;x.fillText(fitText('SE TERMINÓ LA PREVIA',DISP,56,36,700),W/2,cy+80);
+    x.font=F(600,36);x.fillText(`${G.players.length} jugadores, ${G.count} cartas`,W/2,cy+136);
+    x.fillStyle=BUTTER;box(0,1300,W,H-1300,[64,64,0,0]);
   }else{
     x.fillStyle=INK;x.font=DISP(110);['SE TERMINÓ','LA PREVIA'].forEach((l,i)=>x.fillText(l,W/2,620+i*130));
     x.font=F(600,48);x.fillText(`${G.players.length} jugadores, ${G.count} cartas`,W/2,900);
     x.fillStyle=BUTTER;box(0,1100,W,H-1100,[64,64,0,0]);
   }
-  x.fillStyle=INK;x.font=F(800,44);x.fillText('¿Revancha? Jueguen Previa',W/2,H-80);
+  x.fillStyle=INK;x.font=F(800,tight?40:44);x.fillText('¿Revancha? Jueguen Previa',W/2,tight?H-60:H-80);
+  // Premio Pro: marco dorado alrededor de toda la imagen
+  if(gold){x.lineWidth=28;x.strokeStyle=GOLD(0,0,W,H);x.strokeRect(14,14,W-28,H-28);x.lineWidth=4;x.strokeStyle=INK;x.strokeRect(30,30,W-60,H-60);}
   return await new Promise(r=>cv.toBlob(r,'image/png'));
 }
 function openShare(sc){
@@ -1877,20 +1976,29 @@ function openShare(sc){
     <div class="menu">
       <button type="button" class="primary" id="shGo" disabled>Compartir</button>
       <a class="secondary" id="shSave" hidden download="previa-resultado.png">Guardar imagen</a>
+      <button type="button" class="secondary photobtn" id="shPh">${ic('camera')}<span></span></button>
       <button type="button" class="secondary" onclick="closeSheet()">Cerrar</button>
-    </div>`,async b=>{
-    const go=b.querySelector('#shGo'),prev=b.querySelector('#shPrev'),save=b.querySelector('#shSave');
-    let blob=null;
-    try{blob=await shareImage(sc);}catch(e){}
-    const file=blob?new File([blob],'previa-resultado.png',{type:'image/png'}):null;
+    </div>`,b=>{
+    const go=b.querySelector('#shGo'),prev=b.querySelector('#shPrev'),save=b.querySelector('#shSave'),phb=b.querySelector('#shPh');
     const can=d=>{try{return !!(navigator.canShare&&navigator.canShare(d));}catch(e){return false;}};
-    if(blob){
-      const url=URL.createObjectURL(blob);
-      prev.innerHTML=`<img src="${url}" alt="Imagen del resultado para compartir">`;
-      save.href=url;save.hidden=false;
-    }else prev.innerHTML='<span>No se pudo generar la imagen en este teléfono.</span>';
     const withLink=APP_LINK?{url:APP_LINK}:{};
-    go.disabled=false;
+    let file=null,url=null;
+    // Genera la imagen; se vuelve a llamar cuando agregan o cambian la foto del grupo
+    const build=async()=>{
+      go.disabled=true;
+      phb.querySelector('span').textContent=G.photo?'Cambiar foto del grupo':'Agregar foto del grupo';
+      if(url){URL.revokeObjectURL(url);url=null;}
+      let blob=null;
+      try{blob=await shareImage(sc);}catch(e){}
+      file=blob?new File([blob],'previa-resultado.png',{type:'image/png'}):null;
+      if(blob){
+        url=URL.createObjectURL(blob);
+        prev.innerHTML=`<img src="${url}" alt="Imagen del resultado para compartir">`;
+        save.href=url;save.hidden=false;
+      }else{prev.innerHTML='<span>No se pudo generar la imagen en este teléfono.</span>';save.hidden=true;}
+      go.disabled=false;
+    };
+    phb.onclick=()=>pickPhoto(()=>{prev.innerHTML='<span>Preparando la imagen…</span>';build();});
     go.onclick=async()=>{
       try{
         if(file&&can({files:[file],text:txt}))await navigator.share({files:[file],text:txt,...withLink});
@@ -1900,6 +2008,7 @@ function openShare(sc){
         else toast('Este navegador no permite compartir. Guarden la imagen.');
       }catch(e){if(e&&e.name!=='AbortError')toast('No se pudo compartir');}
     };
+    build();
   });
 }
 
