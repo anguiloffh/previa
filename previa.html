@@ -112,6 +112,9 @@ a.secondary{display:flex;align-items:center;justify-content:center;text-decorati
 .passnext{margin:16px 0 0;font-size:14px;font-weight:700;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px}
 .passnext .mini{width:26px;height:26px}
 .passnext .mini .ic{width:17px;height:17px}
+.pmark{flex:0 0 44px;height:44px;border-radius:50%;border:none;background:transparent;display:grid;place-items:center;opacity:.35}
+.pmark .ic{width:26px;height:26px}
+.pmark[aria-pressed="true"]{background:var(--must);opacity:1;box-shadow:inset 0 0 0 2px var(--ink)}
 .rm{flex:0 0 44px;height:44px;border-radius:50%;border:none;background:transparent;color:var(--muted);font-size:17px}
 .couple{border-radius:20px;padding:10px;margin-bottom:10px;background:var(--cream)}
 .couple input[type=text]{background:var(--butter2)}
@@ -1117,7 +1120,10 @@ function fakeAd(done){
 let D=null;
 function openPlayers(id){
   const saved=S.last[id]&&S.last[id].draft;
-  D=saved?JSON.parse(JSON.stringify(saved)):{mode:id,names:['','',''],prota:'',partner:'',sol:'soltero',couples:[['',''],['','']]};
+  D=saved?JSON.parse(JSON.stringify(saved)):{mode:id,names:['','',''],pi:0,partner:'',sol:'soltero',couples:[['',''],['','']]};
+  // Borradores antiguos: el protagonista iba en un campo aparte; pasa a ser el jugador 1
+  if(D.pi===undefined){if(D.prota){D.names.unshift(D.prota);if(D.avs)D.avs.unshift(null);}D.pi=0;}
+  delete D.prota;
   const okAv=a=>avList().includes(a);
   D.avs=D.names.map((_,i)=>okAv(D.avs&&D.avs[i])?D.avs[i]:AV[(i+1)%AV.length]);
   D.cavs=D.couples.map((c,ci)=>[0,1].map(j=>okAv(D.cavs&&D.cavs[ci]&&D.cavs[ci][j])?D.cavs[ci][j]:AV[(ci*2+j)%AV.length]));
@@ -1125,7 +1131,6 @@ function openPlayers(id){
   renderPlayers();show('v-players');
 }
 function syncDraft(){
-  const pn=$('#prName');if(pn)D.prota=pn.value.trim();
   const pp=$('#prPartner');if(pp)D.partner=pp.value.trim();
   if(MODES[D.mode].couples){
     document.querySelectorAll('#plList input').forEach(i=>{D.couples[+i.dataset.c][+i.dataset.j]=i.value;});
@@ -1146,15 +1151,13 @@ function renderPlayers(){
   const chip=$('#plMode');chip.innerHTML=chipHTML(D.mode);modeVars(chip,D.mode);
   let ex='';
   if(m.prota==='desp'){
-    ex=`<label class="label" for="prName">¿Quién se casa?</label><input type="text" id="prName" maxlength="16" placeholder="Nombre" value="${esc(D.prota)}" autocomplete="off">
-      <span class="label">Es despedida de</span><div class="seg" id="solSeg"><button type="button" data-v="soltero" aria-pressed="${D.sol==='soltero'}">Soltero</button><button type="button" data-v="soltera" aria-pressed="${D.sol==='soltera'}">Soltera</button></div>
+    ex=`<span class="label">Es despedida de</span><div class="seg" id="solSeg"><button type="button" data-v="soltero" aria-pressed="${D.sol==='soltero'}">Soltero</button><button type="button" data-v="soltera" aria-pressed="${D.sol==='soltera'}">Soltera</button></div>
       <label class="label" for="prPartner">¿Con quién se casa?</label><p class="help">Opcional. Personaliza las preguntas.</p><input type="text" id="prPartner" maxlength="16" placeholder="Nombre de la pareja" value="${esc(D.partner)}" autocomplete="off">`;
-  }else if(m.prota==='cumple'){
-    ex=`<label class="label" for="prName">¿Quién está de cumpleaños?</label><input type="text" id="prName" maxlength="16" placeholder="Nombre" value="${esc(D.prota)}" autocomplete="off">`;
   }
   $('#plExtra').innerHTML=ex;
   const ss=$('#solSeg');if(ss)ss.querySelectorAll('button').forEach(b=>b.onclick=()=>{syncDraft();D.sol=b.dataset.v;renderPlayers();});
-  $('#plListLabel').textContent=m.couples?'Parejas':(m.prota?'El resto del grupo':'Jugadores');
+  $('#plListLabel').textContent=m.couples?'Parejas':'Jugadores';
+  if(m.prota&&!(D.pi>=0&&D.pi<D.names.length))D.pi=0;
   const list=$('#plList');list.innerHTML='';
   if(m.couples){
     D.couples.forEach((c,ci)=>{
@@ -1168,17 +1171,22 @@ function renderPlayers(){
     $('#plAdd').textContent='Agregar pareja';$('#plAdd').disabled=D.couples.length>=8;
     $('#plCount').textContent=`${D.couples.length} parejas. Máximo 8.`;
   }else{
-    const off=m.prota?1:0;
+    const who=m.prota==='desp'?'quien se casa':'quien está de cumpleaños';
     D.names.forEach((n,i)=>{
       const r=document.createElement('div');r.className='prow';
-      r.innerHTML=`${avEl(D.avs[i],i+off,`n${i}`)}<input type="text" maxlength="16" placeholder="Nombre" data-i="${i}" value="${esc(n)}" autocomplete="off" aria-label="Jugador ${i+1}"><button type="button" class="rm" aria-label="Quitar">✕</button>`;
-      r.querySelector('.rm').onclick=()=>{syncDraft();D.names.splice(i,1);D.avs.splice(i,1);renderPlayers();};
+      const isP=m.prota&&i===D.pi;
+      // Quien protagoniza lleva la torta (o el anillo) como ícono y no se puede cambiar
+      const av=isP?`<span class="av" style="--avbg:${COL[i%COL.length]}">${ic(protaAv())}</span>`:avEl(D.avs[i],i,`n${i}`);
+      const pb=m.prota?`<button type="button" class="pmark" aria-pressed="${isP}" aria-label="${isP?`Es ${who}`:`Marcar como ${who}`}" title="${isP?`Es ${who}`:`Marcar como ${who}`}">${ic(protaAv())}</button>`:'';
+      r.innerHTML=`${av}<input type="text" maxlength="16" placeholder="${isP?(m.prota==='desp'?'Quien se casa':'Quien está de cumpleaños'):'Nombre'}" data-i="${i}" value="${esc(n)}" autocomplete="off" aria-label="Jugador ${i+1}${isP?`, ${who}`:''}">${pb}<button type="button" class="rm" aria-label="Quitar">✕</button>`;
+      if(pb)r.querySelector('.pmark').onclick=()=>{syncDraft();D.pi=i;renderPlayers();};
+      r.querySelector('.rm').onclick=()=>{syncDraft();D.names.splice(i,1);D.avs.splice(i,1);if(i<D.pi)D.pi--;else if(i===D.pi)D.pi=0;renderPlayers();};
       r.querySelector('input').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addPlayer();}});
       list.appendChild(r);
     });
-    const max=16-off;
+    const max=16;
     $('#plAdd').textContent='Agregar jugador';$('#plAdd').disabled=D.names.length>=max;
-    $('#plCount').textContent=`Hasta 16 jugadores${m.prota?', contando a quien protagoniza':''}.`;
+    $('#plCount').textContent='Hasta 16 jugadores.';
   }
   list.querySelectorAll('button.av').forEach(b=>b.onclick=()=>{
     syncDraft();const k=b.dataset.avk;
@@ -1187,13 +1195,15 @@ function renderPlayers(){
     renderPlayers();
     const nb=document.querySelector(`#plList button.av[data-avk="${k}"]`);if(nb)nb.focus();
   });
-  $('#plHelp').textContent=`Escríbanlos en el orden en que están sentados: el teléfono se va pasando en ese orden${m.prota?' y parte con quien protagoniza':''}. Toquen un ícono para cambiarlo.`;
+  $('#plHelp').textContent=m.prota
+    ?`${m.prota==='desp'?'El del anillo es quien se casa':'El de la torta es quien está de cumpleaños'} y parte el juego. Si no es el primero, toquen ${m.prota==='desp'?'el anillo':'la torta'} de su fila. Escríbanlos en el orden en que están sentados.`
+    :'Escríbanlos en el orden en que están sentados: el teléfono se va pasando en ese orden. Toquen un ícono para cambiarlo.';
   $('#plErr').textContent='';
 }
 function addPlayer(){
   syncDraft();const m=MODES[D.mode];
   if(m.couples){if(D.couples.length<8){D.couples.push(['','']);const a=freeAv();D.cavs.push([a,AV[(AV.indexOf(a)+1)%AV.length]]);}}
-  else if(D.names.length<16-(m.prota?1:0)){D.names.push('');D.avs.push(freeAv());}
+  else if(D.names.length<16){D.names.push('');D.avs.push(freeAv());}
   renderPlayers();
   const ins=document.querySelectorAll('#plList input');if(ins.length)(m.couples?ins[ins.length-2]:ins[ins.length-1]).focus();
 }
@@ -1205,9 +1215,8 @@ $('#plNext').onclick=()=>{
     if(full.length<2){$('#plErr').textContent='Escriban al menos 2 parejas completas.';return;}
     all=full.flat();
   }else{
-    const others=D.names.map(n=>n.trim()).filter(Boolean);
-    if(m.prota&&!D.prota){$('#plErr').textContent=m.prota==='desp'?'Escriban el nombre de quien se casa.':'Escriban el nombre de quien está de cumpleaños.';return;}
-    all=m.prota?[D.prota,...others]:others;
+    if(m.prota&&!(D.names[D.pi]||'').trim()){$('#plErr').textContent=m.prota==='desp'?'Escriban el nombre de quien se casa (la fila con el anillo).':'Escriban el nombre de quien está de cumpleaños (la fila con la torta).';return;}
+    all=D.names.map(n=>n.trim()).filter(Boolean);
     if(all.length<2){$('#plErr').textContent='Se necesitan al menos 2 jugadores.';return;}
   }
   const low=all.map(x=>x.toLowerCase());
@@ -1367,8 +1376,11 @@ function startGame(){
   if(m.couples){
     D.couples.forEach((c,ci)=>{const a=c[0].trim(),b=c[1].trim();if(!a||!b)return;names.push(a,b);avs.push(D.cavs[ci][0],D.cavs[ci][1]);partners[a]=b;partners[b]=a;});
   }else{
-    D.names.forEach((n,i)=>{if(n.trim()){names.push(n.trim());avs.push(D.avs[i]);}});
-    if(m.prota){prota=D.prota;partner=D.partner||null;names.unshift(prota);avs.unshift(protaAv());}
+    D.names.forEach((n,i)=>{if(n.trim()){names.push(n.trim());avs.push(m.prota&&i===D.pi?protaAv():D.avs[i]);}});
+    if(m.prota){
+      prota=D.names[D.pi].trim();partner=D.partner||null;
+      const k=names.indexOf(prota);names=names.slice(k).concat(names.slice(0,k));avs=avs.slice(k).concat(avs.slice(0,k));
+    }
   }
   const cfg=JSON.parse(JSON.stringify(CFG));
   const lv0=lvlN();

@@ -18,7 +18,7 @@ function jugar(t,mode,rounds,names,cortarEn,cfg){
   const {w,d,c}=t;
   w.eval('goHome()');
   c(d.querySelectorAll('#modes .mode')[Object.keys(w.eval('MODES')).indexOf(mode)]);
-  w.eval(`syncDraft();D.names=${JSON.stringify(names)};D.prota='Pato';renderPlayers();`);
+  w.eval(`syncDraft();D.names=${JSON.stringify(names)};D.pi=0;renderPlayers();`);
   c(d.querySelector('#plNext'));
   w.eval(`CFG.rounds=${rounds};Object.assign(CFG,${JSON.stringify(cfg||{})})`);
   c(d.querySelector('#stStart'));

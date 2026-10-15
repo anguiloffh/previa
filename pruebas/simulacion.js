@@ -15,7 +15,7 @@ function run(mode,cfgMod,players,seed){
   click(tiles[idx]);
   w.eval(`syncDraft();`);
   if(mode==='parejas') w.eval(`D.couples=${JSON.stringify(players)};renderPlayers();`);
-  else w.eval(`D.names=${JSON.stringify(players)};D.prota='Pato';D.partner='Ana';renderPlayers();`);
+  else w.eval(`D.names=[${['cumple','despedida'].includes(mode)?"'Pato',":''}...${JSON.stringify(players)}];D.pi=0;D.partner='Ana';renderPlayers();`);
   click($('#plNext'));
   if($('#plErr').textContent) {console.log('ERR players',$('#plErr').textContent);return;}
   w.eval(`Object.assign(CFG,${JSON.stringify(cfgMod)});`);if(!d.querySelector('#stQuick .toggles .tog'))errs.push('esc not under spice');

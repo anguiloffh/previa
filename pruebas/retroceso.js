@@ -4,7 +4,7 @@ const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'h
 const w=dom.window,d=w.document;const c=e=>e.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
 c(d.querySelector('#ageYes'));w.eval('S.pro=true;S.xp=400;goHome()');
 c(d.querySelectorAll('#modes .mode')[Object.keys(w.eval('MODES')).indexOf(mode)]);
-w.eval("syncDraft();D.names=['A','B','C','D','E','F'];D.prota='P';renderPlayers();");
+w.eval("syncDraft();D.names=['P','A','B','C','D','E','F'];D.pi=0;renderPlayers();");
 d.querySelectorAll('#plList input').forEach((i,k)=>{if(!i.value)i.value='Z'+k});
 c(d.querySelector('#plNext'));w.eval(`Object.assign(CFG,${JSON.stringify(cfg)})`);c(d.querySelector('#stStart'));
 const last=()=>[...d.querySelectorAll('#stage .layer')].pop();
