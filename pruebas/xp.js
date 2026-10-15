@@ -14,13 +14,13 @@ function nuevo(){
   return {w,d,c};
 }
 // Juega una partida completa eligiendo siempre la primera opción
-function jugar(t,mode,rounds,names,cortarEn){
+function jugar(t,mode,rounds,names,cortarEn,cfg){
   const {w,d,c}=t;
   w.eval('goHome()');
   c(d.querySelectorAll('#modes .mode')[Object.keys(w.eval('MODES')).indexOf(mode)]);
   w.eval(`syncDraft();D.names=${JSON.stringify(names)};D.prota='Pato';renderPlayers();`);
   c(d.querySelector('#plNext'));
-  w.eval(`CFG.rounds=${rounds}`);
+  w.eval(`CFG.rounds=${rounds};Object.assign(CFG,${JSON.stringify(cfg||{})})`);
   c(d.querySelector('#stStart'));
   for(let i=0;i<3000&&!d.querySelector('#v-game').hidden;i++){
     if(cortarEn&&w.eval('G.count')>=cortarEn){w.eval('finish()');break;}
@@ -95,6 +95,16 @@ function jugar(t,mode,rounds,names,cortarEn){
   const logros=t.w.eval('S.ach.reduce((a,id)=>a+TIERS[ACH.find(x=>x.id===id).tier].xp,0)'),partidas=log[4]-logros;
   ok(t.w.eval(`level(${partidas}).n`)<=3,`la XP de 5 partidas cortas, sin logros, deja como máximo en el nivel 3 (${partidas} XP)`);
   console.log('5 partidas de 5 rondas:',partidas,'XP de partidas +',logros,'XP de logros (',t.w.eval('S.ach.join(", ")'),') → nivel',t.w.eval('level(S.xp).n'));
+}
+
+// 6. Una sola partida, aunque sea larga, sin alcohol y con el picante al máximo, no sube al nivel 2
+{
+  const t=nuevo();
+  t.w.eval('S.pro=true');
+  jugar(t,'clasico',8,['Ana','Beto','Caro'],0,{spice:4,drink:'sin'});
+  ok(t.w.eval('level(S.xp).n')===1,`una partida sola no sube al nivel 2 (quedó con ${t.w.eval('S.xp')} XP)`);
+  ok(!t.w.eval("S.ach.includes('sincensura')")&&!t.w.eval("S.ach.includes('sano')"),'Sin censura y Previa sana piden 3 partidas');
+  console.log('Partida de 8 rondas, sin alcohol y Sin censura:',t.w.eval('S.xp'),'XP (',t.w.eval('S.ach.join(", ")'),') → nivel',t.w.eval('level(S.xp).n'));
 }
 
 console.log(fallas?`${fallas} fallas`:'Todo bien: el sistema de XP funciona como se espera.');

@@ -46,6 +46,10 @@ button{font:inherit;cursor:pointer;color:inherit}
 .tagline{text-align:center;font-weight:700;font-size:17px;margin:12px 0 24px}
 
 /* Nivel */
+.lvl.later{background:var(--ink);color:var(--butter);margin-bottom:12px}
+.lvl.later .lvlnum{background:var(--must)}
+.lvl.later .lvlnum .ic{width:26px;height:26px}
+.lvl.later small{color:var(--butter);opacity:.8}
 .lvl{display:flex;align-items:center;gap:12px;width:100%;padding:10px 18px 10px 10px;background:var(--cream);border:none;border-radius:28px;text-align:left;margin:0 0 22px}
 .lvlnum{flex:0 0 40px;height:40px;border-radius:50%;background:var(--must);display:grid;place-items:center;font-family:var(--disp);font-size:16px}
 .lvlinfo{flex:1;min-width:0}
@@ -154,6 +158,7 @@ details.more[open] summary::after{content:"−"}
 .age .swirl{width:1500px;height:1500px;margin-left:-750px;top:calc(50% - 750px)}
 .age p{font-size:18px;font-weight:500;line-height:1.45;text-align:center;max-width:30ch;margin:18px auto 28px}
 .age .err{text-align:center;color:var(--ink);font-weight:800;font-size:15px;margin:12px auto 0}
+.sheet p mark{background:none;color:inherit;padding:0;font-weight:800}
 .sub mark,.dlist mark,.rul mark{background:var(--must);color:inherit;padding:0 5px;border-radius:6px}
 .layer.t-secreta .sub mark,.layer.t-secretafin .sub mark{color:var(--ink)}
 
@@ -161,8 +166,10 @@ details.more[open] summary::after{content:"−"}
 .gameview{position:fixed;inset:0;overflow:hidden;background:var(--ink);color:var(--gfg,var(--ink));z-index:10}
 #stage{position:absolute;inset:0}
 .layer{position:absolute;inset:0;background:var(--cbg);color:var(--cfg);display:flex;flex-direction:column;justify-content:center;
-  padding:calc(env(safe-area-inset-top,0px) + 76px) 20px calc(env(safe-area-inset-bottom,0px) + 74px);overflow-x:hidden;overflow-y:auto}
-.layer > .swirl{top:calc(50% - 450px);fill:var(--csw)}
+  padding:calc(env(safe-area-inset-top,0px) + 76px) 20px max(calc(env(safe-area-inset-bottom,0px) + 74px),calc(var(--chipsh,0px) + 12px));overflow-x:hidden;overflow-y:auto}
+/* El remolino va recortado en su propia caja: si sobresale, la carta no se puede desplazar */
+.swbox{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.swbox > .swirl{top:calc(50% - 450px);fill:var(--csw)}
 .inner{position:relative;max-width:560px;width:100%;margin:auto}
 .card{background:var(--cream);color:var(--ink);border-radius:32px;padding:24px 22px 26px}
 .kind{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 5px 8px;background:var(--pill);color:var(--ink);border-radius:999px;font-family:var(--disp);font-size:13px;line-height:1.2;text-transform:uppercase;margin-bottom:16px;max-width:100%}
@@ -207,8 +214,11 @@ details.more[open] summary::after{content:"−"}
 #gScore{background:var(--ink);color:var(--butter)}
 .gbar .gleft,.gbar .gright{display:flex;gap:8px}
 .gbar .ground{font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;text-align:center;white-space:nowrap}
-.chips{position:absolute;left:0;right:0;bottom:0;z-index:5;pointer-events:none;padding:10px 16px calc(env(safe-area-inset-bottom,0px) + 14px);display:flex;flex-wrap:wrap;gap:6px}
-.chip{pointer-events:auto;display:inline-flex;align-items:center;gap:6px;min-height:36px;font-size:12px;font-weight:600;padding:5px 12px 5px 6px;border:none;border-radius:999px;background:var(--cream);color:var(--ink);text-align:left}
+/* Una sola fila que se desliza hacia el lado: siempre ocupa el mismo alto */
+.chips{position:absolute;left:0;right:0;bottom:0;z-index:5;pointer-events:none;padding:10px 16px calc(env(safe-area-inset-bottom,0px) + 14px);display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips:has(.chip){pointer-events:auto}
+.chip{flex:0 0 auto;white-space:nowrap;pointer-events:auto;display:inline-flex;align-items:center;gap:6px;min-height:36px;font-size:12px;font-weight:600;padding:5px 12px 5px 6px;border:none;border-radius:999px;background:var(--cream);color:var(--ink);text-align:left}
 .chip .ic{width:22px;height:22px}
 .chip b{font-weight:800}
 
@@ -302,11 +312,12 @@ details.more[open] summary::after{content:"−"}
 .endbtns{margin-top:26px}
 .photobtn{display:flex;align-items:center;justify-content:center;gap:10px}
 .photobtn .ic{width:26px;height:26px}
+.goldsel{justify-content:center}
+.goldsel button{background:var(--butter)}
+.btn.photobtn{display:flex;align-items:center;justify-content:center;gap:8px}
 .phnote{margin:8px 4px 0;font-size:13px;color:var(--muted);text-align:center}
-.polaroid{margin:0 auto;max-width:280px;background:var(--cream);padding:12px 12px 0;border-radius:6px;box-shadow:0 0 0 3px var(--ink),9px 9px 0 3px var(--ink)}
-.polaroid.gold{background:linear-gradient(135deg,#F7D774,#EBAF35 45%,#F9E3A0 70%,#C98E1A)}
-.polaroid img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;box-shadow:0 0 0 2px var(--ink)}
-.polaroid figcaption{font-family:var(--disp);font-size:15px;text-transform:uppercase;text-align:center;padding:12px 4px 14px;overflow-wrap:anywhere}
+.phprev{margin:0 auto;max-width:220px}
+.phprev img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:20px;box-shadow:0 0 0 3px var(--ink),8px 8px 0 3px var(--ink)}
 .phact{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px}
 
 /* Toast y anuncio */
@@ -359,6 +370,7 @@ details.more[open] summary::after{content:"−"}
 <symbol id="i-rocket" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M19 34h10l-5 12z" fill="#EBAF35"/><path d="M16 22l-8 9v6l8-4zM32 22l8 9v6l-8-4z" fill="#E14936"/><path d="M24 2c8 6 11 16 9 32H15C13 18 16 8 24 2z" fill="#FDF3E0"/><circle cx="24" cy="17" r="4.5" fill="#83AFF1"/></g></symbol>
 <symbol id="i-partyhat" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M24 7l14 34H10z" fill="#44AEAA"/><circle cx="24" cy="6" r="4" fill="#EBAF35"/></g><g fill="#E14936"><circle cx="22" cy="20" r="2.6"/><circle cx="28" cy="29" r="2.6"/><circle cx="18" cy="34" r="2.6"/></g><path d="M9 41h30" stroke="#1B1A1A" stroke-width="3" stroke-linecap="round"/></symbol>
 <symbol id="i-frame" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><rect x="8" y="4" width="32" height="40" rx="2" fill="#EBAF35"/><rect x="12" y="8" width="24" height="24" fill="#83AFF1"/></g><circle cx="29" cy="15" r="3" fill="#FDF3E0"/><path d="M12 32l8-9 6 6 4-3 6 6z" fill="#44AEAA"/></symbol>
+<symbol id="i-gallery" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><rect x="12" y="5" width="32" height="28" rx="4" fill="#EBAF35"/><rect x="4" y="14" width="32" height="28" rx="4" fill="#FDF3E0"/></g><circle cx="27" cy="22" r="3.2" fill="#E14936"/><path d="M6.5 39.5l9-11 6 7 4-4 8 8z" fill="#44AEAA" stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"/></symbol>
 <symbol id="i-camera" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M16 14l3-6h10l3 6" fill="#EBAF35"/><rect x="4" y="14" width="40" height="27" rx="5" fill="#44AEAA"/><circle cx="24" cy="27" r="8.5" fill="#FDF3E0"/><circle cx="24" cy="27" r="4" fill="#83AFF1" stroke-width="2"/></g><circle cx="37" cy="20" r="2" fill="#FDF3E0"/></symbol>
 </svg>
 
@@ -383,6 +395,7 @@ details.more[open] summary::after{content:"−"}
     <p class="tagline">La noche empieza acá</p>
   </header>
   <section class="panel">
+    <button type="button" class="lvl later" id="homeLater" hidden></button>
     <button type="button" class="lvl" id="lvlBtn"></button>
     <h2 class="h2">¿Cómo juegan hoy?</h2>
     <div class="modes" id="modes"></div>
@@ -911,32 +924,32 @@ const REWARDS={
 };
 /* Anual y Para siempre ya tienen Ruleta y Caos, así que en los niveles 2 y 4 reciben otro premio. El Pase de noche mantiene los normales. */
 const REWARDS_PRO={
-  2:{ic:'frame',t:'Marco dorado',d:'La imagen para compartir y la foto del grupo llevan marco dorado.'},
+  2:{ic:'frame',t:'Marco dorado',d:'La imagen para compartir lleva marco y logo dorados. Se puede apagar al compartir.'},
   4:{ic:'gem',t:'Íconos Pro',d:'Diamante, lentes de sol, cohete y gorro de fiesta para los jugadores.'}
 };
 const rewardAt=n=>(proPlus()&&REWARDS_PRO[n])||REWARDS[n];
 const TIERS={1:{name:'Bronce',xp:25},2:{name:'Plata',xp:75},3:{name:'Oro',xp:200}};
 const ACH=[
   {id:'primera',tier:1,ic:'disco',name:'Primera previa',desc:'Terminen una partida.'},
-  {id:'sano',tier:1,ic:'drop',name:'Previa sana',desc:'Terminen una partida sin alcohol.'},
-  {id:'cumple',tier:1,ic:'cake',name:'Que los cumpla feliz',desc:'Jueguen el modo Cumpleaños.'},
-  {id:'altar',tier:1,ic:'ring',name:'Rumbo al altar',desc:'Jueguen una despedida.'},
-  {id:'cupido',tier:1,ic:'twohearts',name:'Cupido',desc:'Jueguen el modo Parejas.'},
-  {id:'multitud',tier:1,ic:'smiley',name:'Multitud',desc:'Jueguen con 10 personas o más.'},
-  {id:'ruleta',tier:1,ic:'dice',name:'Adicción a la ruleta',desc:'Giren la ruleta 10 veces.',prog:()=>[S.spins,10]},
+  {id:'sano',tier:1,ic:'drop',name:'Previa sana',desc:'Terminen 3 partidas sin alcohol.',prog:()=>[S.st.sano,3]},
+  {id:'cumple',tier:1,ic:'cake',name:'Que los cumpla feliz',desc:'Terminen un Cumpleaños de 8 rondas o más.'},
+  {id:'altar',tier:1,ic:'ring',name:'Rumbo al altar',desc:'Terminen una Despedida de 8 rondas o más.'},
+  {id:'cupido',tier:1,ic:'twohearts',name:'Cupido',desc:'Terminen una partida de Parejas con 3 parejas o más.'},
+  {id:'multitud',tier:1,ic:'smiley',name:'Multitud',desc:'Terminen una partida con 10 personas o más.'},
+  {id:'ruleta',tier:1,ic:'dice',name:'Adicción a la ruleta',desc:'Giren la ruleta 25 veces.',prog:()=>[S.spins,25]},
   {id:'maraton',tier:2,ic:'cassette',name:'Maratón',desc:'Terminen una partida de 12 rondas.'},
-  {id:'sincensura',tier:2,ic:'flame',name:'Sin censura',desc:'Terminen una partida con el picante al máximo.'},
-  {id:'caos',tier:2,ic:'spiral',name:'Caos total',desc:'Terminen una partida en modo Caos.'},
-  {id:'manoso',tier:2,ic:'swap',name:'Mañas',desc:'Usen 5 comodines en una misma partida.'},
+  {id:'sincensura',tier:2,ic:'flame',name:'Sin censura',desc:'Terminen 3 partidas de 8 rondas o más con el picante al máximo.',prog:()=>[S.st.sinc,3]},
+  {id:'caos',tier:2,ic:'spiral',name:'Caos total',desc:'Terminen una partida de Caos de 8 rondas o más.'},
+  {id:'manoso',tier:2,ic:'swap',name:'Mañas',desc:'Usen 8 comodines en una misma partida.'},
   {id:'remontada',tier:2,ic:'bolt',name:'Remontada',desc:'Gana alguien que iba último a mitad de la partida, con 4 jugadores o más.'},
-  {id:'sinmiedo',tier:2,ic:'star',name:'Sin miedo',desc:'Cumplan 30 retos en una misma partida.'},
+  {id:'sinmiedo',tier:2,ic:'star',name:'Sin miedo',desc:'Cumplan 40 retos en una misma partida.'},
   {id:'tres',tier:2,ic:'note',name:'Noche larga',desc:'Terminen 3 partidas el mismo día.'},
-  {id:'coleccion',tier:2,ic:'balloon',name:'Coleccionistas',desc:'Jueguen los 8 modos.',prog:()=>[S.st.modes.length,8]},
-  {id:'agente',tier:2,ic:'hearts',name:'Agentes secretos',desc:'Cumplan 5 misiones secretas.',prog:()=>[S.st.secret,5]},
-  {id:'imposible',tier:3,ic:'mic',name:'Misión imposible',desc:'Cumplan 5 misiones en una misma partida.'},
-  {id:'invicto',tier:3,ic:'shield',name:'Intocable',desc:'En una partida de 8 rondas o más, alguien cumple 8 retos y no paga ningún castigo.'},
+  {id:'coleccion',tier:2,ic:'balloon',name:'Coleccionistas',desc:'Terminen una partida en cada uno de los 8 modos.',prog:()=>[S.st.mdone.length,8]},
+  {id:'agente',tier:2,ic:'hearts',name:'Agentes secretos',desc:'Cumplan 10 misiones secretas.',prog:()=>[S.st.secret,10]},
+  {id:'imposible',tier:3,ic:'mic',name:'Misión imposible',desc:'Cumplan 8 misiones en una misma partida.'},
+  {id:'invicto',tier:3,ic:'shield',name:'Intocable',desc:'En una partida de 12 rondas, alguien cumple 12 retos y no paga ningún castigo.'},
   {id:'sobrevivientes',tier:3,ic:'skull',name:'Sobrevivientes',desc:'Terminen una partida Hardcore de 12 rondas.'},
-  {id:'casallena',tier:3,ic:'smiley',name:'Casa llena',desc:'Jueguen con 16 personas, el máximo.'},
+  {id:'casallena',tier:3,ic:'smiley',name:'Casa llena',desc:'Terminen una partida con 16 personas, el máximo.'},
   {id:'veterano',tier:3,ic:'crown',name:'Veteranos',desc:'Terminen 25 partidas.',prog:()=>[S.st.done,25]},
   {id:'milcartas',tier:3,ic:'vinyl',name:'Mil cartas',desc:'Jueguen 1.000 cartas en total.',prog:()=>[S.st.cards,1000]},
   {id:'horas',tier:3,ic:'phone',name:'Diez horas de previa',desc:'Sumen 10 horas de juego.',prog:()=>[Math.floor(S.st.ms/36e5),10]},
@@ -945,8 +958,8 @@ const ACH=[
 const fmt=n=>Number(n).toLocaleString('es-CL');
 
 /* ---------- Persistencia ---------- */
-const freshSt=()=>({cards:0,ms:0,secret:0,done:0,modes:[],day:'',dayN:0});
-function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,spins:0,last:{},st:freshSt()}}
+const freshSt=()=>({cards:0,ms:0,secret:0,done:0,modes:[],mdone:[],sano:0,sinc:0,day:'',dayN:0});
+function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,goldOff:false,later:null,spins:0,last:{},st:freshSt()}}
 let S=freshS();
 try{S=Object.assign(freshS(),JSON.parse(localStorage.getItem(KEY)||'{}'));S.st=Object.assign(freshSt(),S.st);}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -964,6 +977,7 @@ const isPro=()=>S.pro;
 const PLANS={noche:'Pase de noche',anual:'Anual',siempre:'Para siempre'};
 const proPlus=()=>S.pro&&(S.plan==='anual'||S.plan==='siempre'); // planes con premios propios
 const goldFrame=()=>proPlus()&&lvlN()>=2;
+const useGold=()=>goldFrame()&&!S.goldOff; // quien tiene el premio elige si comparte con o sin dorado
 function unlocked(id){
   const m=MODES[id];
   if(!m.lock) return true;
@@ -989,7 +1003,8 @@ function nextToast(){
 function openSheet(html,mount){
   $('#sheetBody').innerHTML=html;$('#sheet').hidden=false;
   if(mount) mount($('#sheetBody'));
-  const f=$('#sheetBody').querySelector('button');if(f)f.focus();
+  const f=$('#sheetBody').querySelector('button');if(f)f.focus({preventScroll:true});
+  $('#sheetBody').scrollTop=0;
 }
 function closeSheet(){$('#sheet').hidden=true;}
 $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet();});
@@ -1015,6 +1030,9 @@ function renderHome(){
     <small>${L.next?`${fmt(S.xp)}/${fmt(L.next)} XP`:`${fmt(S.xp)} XP`} · Logros ${S.ach.length}/${ACH.length}</small>
     <span class="bar"><i style="width:${L.pct}%"></i></span></span>`;
   $('#v-home').classList.toggle('gold',L.n>=9);
+  const LT=liveLater(),hl=$('#homeLater');hl.hidden=!LT;
+  if(LT){const n=LT.items.filter(d=>!d.done).length,h=Math.max(1,Math.ceil((LT.until-Date.now())/36e5));
+    hl.innerHTML=`<span class="lvlnum">${ic('vinyl')}</span><span class="lvlinfo"><strong>Para ${esc(LT.place)} · ${n} ${n===1?'pendiente':'pendientes'}</strong><small>Se borran solas en ${h} ${h===1?'hora':'horas'}</small></span>`;}
   const g=$('#modes');g.innerHTML='';
   Object.entries(MODES).forEach(([id,m],i)=>{
     const b=document.createElement('button');
@@ -1037,6 +1055,16 @@ $('#proBtn').onclick=()=>{
     <button type="button" class="secondary" id="unpro">Volver a la versión gratis</button>`,b=>{
     b.querySelectorAll('.plan').forEach(x=>x.onclick=()=>{S.plan=x.dataset.p;save();b.querySelectorAll('.plan').forEach(y=>y.setAttribute('aria-pressed',y.dataset.p===S.plan));});
     b.querySelector('#unpro').onclick=()=>{S.pro=false;S.plan=null;save();closeSheet();renderHome();};
+  });
+};
+$('#homeLater').onclick=()=>{
+  const LT=liveLater();if(!LT)return renderHome();
+  openSheet(`<h3>Para ${esc(LT.place)}</h3><p>Márquenlas a medida que se cumplan. La lista se borra sola 24 horas después de la partida.</p><ul class="dlist" id="hlt"></ul>${laterShareBtn('hltSh')}
+    <div class="menu" style="margin-top:8px"><button type="button" class="secondary" id="hltDel">Borrar la lista</button><button type="button" class="secondary" id="hltX">Cerrar</button></div>`,b=>{
+    laterList(b.querySelector('#hlt'),LT.items);
+    b.querySelector('#hltSh').onclick=()=>shareLater(LT.place,LT.items);
+    b.querySelector('#hltDel').onclick=()=>{S.later=null;save();closeSheet();renderHome();};
+    b.querySelector('#hltX').onclick=()=>{closeSheet();renderHome();};
   });
 };
 $('#lvlBtn').onclick=()=>{
@@ -1356,13 +1384,7 @@ function startGame(){
   else if(m.prota==='cumple'){G.protaLabel='Para quien cumple años';G.protaIc='cake';}
   $('#stage').innerHTML='';$('#gScore').hidden=!cfg.score;
   updLater();show('v-game');
-  if(names.length>=10) unlockAch('multitud');
-  if(names.length>=16) unlockAch('casallena');
-  if(D.mode==='parejas') unlockAch('cupido');
-  if(D.mode==='despedida') unlockAch('altar');
-  if(D.mode==='cumple') unlockAch('cumple');
   if(!S.st.modes.includes(D.mode)){S.st.modes.push(D.mode);save();}
-  if(S.st.modes.length>=8) unlockAch('coleccion');
   const passTxt=cfg.phone==='pasar'?' Cada carta dice quién la lee; después, el teléfono pasa a la siguiente persona de la lista.':cfg.phone==='persona'?` Parte leyendo ${names[0]}. Cuando una carta sea para otra persona, el juego avisa y se le pasa el teléfono.`:'';
   const sub=(cfg.score?`Cumplan retos para sumar puntos. Quien gane se corona y quien quede último paga la condena final.${cfg.powers?` Cada jugador parte con un ${pwTag('escudo')}${lv0>=6?` y un ${pwTag('rebote')}`:''}.`:''}`:'Toquen la pantalla para pasar de carta.')+passTxt;
   render({type:'inicio',html:`${names.length} jugadores, ${cfg.rounds} rondas. Que empiece la previa.`,sub,tap:true},innerWidth/2,innerHeight/2);
@@ -1529,8 +1551,8 @@ function showEvent(ev,x,y){
   const res=(ok,a,b)=>{
     ev.who.forEach(w=>{const P=pl(w);if(ok){if(G.cfg.score)P.pts+=4*gm();P.quests++;}else{P.fails++;P.pen++;}});
     if(ok){
-      G.questsOk++;if(G.questsOk>=5)unlockAch('imposible');
-      if(sec){S.st.secret++;save();if(S.st.secret>=5)unlockAch('agente');}
+      G.questsOk++;if(G.questsOk>=8)unlockAch('imposible');
+      if(sec){S.st.secret++;save();if(S.st.secret>=10)unlockAch('agente');}
     }
     const each=two?' cada uno':'';
     render({type:sec?'secretafin':'misionfin',html:`${whoH}: ${ok?(G.cfg.score?`+${4*gm()} puntos${each}`:rep(3)):pen(3)+each}.`,sub:ok?'Misión cumplida.':'Misión fallida. Queda en el registro.',tap:true},a,b);
@@ -1582,9 +1604,12 @@ function showChaos(x,y){const e=pickD(CHAOS.filter(c=>c.need()));render({type:'e
 /* ---------- Ruleta ---------- */
 function ruletaOpts(final){
   const me=G?maxEff():'fuerte',sp=G?G.cfg.spice:2,mv=G?G.cfg.mv:1;
+  // En la condena final o en la última carta no hay cartas siguientes: fuera los castigos que dependen de ellas
+  const ending=final||(G&&G.rounds*G.roundLen-G.count<=1);
   const o=['¡Salvación! No pasa nada','3 sorbos','2 sorbos y repartes 2','La mesa elige entre 1 y 3 sorbos'];
   if(me!=='leve'){
-    o.push('Vaso al seco','5 sorbos y eliges a quien se toma otros 5','3 sorbos ahora y 3 en la próxima carta');
+    o.push('Vaso al seco','5 sorbos y eliges a quien se toma otros 5');
+    if(!ending)o.push('3 sorbos ahora y 3 en la próxima carta');
     if(!G||G.cfg.drink!=='sin')o.push('Un shot de lo que elija la mesa');
     if(sp>=3)o.push('Leer en voz alta tu último chat con quien elija la mesa','Foto con tu peor cara en tu historia por una hora');
   }
@@ -1592,7 +1617,7 @@ function ruletaOpts(final){
   if(sp>=4&&me!=='leve')o.push('La mesa dicta un mensaje y lo mandas a tu último chat','Tu fondo de pantalla lo elige la mesa hasta mañana');
   if(G&&G.mode==='hardcore'){
     o.push('La mesa elige un contacto y le mandas un audio cantando','Respondes con la verdad cualquier pregunta que te haga la mesa','Subes la historia que dicte la mesa por una hora','Pasas tu celular desbloqueado a la mesa por 15 segundos');
-    if(G.cfg.powers)o.push('Pierdes todos tus comodines');
+    if(G.cfg.powers&&!ending)o.push('Pierdes todos tus comodines');
   }
   if(mv>=1)o.push('Bailar 30 segundos la canción que elija la mesa');
   if(mv>=2)o.push('Salir a la puerta y gritar «¡viva la previa!»');
@@ -1602,7 +1627,7 @@ function ruletaOpts(final){
 function spin(box,done,final){
   const opts=shuffle(ruletaOpts(final));let i=0,delay=45;const end=Date.now()+2300;
   box.classList.remove('done');
-  S.spins++;save();if(S.spins>=10)unlockAch('ruleta');
+  S.spins++;save();if(S.spins>=25)unlockAch('ruleta');
   if(reduceMotion){box.textContent=rnd(opts);box.classList.add('done');done&&done();return;}
   const tick=()=>{box.textContent=opts[i++%opts.length];if(Date.now()<end){delay*=1.13;setTimeout(tick,delay);}else{box.classList.add('done');done&&done();}};
   tick();
@@ -1636,7 +1661,7 @@ function render(c,x,y){
   let topLine='';
   if(c.passTo)topLine=`<div class="reader pass">${ic('phone','sm')} Para ${avOf(c.reader)}<b>${esc(c.reader)}</b>: pásenle el teléfono</div>`;
   else if(c.reader)topLine=`<div class="reader">Lee ${avOf(c.reader)}<b>${esc(c.reader)}</b></div>`;
-  layer.innerHTML=`${SWIRL}<div class="inner">
+  layer.innerHTML=`<div class="swbox">${SWIRL}</div><div class="inner">
     ${topLine}
     <div class="card">
       <div class="kind">${ic(icn)}<span>${label}</span></div>
@@ -1729,7 +1754,7 @@ $('#gBack').onclick=()=>{
 };
 function usePower(k,name,penK,x,y){
   const P=pl(name);if(!P.pw[k])return;
-  P.pw[k]--;P.used++;G.powersUsed++;if(G.powersUsed>=5)unlockAch('manoso');
+  P.pw[k]--;P.used++;G.powersUsed++;if(G.powersUsed>=8)unlockAch('manoso');
   if(k==='escudo'){toast(`${name} usa un escudo y se salva`);next(x,y);}
   else if(k==='rebote'){
     const q=pickM(G.players.filter(o=>o.name!==name));q.pen++;
@@ -1739,15 +1764,20 @@ function usePower(k,name,penK,x,y){
 function updBar(){
   $("#gRound").textContent=`Ronda ${G.round}/${G.rounds}`;
   const evs=G.events.filter(e=>e.kind==='regla'||e.kind==='mision').sort((a,b)=>a.due-b.due).slice(0,4);
-  $('#gChips').innerHTML=evs.map((e,i)=>`<button type="button" class="chip" data-i="${i}">${ic(e.kind==='regla'?'mic':'cassette')}<span><b>${e.kind==='regla'?'Regla':'Side quest'}:</b> ${esc(e.kind==='regla'?e.label:e.who.join(' y '))} · ${remTxt(e)}</span></button>`).join('');
+  $('#gChips').innerHTML=evs.map((e,i)=>`<button type="button" class="chip" data-i="${i}">${ic(e.kind==='regla'?'mic':'cassette')}<span><b>${esc(e.kind==='regla'?e.label:e.who.join(' y '))}</b> · ${shortRem(e)}</span></button>`).join('');
   $('#gChips').querySelectorAll('.chip').forEach(b=>b.onclick=ev=>{ev.stopPropagation();const e=evs[+b.dataset.i];
     openSheet(`<h3>${e.kind==='regla'?'Regla activa':'Side quest'}</h3><p>${e.text||esc(e.label)}</p><p><b>${remTxt(e)[0].toUpperCase()+remTxt(e).slice(1)}.</b></p><button type="button" class="secondary" onclick="closeSheet()">Volver al juego</button>`);});
+  fitChips();
 }
+// La carta deja libre el alto que ocupan los chips, para que nunca tapen los botones
+function fitChips(){$('#v-game').style.setProperty('--chipsh',$('#gChips').offsetHeight+'px');}
+addEventListener('resize',()=>{if(G&&!$('#v-game').hidden)fitChips();});
+function shortRem(e){const n=Math.max(0,e.due-G.count);return n===0?'última carta':n===1?'1 carta':`${n} cartas`;}
 function remTxt(e){const n=Math.max(0,e.due-G.count);return n===0?'termina con esta carta':n===1?'queda 1 carta':`quedan ${n} cartas`;}
 function updLater(){
   const b=$('#gLater');
   b.hidden=!G||G.cfg.later==='none';
-  if(G){const n=G.later.filter(d=>!d.done).length;b.innerHTML=`${ic('vinyl')} ${n}`;b.setAttribute('aria-label',`Para después: ${n} pendientes`);}
+  if(G&&!G.finished){const n=G.later.filter(d=>!d.done).length;b.innerHTML=`${ic('vinyl')} ${n}`;b.setAttribute('aria-label',`Para después: ${n} pendientes`);}
 }
 
 $('#stage').addEventListener('click',e=>{
@@ -1762,18 +1792,39 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ---------- Hojas del juego ---------- */
+/* Las pruebas para después quedan guardadas 24 horas en el inicio, o hasta que se cumplan todas */
+const LATER_MS=864e5;
+function keepLater(){if(G&&G.later.length){S.later={place:fill('{lugar}'),until:Date.now()+LATER_MS,items:G.later};save();}}
+function liveLater(){
+  const L=S.later;
+  if(L&&(Date.now()>L.until||!L.items.length||L.items.every(d=>d.done))){S.later=null;save();}
+  return S.later;
+}
+function laterText(place,arr){
+  const strip=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent;};
+  return `Pendientes para ${place} (Previa):\n\n${arr.filter(d=>!d.done).map((d,i)=>`${i+1}. ${strip(d.html)}`).join('\n')}`;
+}
+async function shareLater(place,arr){
+  const text=laterText(place,arr);
+  try{
+    if(navigator.share)await navigator.share({text});
+    else if(navigator.clipboard){await navigator.clipboard.writeText(text);toast('Lista copiada. Péguenla en el grupo.');}
+    else toast('Este navegador no permite compartir.');
+  }catch(e){if(e&&e.name!=='AbortError')toast('No se pudo compartir');}
+}
+const laterShareBtn=id=>`<button type="button" class="secondary photobtn" id="${id}">${ic('phone')}Mandar al grupo</button>`;
 function laterList(el,arr){
   if(!arr.length){el.innerHTML='<li class="empty">Todavía no hay nada. Ya va a llegar.</li>';return;}
   el.innerHTML='';
-  arr.forEach(d=>{const li=document.createElement('li');li.innerHTML=`<label><input type="checkbox" ${d.done?'checked':''}><span>${d.html}</span></label>`;li.querySelector('input').onchange=e=>{d.done=e.target.checked;updLater();};el.appendChild(li);});
+  arr.forEach(d=>{const li=document.createElement('li');li.innerHTML=`<label><input type="checkbox" ${d.done?'checked':''}><span>${d.html}</span></label>`;li.querySelector('input').onchange=e=>{d.done=e.target.checked;updLater();save();};el.appendChild(li);});
 }
-$('#gLater').onclick=()=>openSheet(`<h3>Para ${fill('{lugar}')}</h3><p>Márquenlas a medida que se cumplan.</p><ul class="dlist" id="lt"></ul><button type="button" class="secondary" onclick="closeSheet()">Volver al juego</button>`,b=>laterList(b.querySelector('#lt'),G.later));
+$('#gLater').onclick=()=>openSheet(`<h3>Para ${fill('{lugar}')}</h3><p>Márquenlas a medida que se cumplan. Al terminar quedan guardadas en el inicio por 24 horas.</p><ul class="dlist" id="lt"></ul>${laterShareBtn('ltSh')}<button type="button" class="secondary" onclick="closeSheet()">Volver al juego</button>`,b=>{laterList(b.querySelector('#lt'),G.later);b.querySelector('#ltSh').onclick=()=>shareLater(fill('{lugar}'),G.later);});
 $('#gScore').onclick=()=>openSheet(`<h3>Marcador</h3><p>Ronda ${G.round} de ${G.rounds}.${G.golden?' Ronda dorada: puntos dobles.':''}</p>
   <ul class="rank">${sortedPlayers().map((p,i)=>`<li>${avHTML(p.av,p.col,'mini')}<span class="n">${i+1}. ${esc(p.name)}<br><span class="p">${Object.keys(POW).map(k=>p.pw[k]?`${ic(POW[k].ic,'sm')} ${p.pw[k]}`:'').join(' ')||'Sin comodines'}</span></span><span class="s">${p.pts}</span></li>`).join('')}</ul>
   <button type="button" class="secondary" onclick="closeSheet()">Volver al juego</button>`);
 $('#gPause').onclick=()=>openSheet(`<h3>Pausa</h3><p>Ronda ${G.round} de ${G.rounds}. Van ${G.count} cartas.</p>
   <div class="menu"><button type="button" class="primary" id="pzR">Seguir jugando</button><button type="button" class="secondary" id="pzE">Terminar y ver resultados</button><button type="button" class="secondary" id="pzQ">Salir sin terminar</button></div>`,
-  b=>{b.querySelector('#pzR').onclick=closeSheet;b.querySelector('#pzE').onclick=()=>{closeSheet();finish();};b.querySelector('#pzQ').onclick=()=>{closeSheet();G.finished=true;bankStats();goHome();};});
+  b=>{b.querySelector('#pzR').onclick=closeSheet;b.querySelector('#pzE').onclick=()=>{closeSheet();finish();};b.querySelector('#pzQ').onclick=()=>{closeSheet();G.finished=true;keepLater();bankStats();goHome();};});
 
 /* ---------- Final ---------- */
 /* Suma cartas y tiempo jugado a las estadísticas, aunque la partida no se termine */
@@ -1785,6 +1836,7 @@ function bankStats(){
 }
 function finish(){
   if(G.finished)return;G.finished=true;
+  keepLater();
   const L0=level(G.xp0);
   const gain=gameXP(G.rounds,G.mode,!!G.completed,G.count,G.roundLen);
   S.xp+=gain;S.games++;save();
@@ -1796,16 +1848,27 @@ function finish(){
     save();
     unlockAch('primera');
     if(G.rounds>=12)unlockAch('maraton');
-    if(G.cfg.spice===4)unlockAch('sincensura');
-    if(G.cfg.drink==='sin')unlockAch('sano');
-    if(G.mode==='caos')unlockAch('caos');
+    const n=G.players.length,long=G.rounds>=8;
+    if(!S.st.mdone.includes(G.mode))S.st.mdone.push(G.mode);
+    if(G.cfg.drink==='sin')S.st.sano++;
+    if(G.cfg.spice===4&&long)S.st.sinc++;
+    save();
+    if(S.st.mdone.length>=8)unlockAch('coleccion');
+    if(S.st.sano>=3)unlockAch('sano');
+    if(S.st.sinc>=3)unlockAch('sincensura');
+    if(n>=10)unlockAch('multitud');
+    if(n>=16)unlockAch('casallena');
+    if(G.mode==='parejas'&&n>=6)unlockAch('cupido');
+    if(G.mode==='despedida'&&long)unlockAch('altar');
+    if(G.mode==='cumple'&&long)unlockAch('cumple');
+    if(G.mode==='caos'&&long)unlockAch('caos');
     if(G.mode==='hardcore'&&G.rounds>=12)unlockAch('sobrevivientes');
     if(S.st.dayN>=3)unlockAch('tres');
     if(S.st.done>=25)unlockAch('veterano');
     if(G.cfg.score){
       if(G.players.length>=4&&G.lastHalf&&G.lastHalf===leader())unlockAch('remontada');
-      if(G.players.reduce((a,q)=>a+q.done,0)>=30)unlockAch('sinmiedo');
-      if(G.rounds>=8&&G.players.some(q=>q.pen===0&&q.done>=8))unlockAch('invicto');
+      if(G.players.reduce((a,q)=>a+q.done,0)>=40)unlockAch('sinmiedo');
+      if(G.rounds>=12&&G.players.some(q=>q.pen===0&&q.done>=12))unlockAch('invicto');
     }
   }
   if(lvlN()>=10)unlockAch('inmortal');
@@ -1831,7 +1894,7 @@ function renderEnd(gain,L,unl,starsUp){
     h+=`<h2 class="endhead sm">Se terminó la previa</h2><p class="lead">${G.count} cartas jugadas</p>`;
   }
   h+='</header>';
-  if(G.later.length)p+=`<h3 class="secth">Para ${fill('{lugar}')}</h3><ul class="dlist" id="endLater"></ul>`;
+  if(G.later.length)p+=`<h3 class="secth">Para ${fill('{lugar}')}</h3><ul class="dlist" id="endLater"></ul>${laterShareBtn('endLaterSh')}<p class="phnote">También quedan guardadas en el inicio por 24 horas.</p>`;
   const newA=G.newAch.map(id=>ACH.find(a=>a.id===id)).filter(Boolean);
   const items=[...unl.map(u=>`Desbloquearon: ${u}`),...(starsUp>0?['¡Nueva estrella de leyenda!']:[]),...newA.map(a=>`Logro: ${a.name} (+${TIERS[a.tier].xp} XP)`)];
   p+=`<div class="xpbox"><strong>+${fmt(gain+G.achXP)} XP</strong>${G.achXP?` (partida +${fmt(gain)}, logros +${fmt(G.achXP)})`:''}. Nivel ${L.n}: ${L.name}${L.stars?` · ★ ${L.stars}`:''}
@@ -1840,7 +1903,7 @@ function renderEnd(gain,L,unl,starsUp){
   p+=`<h3 class="secth">Foto del grupo</h3><div id="phBox"></div>`;
   p+=`<div class="endbtns"><button type="button" class="primary" id="enShare">Compartir el resultado</button><button type="button" class="secondary" id="enAgain">Revancha</button><button type="button" class="secondary" id="enHome">Volver al inicio</button></div>`;
   v.innerHTML=h+`<section class="panel end-panel">${p}</section>`;
-  if(G.later.length)laterList($('#endLater'),G.later);
+  if(G.later.length){laterList($('#endLater'),G.later);$('#endLaterSh').onclick=()=>shareLater(fill('{lugar}'),G.later);}
   G.condena=null;
   const sp=$('#spinC');if(sp)sp.onclick=()=>{sp.disabled=true;spin($('#condena'),()=>{G.condena=$('#condena').textContent;},true);};
   renderPhoto();
@@ -1854,8 +1917,10 @@ function renderEnd(gain,L,unl,starsUp){
  La foto solo vive en la memoria de esta partida: no se guarda ni se envía a ningún lado.
  Únicamente aparece dentro de la imagen que el grupo decida compartir. */
 function dropPhoto(){if(G&&G.photo){URL.revokeObjectURL(G.photo.url);G.photo=null;}}
-function pickPhoto(done){
+// cam: true abre directo la cámara; si no, la galería. Si no les gusta, pueden sacar o elegir otra.
+function pickPhoto(cam,done){
   const inp=$('#photoIn');inp.value='';
+  if(cam)inp.setAttribute('capture','environment');else inp.removeAttribute('capture');
   inp.onchange=()=>{
     const f=inp.files&&inp.files[0];if(!f)return;
     const url=URL.createObjectURL(f),img=new Image();
@@ -1865,15 +1930,16 @@ function pickPhoto(done){
   };
   inp.click();
 }
-function photoCaption(){const s=sortedPlayers();return G.cfg.score&&G.players.length>1?`${s[0].name} gana la previa`:'Se terminó la previa';}
 function renderPhoto(){
   const box=$('#phBox');if(!box)return;
   box.innerHTML=G.photo
-    ?`<figure class="polaroid${goldFrame()?' gold':''}"><img src="${G.photo.url}" alt="Foto del grupo"><figcaption>${esc(photoCaption())}</figcaption></figure>
-      <div class="phact"><button type="button" class="btn" id="phAdd">Cambiar foto</button><button type="button" class="btn" id="phDel">Quitar</button></div>`
-    :`<button type="button" class="secondary photobtn" id="phAdd">${ic('camera')}Agregar foto del grupo</button>
+    ?`<figure class="phprev"><img src="${G.photo.url}" alt="Foto del grupo"></figure>
+      <div class="phact"><button type="button" class="btn photobtn" id="phCam">${ic('camera')}Sacar otra</button><button type="button" class="btn photobtn" id="phGal">${ic('gallery')}Elegir otra</button></div>
+      <button type="button" class="linkbtn" id="phDel">Quitar la foto</button>`
+    :`<div class="phact" style="margin-top:0"><button type="button" class="btn photobtn" id="phCam">${ic('camera')}Sacar foto</button><button type="button" class="btn photobtn" id="phGal">${ic('gallery')}Galería</button></div>
       <p class="phnote">Sale dentro de la imagen para compartir. La foto se queda en este teléfono.</p>`;
-  box.querySelector('#phAdd').onclick=()=>pickPhoto();
+  box.querySelector('#phCam').onclick=()=>pickPhoto(true);
+  box.querySelector('#phGal').onclick=()=>pickPhoto(false);
   const del=box.querySelector('#phDel');if(del)del.onclick=()=>{dropPhoto();renderPhoto();};
 }
 
@@ -1892,80 +1958,65 @@ async function shareImage(sc){
   const W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
   const DISP=sz=>`${sz}px "Rammetto One", system-ui, sans-serif`;
   const F=(w,sz)=>`${w} ${sz}px Rubik, system-ui, sans-serif`;
-  const INK='#1B1A1A',CREAM='#FDF3E0',BUTTER='#F5DEB2';
+  const INK='#1B1A1A',CREAM='#FDF3E0';
   const box=(X,Y,w,h,r)=>{x.beginPath();x.roundRect?x.roundRect(X,Y,w,h,r):x.rect(X,Y,w,h);x.fill();};
   const fitText=(t,font,size,min,maxW)=>{let fs=size;x.font=font(fs);while(x.measureText(t).width>maxW&&fs>min){fs-=6;x.font=font(fs);}while(x.measureText(t).width>maxW&&t.length>2)t=t.slice(0,-2)+'…';return t;};
-  const m=MODES[G.mode],s=sortedPlayers();
-  const ph=G.photo&&G.photo.img,gold=goldFrame();
+  const s=sortedPlayers(),ph=G.photo&&G.photo.img,gold=useGold();
+  const TEAL='#44AEAA',MUST='#EBAF35',M=gold?72:52;
+  const outline=(X,Y,w,h,r,lw)=>{x.beginPath();x.roundRect?x.roundRect(X,Y,w,h,r):x.rect(X,Y,w,h);x.lineWidth=lw;x.strokeStyle=INK;x.stroke();};
   const GOLD=(X0,Y0,X1,Y1)=>{const g=x.createLinearGradient(X0,Y0,X1,Y1);g.addColorStop(0,'#F7D774');g.addColorStop(.45,'#EBAF35');g.addColorStop(.7,'#F9E3A0');g.addColorStop(1,'#C98E1A');return g;};
-  // Foto del grupo en un marco tipo polaroid (dorado con el premio Pro). Devuelve dónde empieza el pie del marco.
-  const polaroid=(X,Y,w,photoH,capH,pad)=>{
-    const h=pad+photoH+capH,pw=w-2*pad;
-    x.fillStyle=INK;box(X+16,Y+16,w,h,10);
-    x.fillStyle=gold?GOLD(X,Y,X+w,Y+h):CREAM;box(X,Y,w,h,10);
-    x.lineWidth=6;x.strokeStyle=INK;x.beginPath();x.roundRect?x.roundRect(X,Y,w,h,10):x.rect(X,Y,w,h);x.stroke();
-    const iw=ph.naturalWidth,ih=ph.naturalHeight,r=Math.max(pw/iw,photoH/ih),sw=pw/r,sh=photoH/r;
-    x.drawImage(ph,(iw-sw)/2,(ih-sh)/2,sw,sh,X+pad,Y+pad,pw,photoH);
-    x.lineWidth=4;x.strokeRect(X+pad,Y+pad,pw,photoH);
-    return Y+pad+photoH;
-  };
-  x.fillStyle='#44AEAA';x.fillRect(0,0,W,H);
-  try{const blade=new Path2D('M0 0C40-30 60-90 40-150L100-150C110-80 70-20 0 0z');x.save();x.translate(W/2,470);x.scale(4.4,4.4);x.fillStyle='#60BFBA';for(let i=0;i<6;i++){x.fill(blade);x.rotate(Math.PI/3);}x.restore();}catch(e){}
-  x.textAlign='center';x.textBaseline='alphabetic';
-  // Con foto en una partida con puntaje, la cabecera se achica para dejar sitio al polaroid sobre el podio
-  const tight=!!(ph&&sc);
-  x.fillStyle=INK;x.font=DISP(tight?110:150);x.fillText('PREVIA',W/2,tight?170:250);
-  x.font=F(800,tight?36:42);const chipT=m.name.toUpperCase(),cw=x.measureText(chipT).width+(tight?76:90);
-  x.fillStyle=CREAM;box(W/2-cw/2,tight?200:300,cw,tight?70:84,tight?35:42);x.fillStyle=INK;x.fillText(chipT,W/2,tight?248:356);
-  if(sc){
-    let sheetY=840;
-    if(ph){
-      const cy=polaroid(200,300,680,465,150,30);
-      x.fillStyle=INK;x.fillText(fitText(s[0].name.toUpperCase(),DISP,64,36,600),W/2,cy+70);
-      x.font=F(800,32);x.fillText(`GANA LA PREVIA · ${s[0].pts} PTS`,W/2,cy+124);
-      sheetY=1010;
-    }else{
-      const wn=fitText(s[0].name.toUpperCase(),DISP,170,70,960);
-      x.fillStyle=INK;x.fillText(wn,W/2,600);
-      x.font=F(800,56);x.fillText('GANA LA PREVIA',W/2,690);
-      x.font=F(600,40);x.fillText(`${s[0].pts} puntos en ${G.count} cartas`,W/2,750);
-    }
-    x.fillStyle=BUTTER;box(0,sheetY,W,H-sheetY,[64,64,0,0]);
-    const P=ph?{base:1450,hs:[190,140,100],colW:240,gap:26,cr:50,co:140,nf:34,pf:28,no:58,nb:[80,64]}
-              :{base:1330,hs:[280,200,150],colW:270,gap:30,cr:58,co:170,nf:40,pf:32,no:62,nb:[100,80]};
-    const base=P.base,cols=s.length>=3?[[s[1],2,P.hs[1],'#EBAF35'],[s[0],1,P.hs[0],CREAM],[s[2],3,P.hs[2],'#44AEAA']]:[[s[1],2,P.hs[1],'#EBAF35'],[s[0],1,P.hs[0],CREAM]];
-    const colW=P.colW,gap=P.gap,startX=(W-(cols.length*colW+(cols.length-1)*gap))/2;
-    cols.forEach(([p,n,h,col],i)=>{
-      const cx=startX+i*(colW+gap),mid=cx+colW/2,ns=P.nb[n===1?0:1];
-      x.fillStyle=col;box(cx,base-h,colW,h,[30,30,0,0]);
-      x.fillStyle=INK;x.font=DISP(ns);x.fillText(String(n),mid,base-h/2+Math.round(ns*.38));
-      x.fillStyle=p.col;x.beginPath();x.arc(mid,base-h-P.co,P.cr,0,Math.PI*2);x.fill();
-      x.lineWidth=6;x.strokeStyle=INK;x.stroke();
-      x.fillStyle=INK;x.font=F(900,Math.round(P.cr*1.03));x.fillText(p.name.slice(0,1).toUpperCase(),mid,base-h-P.co+Math.round(P.cr*.36));
-      x.fillText(fitText(p.name,w=>F(800,w),P.nf,26,colW),mid,base-h-P.no);
-      x.font=F(600,P.pf);x.fillText(`${p.pts} pts`,mid,base-h-20);
-    });
-    const Q=ph?{gap:50,bh:G.condena?280:200,t:32,tY:62,nY:140,nmax:64,cf:34,cY:200,cl:42}
-              :{gap:60,bh:G.condena?330:240,t:36,tY:76,nY:170,nmax:80,cf:38,cY:236,cl:48};
-    const lo=s[s.length-1],y=base+Q.gap;
-    x.fillStyle=INK;box(80,y,920,Q.bh,40);
-    x.textAlign='left';x.fillStyle=BUTTER;x.font=F(800,Q.t);x.fillText('ÚLTIMO LUGAR',130,y+Q.tY);
-    x.fillText(fitText(lo.name.toUpperCase(),DISP,Q.nmax,40,820),130,y+Q.nY);
-    if(G.condena){x.font=F(600,Q.cf);wrapLines(x,`Condena: ${G.condena}`,820).slice(0,2).forEach((l,i)=>x.fillText(l,130,y+Q.cY+i*Q.cl));}
-    x.textAlign='center';
-  }else if(ph){
-    const cy=polaroid(150,460,780,540,170,30);
-    x.fillStyle=INK;x.fillText(fitText('SE TERMINÓ LA PREVIA',DISP,56,36,700),W/2,cy+80);
-    x.font=F(600,36);x.fillText(`${G.players.length} jugadores, ${G.count} cartas`,W/2,cy+136);
-    x.fillStyle=BUTTER;box(0,1300,W,H-1300,[64,64,0,0]);
+  const shade=(y0,y1,a0,a1)=>{const g=x.createLinearGradient(0,y0,0,y1);g.addColorStop(0,`rgba(27,26,26,${a0})`);g.addColorStop(1,`rgba(27,26,26,${a1})`);x.fillStyle=g;x.fillRect(0,y0,W,y1-y0);};
+  // Fondo: la foto del grupo a pantalla completa; sin foto, el fondo de la app con su remolino
+  if(ph){
+    const iw=ph.naturalWidth,ih=ph.naturalHeight,r=Math.max(W/iw,H/ih),sw=W/r,sh=H/r;
+    x.drawImage(ph,(iw-sw)/2,(ih-sh)/2,sw,sh,0,0,W,H);
+    shade(0,460,.5,0);shade(H*.62,H,0,.45);
   }else{
-    x.fillStyle=INK;x.font=DISP(110);['SE TERMINÓ','LA PREVIA'].forEach((l,i)=>x.fillText(l,W/2,620+i*130));
-    x.font=F(600,48);x.fillText(`${G.players.length} jugadores, ${G.count} cartas`,W/2,900);
-    x.fillStyle=BUTTER;box(0,1100,W,H-1100,[64,64,0,0]);
+    x.fillStyle=TEAL;x.fillRect(0,0,W,H);
+    try{const blade=new Path2D('M0 0C40-30 60-90 40-150L100-150C110-80 70-20 0 0z');x.save();x.translate(W/2,820);x.scale(6,6);x.fillStyle='#60BFBA';for(let i=0;i<6;i++){x.fill(blade);x.rotate(Math.PI/3);}x.restore();}catch(e){}
   }
-  x.fillStyle=INK;x.font=F(800,tight?40:44);x.fillText('¿Revancha? Jueguen Previa',W/2,tight?H-60:H-80);
+  // Logo chico arriba a la izquierda (dorado con el premio) y, debajo, quién gana
+  x.textAlign='left';x.textBaseline='alphabetic';x.lineJoin='round';x.font=DISP(104);
+  const lw=x.measureText('PREVIA').width,ly=M+104;
+  x.fillStyle=INK;x.fillText('PREVIA',M+8,ly+8);
+  x.lineWidth=12;x.strokeStyle=INK;x.strokeText('PREVIA',M,ly);
+  x.fillStyle=gold?GOLD(M,ly-100,M+lw,ly):CREAM;x.fillText('PREVIA',M,ly);
+  const pill=sc?fitText(`${s[0].name.toUpperCase()} GANA LA PREVIA`,w=>F(900,w),30,22,W-2*M-48):'SE TERMINÓ LA PREVIA';
+  if(!sc)x.font=F(900,30);
+  const tw=x.measureText(pill).width+48,ty=ly+32;
+  x.fillStyle=INK;box(M+6,ty+6,tw,58,29);x.fillStyle=MUST;box(M,ty,tw,58,29);outline(M,ty,tw,58,29,4);
+  x.fillStyle=INK;x.fillText(pill,M+24,ty+40);
+  if(!ph){ // sin foto, el centro no queda vacío
+    x.textAlign='center';x.fillStyle=INK;
+    if(sc){x.fillText(fitText(s[0].name.toUpperCase(),DISP,170,70,W-2*M),W/2,760);x.font=F(800,56);x.fillText('GANA LA PREVIA',W/2,850);}
+    else{x.font=DISP(110);['SE TERMINÓ','LA PREVIA'].forEach((l,i)=>x.fillText(l,W/2,720+i*130));}
+  }
+  // Recuadro abajo a la derecha: podio chico sin puntajes, último lugar y condena
+  if(sc){
+    const lo=s[s.length-1],cw=540,pad=30,podH=250;
+    x.font=F(600,28);const all=wrapLines(x,G.condena?`Condena: ${G.condena}`:'Le toca la condena final.',cw-2*pad),cond=all.slice(0,3);
+    if(all.length>3)cond[2]=cond[2].replace(/\s*\S*$/,'')+'…';
+    const h=pad+podH+26+44+cond.length*36+pad-4,X=W-M-cw-12,Y=H-M-h-12;
+    x.fillStyle=INK;box(X+12,Y+12,cw,h,36);x.fillStyle=CREAM;box(X,Y,cw,h,36);outline(X,Y,cw,h,36,5);
+    const base=Y+pad+podH,colW=150,gap=12;
+    const cols=s.length>=3?[[s[1],2,62,MUST],[s[0],1,92,CREAM],[s[2],3,42,TEAL]]:[[s[1],2,62,MUST],[s[0],1,92,CREAM]];
+    const sx=X+(cw-(cols.length*colW+(cols.length-1)*gap))/2;
+    x.textAlign='center';
+    cols.forEach(([p,n,hh,col],i)=>{
+      const cx=sx+i*(colW+gap),mid=cx+colW/2;
+      x.fillStyle=col;box(cx,base-hh,colW,hh,[18,18,0,0]);outline(cx,base-hh,colW,hh,[18,18,0,0],4);
+      x.fillStyle=INK;x.font=DISP(n===1?44:34);x.fillText(String(n),mid,base-hh/2+(n===1?17:13));
+      x.fillStyle=p.col;x.beginPath();x.arc(mid,base-hh-82,32,0,Math.PI*2);x.fill();x.lineWidth=4;x.strokeStyle=INK;x.stroke();
+      x.fillStyle=INK;x.font=F(900,34);x.fillText(p.name.slice(0,1).toUpperCase(),mid,base-hh-70);
+      x.fillText(fitText(p.name,w=>F(n===1?900:700,w),n===1?32:28,20,colW),mid,base-hh-18);
+    });
+    let y=base;x.fillStyle=INK;x.fillRect(X+pad,y,cw-2*pad,3);y+=18;x.textAlign='left';
+    x.font=F(800,26);const lt='ÚLTIMO LUGAR  ';x.fillText(lt,X+pad,y+30);const ltw=x.measureText(lt).width;
+    x.fillText(fitText(lo.name.toUpperCase(),DISP,30,20,cw-2*pad-ltw),X+pad+ltw,y+31);y+=44;
+    x.font=F(600,28);cond.forEach(l=>{x.fillText(l,X+pad,y+28);y+=36;});
+  }
   // Premio Pro: marco dorado alrededor de toda la imagen
-  if(gold){x.lineWidth=28;x.strokeStyle=GOLD(0,0,W,H);x.strokeRect(14,14,W-28,H-28);x.lineWidth=4;x.strokeStyle=INK;x.strokeRect(30,30,W-60,H-60);}
+  if(gold){x.lineWidth=36;x.strokeStyle=GOLD(0,0,W,H);x.strokeRect(18,18,W-36,H-36);x.lineWidth=5;x.strokeStyle=INK;x.strokeRect(36,36,W-72,H-72);}
   return await new Promise(r=>cv.toBlob(r,'image/png'));
 }
 function openShare(sc){
@@ -1976,17 +2027,19 @@ function openShare(sc){
     <div class="menu">
       <button type="button" class="primary" id="shGo" disabled>Compartir</button>
       <a class="secondary" id="shSave" hidden download="previa-resultado.png">Guardar imagen</a>
-      <button type="button" class="secondary photobtn" id="shPh">${ic('camera')}<span></span></button>
+      ${goldFrame()?`<div class="chipsel goldsel" id="shGold"><button type="button" data-g="1">Con marco dorado</button><button type="button" data-g="0">Normal</button></div>`:''}
+      <p class="phnote" id="shPhT" style="margin:6px 0 0"></p>
+      <div class="phact" style="margin-top:0"><button type="button" class="btn photobtn" id="shCam">${ic('camera')}Sacar foto</button><button type="button" class="btn photobtn" id="shGal">${ic('gallery')}Galería</button></div>
       <button type="button" class="secondary" onclick="closeSheet()">Cerrar</button>
     </div>`,b=>{
-    const go=b.querySelector('#shGo'),prev=b.querySelector('#shPrev'),save=b.querySelector('#shSave'),phb=b.querySelector('#shPh');
+    const go=b.querySelector('#shGo'),prev=b.querySelector('#shPrev'),saveA=b.querySelector('#shSave');
     const can=d=>{try{return !!(navigator.canShare&&navigator.canShare(d));}catch(e){return false;}};
     const withLink=APP_LINK?{url:APP_LINK}:{};
     let file=null,url=null;
     // Genera la imagen; se vuelve a llamar cuando agregan o cambian la foto del grupo
     const build=async()=>{
       go.disabled=true;
-      phb.querySelector('span').textContent=G.photo?'Cambiar foto del grupo':'Agregar foto del grupo';
+      b.querySelector('#shPhT').textContent=G.photo?'¿No les gustó? Saquen o elijan otra:':'Agreguen una foto del grupo:';
       if(url){URL.revokeObjectURL(url);url=null;}
       let blob=null;
       try{blob=await shareImage(sc);}catch(e){}
@@ -1994,11 +2047,16 @@ function openShare(sc){
       if(blob){
         url=URL.createObjectURL(blob);
         prev.innerHTML=`<img src="${url}" alt="Imagen del resultado para compartir">`;
-        save.href=url;save.hidden=false;
-      }else{prev.innerHTML='<span>No se pudo generar la imagen en este teléfono.</span>';save.hidden=true;}
+        saveA.href=url;saveA.hidden=false;
+      }else{prev.innerHTML='<span>No se pudo generar la imagen en este teléfono.</span>';saveA.hidden=true;}
       go.disabled=false;
     };
-    phb.onclick=()=>pickPhoto(()=>{prev.innerHTML='<span>Preparando la imagen…</span>';build();});
+    const again=()=>{prev.innerHTML='<span>Preparando la imagen…</span>';build();};
+    b.querySelector('#shCam').onclick=()=>pickPhoto(true,again);
+    const gs=b.querySelector('#shGold');
+    if(gs){const mark=()=>gs.querySelectorAll('button').forEach(y=>y.setAttribute('aria-pressed',(y.dataset.g==='1')===!S.goldOff));mark();
+      gs.querySelectorAll('button').forEach(y=>y.onclick=()=>{S.goldOff=y.dataset.g==='0';save();mark();again();});}
+    b.querySelector('#shGal').onclick=()=>pickPhoto(false,again);
     go.onclick=async()=>{
       try{
         if(file&&can({files:[file],text:txt}))await navigator.share({files:[file],text:txt,...withLink});
