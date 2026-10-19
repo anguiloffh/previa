@@ -46,10 +46,10 @@ button{font:inherit;cursor:pointer;color:inherit}
 .tagline{text-align:center;font-weight:700;font-size:17px;margin:12px 0 24px}
 
 /* Nivel */
-.lvl.later{background:var(--ink);color:var(--butter);margin-bottom:12px}
-.lvl.later .lvlnum{background:var(--must)}
-.lvl.later .lvlnum .ic{width:26px;height:26px}
-.lvl.later small{color:var(--butter);opacity:.8}
+.hhr{display:flex;gap:8px;align-items:center}
+.laterbtn{position:relative;width:44px;height:44px;border:none;border-radius:50%;background:var(--cream);display:grid;place-items:center}
+.laterbtn .ic{width:28px;height:28px}
+.laterbtn .badge-n{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:99px;background:var(--red);color:var(--cream);font-size:12px;font-weight:800;line-height:20px;text-align:center}
 .lvl{display:flex;align-items:center;gap:12px;width:100%;padding:10px 18px 10px 10px;background:var(--cream);border:none;border-radius:28px;text-align:left;margin:0 0 22px}
 .lvlnum{flex:0 0 40px;height:40px;border-radius:50%;background:var(--must);display:grid;place-items:center;font-family:var(--disp);font-size:16px}
 .lvlinfo{flex:1;min-width:0}
@@ -396,12 +396,11 @@ details.more[open] summary::after{content:"−"}
 <main id="v-home" class="view" hidden>
   <header class="hero" style="--swy:-300px">
     <svg class="swirl" aria-hidden="true" focusable="false"><use href="#swirl"/></svg>
-    <div class="homehead"><span class="age18">18+</span><button type="button" class="pill" id="proBtn">Previa Pro</button></div>
+    <div class="homehead"><span class="age18">18+</span><span class="hhr"><button type="button" class="laterbtn" id="homeLater" hidden></button><button type="button" class="pill" id="proBtn">Previa Pro</button></span></div>
     <h1 class="logo" aria-label="Previa">PREVIA</h1>
     <p class="tagline">La noche empieza acá</p>
   </header>
   <section class="panel">
-    <button type="button" class="lvl later" id="homeLater" hidden></button>
     <button type="button" class="lvl" id="lvlBtn"></button>
     <h2 class="h2">¿Cómo juegan hoy?</h2>
     <div class="modes" id="modes"></div>
@@ -969,7 +968,7 @@ const fmt=n=>Number(n).toLocaleString('es-CL');
 
 /* ---------- Persistencia ---------- */
 const freshSt=()=>({cards:0,ms:0,secret:0,done:0,modes:[],mdone:[],sano:0,sinc:0,cumpleN:0,caosN:0,day:'',dayN:0});
-function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,goldOff:false,sinceAd:0,later:null,spins:0,last:{},st:freshSt()}}
+function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,goldOff:false,later:null,spins:0,last:{},st:freshSt()}}
 let S=freshS();
 try{S=Object.assign(freshS(),JSON.parse(localStorage.getItem(KEY)||'{}'));S.st=Object.assign(freshSt(),S.st);}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -1046,8 +1045,8 @@ function renderHome(){
     <span class="bar"><i style="width:${L.pct}%"></i></span></span>`;
   $('#v-home').classList.toggle('gold',L.n>=9);
   const LT=liveLater(),hl=$('#homeLater');hl.hidden=!LT;
-  if(LT){const n=LT.items.filter(d=>!d.done).length,h=Math.max(1,Math.ceil((LT.until-Date.now())/36e5));
-    hl.innerHTML=`<span class="lvlnum">${ic('vinyl')}</span><span class="lvlinfo"><strong>Para ${esc(LT.place)} · ${n} ${n===1?'pendiente':'pendientes'}</strong><small>Se borran solas en ${h} ${h===1?'hora':'horas'}</small></span>`;}
+  if(LT){const n=LT.items.filter(d=>!d.done).length;
+    hl.innerHTML=`${ic('vinyl')}<span class="badge-n">${n}</span>`;hl.setAttribute('aria-label',`Para después: ${n} ${n===1?'pendiente':'pendientes'}`);}
   const g=$('#modes');g.innerHTML='';
   Object.entries(MODES).forEach(([id,m],i)=>{
     const b=document.createElement('button');
@@ -1074,10 +1073,11 @@ $('#proBtn').onclick=()=>{
 };
 $('#homeLater').onclick=()=>{
   const LT=liveLater();if(!LT)return renderHome();
-  openSheet(`<h3>Para ${esc(LT.place)}</h3><p>Márquenlas a medida que se cumplan. La lista se borra sola 24 horas después de la partida.</p><ul class="dlist" id="hlt"></ul>${laterShareBtn('hltSh')}
+  const place=laterPlace(LT.items);
+  openSheet(`<h3>Para ${esc(place)}</h3><p>Las pruebas de sus últimas partidas. Márquenlas a medida que se cumplan: cada una se borra sola 24 horas después de su partida.</p><ul class="dlist" id="hlt"></ul>${laterShareBtn('hltSh')}
     <div class="menu" style="margin-top:8px"><button type="button" class="secondary" id="hltDel">Borrar la lista</button><button type="button" class="secondary" id="hltX">Cerrar</button></div>`,b=>{
     laterList(b.querySelector('#hlt'),LT.items);
-    b.querySelector('#hltSh').onclick=()=>shareLater(LT.place,LT.items);
+    b.querySelector('#hltSh').onclick=()=>shareLater(place,LT.items);
     b.querySelector('#hltDel').onclick=()=>{S.later=null;save();closeSheet();renderHome();};
     b.querySelector('#hltX').onclick=()=>{closeSheet();renderHome();};
   });
@@ -1123,11 +1123,10 @@ function paywall(target,then){
     if(ad) ad.onclick=()=>{closeSheet();fakeAd(()=>{SESSION.add(target);toast('Desbloqueado para esta partida');then&&then();});};
   });
 }
-/* Anuncio entre partidas: al tocar Revancha o Volver al inicio, nunca antes de ver resultados ni de compartir.
- Solo en la versión gratis, máximo uno cada 2 partidas y nunca en la primera. Se puede cerrar a los 5 segundos. */
+/* Anuncio entre partidas: al tocar Revancha o Volver al inicio después de cada partida, nunca antes de ver
+ resultados ni de compartir. Solo en la versión gratis. Se puede cerrar a los 5 segundos. */
 function interstitial(done){
-  if(isPro()||S.games<2||S.sinceAd<2){done();return;}
-  S.sinceAd=0;save();
+  if(isPro()){done();return;}
   const a=$('#inter'),x=$('#interX');let n=5;$('#interN').textContent=n;x.hidden=true;a.hidden=false;
   const t=setInterval(()=>{n--;if(n<=0){clearInterval(t);$('#interN').textContent='';x.hidden=false;x.focus();}else $('#interN').textContent=n;},1000);
   x.onclick=()=>{a.hidden=true;done();};
@@ -1831,12 +1830,22 @@ document.addEventListener('keydown',e=>{
 /* ---------- Hojas del juego ---------- */
 /* Las pruebas para después quedan guardadas 24 horas en el inicio, o hasta que se cumplan todas */
 const LATER_MS=864e5;
-function keepLater(){if(G&&G.later.length){S.later={place:fill('{lugar}'),until:Date.now()+LATER_MS,items:G.later};save();}}
+function keepLater(){
+  if(!G||!G.later.length)return;
+  const now=Date.now(),place=fill('{lugar}');
+  G.later.forEach(d=>{d.place=place;d.t=now;});
+  S.later={items:(liveLater()||{items:[]}).items.concat(G.later)};save();
+}
 function liveLater(){
-  const L=S.later;
-  if(L&&(Date.now()>L.until||!L.items.length||L.items.every(d=>d.done))){S.later=null;save();}
+  const L=S.later;if(!L)return null;
+  // Lista antigua (una sola partida): cada prueba toma la fecha y el lugar de esa lista
+  if(L.until)L.items.forEach(d=>{d.t=d.t||L.until-LATER_MS;d.place=d.place||L.place;});
+  const items=L.items.filter(d=>Date.now()-d.t<LATER_MS);
+  S.later=items.length&&!items.every(d=>d.done)?{items}:null;save();
   return S.later;
 }
+// Si todas son para el mismo lugar, se nombra; si no, «para después»
+const laterPlace=arr=>{const ps=[...new Set(arr.map(d=>d.place).filter(Boolean))];return ps.length===1?ps[0]:'después';};
 function laterText(place,arr){
   const strip=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent;};
   return `Pendientes para ${place} (Previa):\n\n${arr.filter(d=>!d.done).map((d,i)=>`${i+1}. ${strip(d.html)}`).join('\n')}`;
@@ -1876,7 +1885,7 @@ function finish(){
   keepLater();
   const L0=level(G.xp0);
   const gain=gameXP(G.rounds,G.mode,!!G.completed,G.count,G.roundLen);
-  S.xp+=gain;S.games++;S.sinceAd=(S.sinceAd||0)+1;save();
+  S.xp+=gain;S.games++;save();
   bankStats();
   if(G.completed){
     S.st.done++;
@@ -1932,7 +1941,7 @@ function renderEnd(gain,L,unl,starsUp){
     h+=`<h2 class="endhead sm">Se terminó la previa</h2><p class="lead">${G.count} cartas jugadas</p>`;
   }
   h+='</header>';
-  if(G.later.length)p+=`<h3 class="secth">Para ${fill('{lugar}')}</h3><ul class="dlist" id="endLater"></ul>${laterShareBtn('endLaterSh')}<p class="phnote">También quedan guardadas en el inicio por 24 horas.</p>`;
+  if(G.later.length)p+=`<h3 class="secth">Para ${fill('{lugar}')}</h3><ul class="dlist" id="endLater"></ul>${laterShareBtn('endLaterSh')}<p class="phnote">Quedan guardadas en el inicio por 24 horas, junto con las de otras partidas.</p>`;
   const newA=G.newAch.map(id=>ACH.find(a=>a.id===id)).filter(Boolean);
   const items=[...unl.map(u=>`Desbloquearon: ${u}`),...(starsUp>0?['¡Nueva estrella de leyenda!']:[]),...newA.map(a=>`Logro: ${a.name} (+${TIERS[a.tier].xp} XP)`)];
   p+=`<div class="xpbox"><strong>+${fmt(gain+G.achXP)} XP</strong>${G.achXP?` (partida +${fmt(gain)}, logros +${fmt(G.achXP)})`:''}. Nivel ${L.n}: ${L.name}${L.stars?` · ★ ${L.stars}`:''}
