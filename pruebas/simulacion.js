@@ -1,6 +1,6 @@
 const {JSDOM}=require('jsdom');
 const html=require('fs').readFileSync(require('path').join(__dirname,'..','previa.html'),'utf8');
-function run(mode,cfgMod,players,seed){
+function run(mode,cfgMod,players,free){
   const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'https://x.test/',
     beforeParse(w){w.matchMedia=()=>({matches:true,addListener(){},removeListener(){}});w.scrollTo=()=>{};w.HTMLElement.prototype.getBoundingClientRect=function(){return {left:0,top:0,width:10,height:10}};}});
   const w=dom.window,d=w.document;const errs=[];
@@ -8,8 +8,8 @@ function run(mode,cfgMod,players,seed){
   const $=q=>d.querySelector(q);
   const click=el=>el.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
   click($('#ageYes'));
-  // make pro to access all
-  w.eval('S.pro=true;S.xp=400;save();goHome();');
+  // Pro para acceder a todo; con free, la versión gratis (mazo chico, hasta 6 jugadores y 5 rondas)
+  w.eval(free?'S.pro=false;S.xp=0;save();goHome();':'S.pro=true;S.xp=400;save();goHome();');
   const tiles=[...d.querySelectorAll('#modes .mode')];
   const idx=Object.keys(w.eval('MODES')).indexOf(mode);
   click(tiles[idx]);
@@ -48,8 +48,9 @@ function run(mode,cfgMod,players,seed){
     w.eval('lock=false');
   }
   const end=!$('#v-end').hidden;
+  if(free&&w.eval('[...G.used].some(id=>CARDS[id].pro)'))errs.push('carta Pro en partida gratis');
   const sp=$('#spinC'); if(sp) click(sp);
-  console.log(mode,JSON.stringify(cfgMod),'steps',steps,'back',back,'end',end,'count',w.eval('G.count'),'early',w.__early||0,'leftAtEnd',w.__left,'errs',[...new Set(errs)].slice(0,5),Object.keys(seen).length,'types');
+  console.log(mode+(free?' (gratis)':''),JSON.stringify(cfgMod),'steps',steps,'back',back,'end',end,'count',w.eval('G.count'),'early',w.__early||0,'leftAtEnd',w.__left,'errs',[...new Set(errs)].slice(0,5),Object.keys(seen).length,'types');
   if(end && mode==='despedida') console.log(d.querySelector('#v-end').textContent.replace(/\s+/g,' ').slice(0,400));
 }
 const P9=['Ale','Beto','Caro','Dani','Eli','Fer','Gabo','Hugo'];
@@ -62,3 +63,6 @@ run('amigas',{esc:false,spice:3},P9.slice(0,4));
 run('parejas',{spice:4},[['A','B'],['C','D'],['E','F']]);
 run('hardcore',{},P9.concat(['I','J','K','L','M','N','O']));
 run('caos',{rounds:12},P9);
+run('clasico',{spice:1,drink:'sin',mv:0},P9.slice(0,6),true);
+run('cumple',{spice:1},P9.slice(0,5),true);
+run('amigos',{spice:3,esc:false},P9.slice(0,6),true);
