@@ -319,8 +319,6 @@ details.more[open] summary::after{content:"−"}
 .goldsel button{background:var(--butter)}
 .btn.photobtn{display:flex;align-items:center;justify-content:center;gap:8px}
 .phnote{margin:8px 4px 0;font-size:13px;color:var(--muted);text-align:center}
-.phprev{margin:0 auto;max-width:220px}
-.phprev img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:20px;box-shadow:0 0 0 3px var(--ink),8px 8px 0 3px var(--ink)}
 .phact{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px}
 
 /* Toast y anuncio */
@@ -1229,7 +1227,6 @@ document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{if(b.dataset.
 /* ---------- Ajustes ---------- */
 let CFG=null;
 const SET=[
-  {id:'phone',type:'seg',label:'El teléfono',opts:[['persona','Lo tiene uno','Pasa si la carta es para otro'],['pasar','Se va pasando','Cada carta, otro'],['centro','Al centro','Lee cualquiera']]},
   {id:'rounds',type:'seg',label:'Rondas',quick:1,opts:[[3,'3'],[5,'5'],[8,'8'],[12,'12']]},
   {id:'spice',type:'seg',label:'Picante',quick:1,opts:[[1,'Suave',ic('chili')],[2,'Atrevido',ic('chili').repeat(2)],[3,'Picante',ic('chili').repeat(3)],[4,'Sin censura',ic('flame'),"spice4"]]},
   {id:'max',type:'seg',label:'Castigo máximo',quick:1,opts:[['leve','Leve','3 sorbos'],['fuerte','Fuerte','Vaso al seco'],['prenda','Prenda','Picante 3+','prenda']]},
@@ -1243,7 +1240,6 @@ const SET=[
 const MECH=['score','powers','quests','rules','chaos','cats'];
 const MECH_NAMES={score:'puntaje y podio',powers:'comodines',quests:'side quests y misiones secretas',rules:'reglas temporales',chaos:'eventos sorpresa'};
 const HINTS={
-  phone:{persona:'Una persona lee. Cuando una carta es para alguien en particular, el juego avisa y se le pasa el teléfono.',pasar:'Cada carta la lee una persona distinta, en el orden de la lista.',centro:'El teléfono queda en la mesa y lee quien quiera.'},
   spice:{1:'Nada subido de tono. Perfecto para la familia o el trabajo.',2:'Coqueteo y algo de chisme.',3:'Preguntas hot. Nada de contacto entre jugadores, salvo en Parejas.',4:'Todo vale. Solo para grupos con mucha confianza.'},
   max:{leve:'Lo peor que puede tocar son 3 sorbos.',fuerte:'Lo peor que puede tocar es un vaso al seco.',prenda:'Lo peor que puede tocar es quitarse una prenda. Requiere picante 3 o más.'},
   drink:{alc:'Los castigos son sorbos de lo que estén tomando.',sin:'Los castigos son sorbos de jugo, bebida o agua. Se quitan las cartas de alcohol.'}
@@ -1263,6 +1259,7 @@ function openSettings(){
   const base=JSON.parse(JSON.stringify(Object.assign({},DEFAULT_CFG,PRESET[D.mode])));
   MECH.forEach(k=>{CFG[k]=base[k];});
   if(CFG.later==='fiesta')CFG.later='disco';
+  CFG.phone='persona'; // el teléfono siempre lo tiene una persona y se pasa solo cuando la carta es para otro
   if(CFG.spice===4&&!canSpice4())CFG.spice=3;
   if(CFG.max==='prenda'&&!canPrenda())CFG.max='fuerte';
   const fx=MODES[D.mode].fixed;
@@ -1272,7 +1269,7 @@ function openSettings(){
   const chip=$('#stMode');chip.innerHTML=chipHTML(D.mode);modeVars(chip,D.mode);
   renderSettings();show('v-settings');
 }
-function nPlayers(){const m=MODES[D.mode];return m.couples?D.couples.filter(c=>c[0].trim()&&c[1].trim()).length*2:D.names.filter(n=>n.trim()).length+(m.prota?1:0);}
+function nPlayers(){const m=MODES[D.mode];return m.couples?D.couples.filter(c=>c[0].trim()&&c[1].trim()).length*2:D.names.filter(n=>n.trim()).length;}
 const roundLenFor=n=>clamp(n+Math.ceil(n/2),6,18);
 function togEl(s){
   const b=document.createElement('button');b.type='button';b.className='tog';b.setAttribute('role','switch');
@@ -1912,13 +1909,11 @@ function renderEnd(gain,L,unl,starsUp){
   p+=`<div class="xpbox"><strong>+${fmt(gain+G.achXP)} XP</strong>${G.achXP?` (partida +${fmt(gain)}, logros +${fmt(G.achXP)})`:''}. Nivel ${L.n}: ${L.name}${L.stars?` · ★ ${L.stars}`:''}
     <span class="bar big" style="margin-top:10px"><i style="width:${L.pct}%"></i></span>
     ${items.length?`<ul>${items.map(t=>`<li>${t}</li>`).join('')}</ul>`:''}</div>`;
-  p+=`<h3 class="secth">Foto del grupo</h3><div id="phBox"></div>`;
   p+=`<div class="endbtns"><button type="button" class="primary" id="enShare">Compartir el resultado</button><button type="button" class="secondary" id="enAgain">Revancha</button><button type="button" class="secondary" id="enHome">Volver al inicio</button></div>`;
   v.innerHTML=h+`<section class="panel end-panel">${p}</section>`;
   if(G.later.length){laterList($('#endLater'),G.later);$('#endLaterSh').onclick=()=>shareLater(fill('{lugar}'),G.later);}
   G.condena=null;
   const sp=$('#spinC');if(sp)sp.onclick=()=>{sp.disabled=true;spin($('#condena'),()=>{G.condena=$('#condena').textContent;},true);};
-  renderPhoto();
   $('#enShare').onclick=()=>openShare(sc);
   $('#enAgain').onclick=startGame;
   $('#enHome').onclick=goHome;
@@ -1936,25 +1931,12 @@ function pickPhoto(cam,done){
   inp.onchange=()=>{
     const f=inp.files&&inp.files[0];if(!f)return;
     const url=URL.createObjectURL(f),img=new Image();
-    img.onload=()=>{dropPhoto();G.photo={img,url};renderPhoto();done&&done();};
+    img.onload=()=>{dropPhoto();G.photo={img,url};done&&done();};
     img.onerror=()=>{URL.revokeObjectURL(url);toast('No se pudo abrir la foto');};
     img.src=url;
   };
   inp.click();
 }
-function renderPhoto(){
-  const box=$('#phBox');if(!box)return;
-  box.innerHTML=G.photo
-    ?`<figure class="phprev"><img src="${G.photo.url}" alt="Foto del grupo"></figure>
-      <div class="phact"><button type="button" class="btn photobtn" id="phCam">${ic('camera')}Sacar otra</button><button type="button" class="btn photobtn" id="phGal">${ic('gallery')}Elegir otra</button></div>
-      <button type="button" class="linkbtn" id="phDel">Quitar la foto</button>`
-    :`<div class="phact" style="margin-top:0"><button type="button" class="btn photobtn" id="phCam">${ic('camera')}Sacar foto</button><button type="button" class="btn photobtn" id="phGal">${ic('gallery')}Galería</button></div>
-      <p class="phnote">Sale dentro de la imagen para compartir. La foto se queda en este teléfono.</p>`;
-  box.querySelector('#phCam').onclick=()=>pickPhoto(true);
-  box.querySelector('#phGal').onclick=()=>pickPhoto(false);
-  const del=box.querySelector('#phDel');if(del)del.onclick=()=>{dropPhoto();renderPhoto();};
-}
-
 /* ---------- Compartir ---------- */
 const APP_LINK=''; // En la app real: enlace único que abre App Store o Google Play según el teléfono
 function shareText(sc){
@@ -1965,6 +1947,55 @@ function shareText(sc){
   return t;
 }
 function wrapLines(ctx,text,maxW){const words=text.split(' ');const lines=[];let cur='';words.forEach(w=>{const t=cur?cur+' '+w:w;if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=w;}else cur=t;});if(cur)lines.push(cur);return lines;}
+/* Imagen sin foto del grupo: la de siempre, con el nombre de quien gana, podio y último lugar con su condena */
+async function classicImage(sc){
+  const W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
+  const DISP=sz=>`${sz}px "Rammetto One", system-ui, sans-serif`;
+  const F=(w,sz)=>`${w} ${sz}px Rubik, system-ui, sans-serif`;
+  const INK='#1B1A1A',CREAM='#FDF3E0',BUTTER='#F5DEB2';
+  const box=(X,Y,w,h,r)=>{x.beginPath();x.roundRect?x.roundRect(X,Y,w,h,r):x.rect(X,Y,w,h);x.fill();};
+  const fitText=(t,font,size,min,maxW)=>{let fs=size;x.font=font(fs);while(x.measureText(t).width>maxW&&fs>min){fs-=6;x.font=font(fs);}while(x.measureText(t).width>maxW&&t.length>2)t=t.slice(0,-2)+'…';return t;};
+  const GOLD=(X0,Y0,X1,Y1)=>{const g=x.createLinearGradient(X0,Y0,X1,Y1);g.addColorStop(0,'#F7D774');g.addColorStop(.45,'#EBAF35');g.addColorStop(.7,'#F9E3A0');g.addColorStop(1,'#C98E1A');return g;};
+  const m=MODES[G.mode],s=sortedPlayers();
+  x.fillStyle='#44AEAA';x.fillRect(0,0,W,H);
+  try{const blade=new Path2D('M0 0C40-30 60-90 40-150L100-150C110-80 70-20 0 0z');x.save();x.translate(W/2,470);x.scale(4.4,4.4);x.fillStyle='#60BFBA';for(let i=0;i<6;i++){x.fill(blade);x.rotate(Math.PI/3);}x.restore();}catch(e){}
+  x.textAlign='center';x.textBaseline='alphabetic';
+  x.fillStyle=INK;x.font=DISP(150);x.fillText('PREVIA',W/2,250);
+  x.font=F(800,42);const chipT=m.name.toUpperCase(),cw=x.measureText(chipT).width+90;
+  x.fillStyle=CREAM;box(W/2-cw/2,300,cw,84,42);x.fillStyle=INK;x.fillText(chipT,W/2,356);
+  if(sc){
+    x.fillStyle=INK;x.fillText(fitText(s[0].name.toUpperCase(),DISP,170,70,960),W/2,600);
+    x.font=F(800,56);x.fillText('GANA LA PREVIA',W/2,690);
+    x.font=F(600,40);x.fillText(`${s[0].pts} puntos en ${G.count} cartas`,W/2,750);
+    x.fillStyle=BUTTER;box(0,840,W,H-840,[64,64,0,0]);
+    const base=1330,cols=s.length>=3?[[s[1],2,200,'#EBAF35'],[s[0],1,280,CREAM],[s[2],3,150,'#44AEAA']]:[[s[1],2,200,'#EBAF35'],[s[0],1,280,CREAM]];
+    const colW=270,gap=30,startX=(W-(cols.length*colW+(cols.length-1)*gap))/2;
+    cols.forEach(([p,n,h,col],i)=>{
+      const cx=startX+i*(colW+gap),mid=cx+colW/2;
+      x.fillStyle=col;box(cx,base-h,colW,h,[30,30,0,0]);
+      x.fillStyle=INK;x.font=DISP(n===1?100:80);x.fillText(String(n),mid,base-h/2+(n===1?40:30));
+      x.fillStyle=p.col;x.beginPath();x.arc(mid,base-h-170,58,0,Math.PI*2);x.fill();
+      x.lineWidth=6;x.strokeStyle=INK;x.stroke();
+      x.fillStyle=INK;x.font=F(900,60);x.fillText(p.name.slice(0,1).toUpperCase(),mid,base-h-149);
+      x.fillText(fitText(p.name,w=>F(800,w),40,26,colW),mid,base-h-62);
+      x.font=F(600,32);x.fillText(`${p.pts} pts`,mid,base-h-20);
+    });
+    const lo=s[s.length-1],y=base+60,bh=G.condena?330:240;
+    x.fillStyle=INK;box(80,y,920,bh,40);
+    x.textAlign='left';x.fillStyle=BUTTER;x.font=F(800,36);x.fillText('ÚLTIMO LUGAR',130,y+76);
+    x.fillText(fitText(lo.name.toUpperCase(),DISP,80,44,820),130,y+170);
+    if(G.condena){x.font=F(600,38);const all=wrapLines(x,`Condena: ${G.condena}`,820),cl=all.slice(0,2);if(all.length>2)cl[1]=cl[1].replace(/\s*\S*$/,'')+'…';cl.forEach((l,i)=>x.fillText(l,130,y+236+i*48));}
+    x.textAlign='center';
+  }else{
+    x.fillStyle=INK;x.font=DISP(110);['SE TERMINÓ','LA PREVIA'].forEach((l,i)=>x.fillText(l,W/2,620+i*130));
+    x.font=F(600,48);x.fillText(`${G.players.length} jugadores, ${G.count} cartas`,W/2,900);
+    x.fillStyle=BUTTER;box(0,1100,W,H-1100,[64,64,0,0]);
+  }
+  x.fillStyle=INK;x.font=F(800,44);x.fillText('¿Revancha? Jueguen Previa',W/2,H-80);
+  // Premio Pro: marco dorado alrededor de toda la imagen
+  if(useGold()){x.lineWidth=28;x.strokeStyle=GOLD(0,0,W,H);x.strokeRect(14,14,W-28,H-28);x.lineWidth=4;x.strokeStyle=INK;x.strokeRect(30,30,W-60,H-60);}
+  return await new Promise(r=>cv.toBlob(r,'image/png'));
+}
 async function shareImage(sc){
   try{await Promise.all([document.fonts.load('400 100px "Rammetto One"'),document.fonts.load('800 50px Rubik'),document.fonts.load('600 40px Rubik')]);}catch(e){}
   const W=1080,H=1920,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
@@ -1974,19 +2005,15 @@ async function shareImage(sc){
   const box=(X,Y,w,h,r)=>{x.beginPath();x.roundRect?x.roundRect(X,Y,w,h,r):x.rect(X,Y,w,h);x.fill();};
   const fitText=(t,font,size,min,maxW)=>{let fs=size;x.font=font(fs);while(x.measureText(t).width>maxW&&fs>min){fs-=6;x.font=font(fs);}while(x.measureText(t).width>maxW&&t.length>2)t=t.slice(0,-2)+'…';return t;};
   const s=sortedPlayers(),ph=G.photo&&G.photo.img,gold=useGold();
+  if(!ph)return classicImage(sc);
   const TEAL='#44AEAA',MUST='#EBAF35',M=gold?72:52;
   const outline=(X,Y,w,h,r,lw)=>{x.beginPath();x.roundRect?x.roundRect(X,Y,w,h,r):x.rect(X,Y,w,h);x.lineWidth=lw;x.strokeStyle=INK;x.stroke();};
   const GOLD=(X0,Y0,X1,Y1)=>{const g=x.createLinearGradient(X0,Y0,X1,Y1);g.addColorStop(0,'#F7D774');g.addColorStop(.45,'#EBAF35');g.addColorStop(.7,'#F9E3A0');g.addColorStop(1,'#C98E1A');return g;};
   const shade=(y0,y1,a0,a1)=>{const g=x.createLinearGradient(0,y0,0,y1);g.addColorStop(0,`rgba(27,26,26,${a0})`);g.addColorStop(1,`rgba(27,26,26,${a1})`);x.fillStyle=g;x.fillRect(0,y0,W,y1-y0);};
-  // Fondo: la foto del grupo a pantalla completa; sin foto, el fondo de la app con su remolino
-  if(ph){
-    const iw=ph.naturalWidth,ih=ph.naturalHeight,r=Math.max(W/iw,H/ih),sw=W/r,sh=H/r;
+  // Fondo: la foto del grupo a pantalla completa
+  {const iw=ph.naturalWidth,ih=ph.naturalHeight,r=Math.max(W/iw,H/ih),sw=W/r,sh=H/r;
     x.drawImage(ph,(iw-sw)/2,(ih-sh)/2,sw,sh,0,0,W,H);
-    shade(0,460,.5,0);shade(H*.62,H,0,.45);
-  }else{
-    x.fillStyle=TEAL;x.fillRect(0,0,W,H);
-    try{const blade=new Path2D('M0 0C40-30 60-90 40-150L100-150C110-80 70-20 0 0z');x.save();x.translate(W/2,820);x.scale(6,6);x.fillStyle='#60BFBA';for(let i=0;i<6;i++){x.fill(blade);x.rotate(Math.PI/3);}x.restore();}catch(e){}
-  }
+    shade(0,460,.5,0);shade(H*.62,H,0,.45);}
   // Logo chico arriba a la izquierda (dorado con el premio) y, debajo, quién gana
   x.textAlign='left';x.textBaseline='alphabetic';x.lineJoin='round';x.font=DISP(104);
   const lw=x.measureText('PREVIA').width,ly=M+104;
@@ -1998,11 +2025,6 @@ async function shareImage(sc){
   const tw=x.measureText(pill).width+48,ty=ly+32;
   x.fillStyle=INK;box(M+6,ty+6,tw,58,29);x.fillStyle=MUST;box(M,ty,tw,58,29);outline(M,ty,tw,58,29,4);
   x.fillStyle=INK;x.fillText(pill,M+24,ty+40);
-  if(!ph){ // sin foto, el centro no queda vacío
-    x.textAlign='center';x.fillStyle=INK;
-    if(sc){x.fillText(fitText(s[0].name.toUpperCase(),DISP,170,70,W-2*M),W/2,760);x.font=F(800,56);x.fillText('GANA LA PREVIA',W/2,850);}
-    else{x.font=DISP(110);['SE TERMINÓ','LA PREVIA'].forEach((l,i)=>x.fillText(l,W/2,720+i*130));}
-  }
   // Recuadro abajo a la derecha: podio chico sin puntajes, último lugar y condena
   if(sc){
     const lo=s[s.length-1],cw=540,pad=30,podH=250;
