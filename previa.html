@@ -1968,7 +1968,7 @@ async function classicImage(sc){
     x.font=F(800,56);x.fillText('GANA LA PREVIA',W/2,690);
     x.font=F(600,40);x.fillText(`${s[0].pts} puntos en ${G.count} cartas`,W/2,750);
     x.fillStyle=BUTTER;box(0,840,W,H-840,[64,64,0,0]);
-    const base=1330,cols=s.length>=3?[[s[1],2,200,'#EBAF35'],[s[0],1,280,CREAM],[s[2],3,150,'#44AEAA']]:[[s[1],2,200,'#EBAF35'],[s[0],1,280,CREAM]];
+    const base=1400,cols=s.length>=3?[[s[1],2,200,'#EBAF35'],[s[0],1,280,CREAM],[s[2],3,150,'#44AEAA']]:[[s[1],2,200,'#EBAF35'],[s[0],1,280,CREAM]];
     const colW=270,gap=30,startX=(W-(cols.length*colW+(cols.length-1)*gap))/2;
     cols.forEach(([p,n,h,col],i)=>{
       const cx=startX+i*(colW+gap),mid=cx+colW/2;
@@ -1991,7 +1991,6 @@ async function classicImage(sc){
     x.font=F(600,48);x.fillText(`${G.players.length} jugadores, ${G.count} cartas`,W/2,900);
     x.fillStyle=BUTTER;box(0,1100,W,H-1100,[64,64,0,0]);
   }
-  x.fillStyle=INK;x.font=F(800,44);x.fillText('¿Revancha? Jueguen Previa',W/2,H-80);
   // Premio Pro: marco dorado alrededor de toda la imagen
   if(useGold()){x.lineWidth=28;x.strokeStyle=GOLD(0,0,W,H);x.strokeRect(14,14,W-28,H-28);x.lineWidth=4;x.strokeStyle=INK;x.strokeRect(30,30,W-60,H-60);}
   return await new Promise(r=>cv.toBlob(r,'image/png'));
