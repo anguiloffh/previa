@@ -226,8 +226,10 @@ details.more[open] summary::after{content:"−"}
 .chip b{font-weight:800}
 
 /* Hoja inferior */
-.sheet-bg{position:fixed;inset:0;z-index:40;background:rgba(27,26,26,.55);display:flex;align-items:flex-end;justify-content:center}
-.sheet{width:100%;max-width:580px;max-height:86%;overflow:auto;background:var(--butter);color:var(--ink);border-radius:32px 32px 0 0;padding:24px 20px calc(env(safe-area-inset-bottom,0px) + 22px)}
+.noscroll,.noscroll body{overflow:hidden}
+.sheet-bg{position:fixed;inset:0;z-index:40;overscroll-behavior:contain;touch-action:none;background:rgba(27,26,26,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:580px;max-height:86%;overflow:auto;overscroll-behavior:contain;background:var(--butter);color:var(--ink);border-radius:32px 32px 0 0;padding:24px 20px calc(env(safe-area-inset-bottom,0px) + 22px)}
+.sheet{touch-action:pan-y}
 .sheet h3{font-family:var(--disp);font-weight:400;font-size:24px;line-height:1.15;margin:0 0 8px;text-transform:uppercase}
 .sheet p{font-size:15px;line-height:1.45;color:var(--muted);margin:0 0 16px}
 .plans{display:grid;gap:8px;margin:16px 0}
@@ -315,6 +317,41 @@ details.more[open] summary::after{content:"−"}
 .xpbox ul{margin:10px 0 0;padding-left:20px;font-size:14px;line-height:1.5}
 .secth{font-family:var(--disp);font-weight:400;font-size:16px;text-transform:uppercase;margin:26px 0 10px}
 .endbtns{margin-top:26px}
+/* Tus cartas */
+.mine-entry{display:flex;align-items:center;gap:14px;width:100%;margin-top:10px;padding:14px 16px;border:none;border-radius:22px;background:var(--ink);color:var(--butter);text-align:left;position:relative}
+.mine-entry .em .ic{width:40px;height:40px}
+.mine-entry strong{display:block;font-family:var(--disp);font-weight:400;font-size:17px;text-transform:uppercase}
+.mine-entry small{display:block;font-size:13px;opacity:.85;margin-top:2px;line-height:1.35}
+.mine-entry .badge{position:absolute;top:12px;right:12px;font-size:11px;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--must);color:var(--ink)}
+.mpack{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px 12px 12px;border:none;border-radius:20px;background:var(--cream);color:var(--ink);margin-bottom:8px;text-align:left}
+.mpack strong{display:block;font-size:17px;font-weight:800}
+.mpack small{display:block;font-size:13px;color:var(--muted)}
+.mpack .go{margin-left:auto;transform:scaleX(-1);opacity:.5}
+.mpack .go .ic{width:22px;height:22px}
+.mcard{display:block;width:100%;padding:12px 14px;border:none;border-radius:18px;background:var(--cream);color:var(--ink);margin-bottom:8px;text-align:left;font-size:15px;line-height:1.4}
+.mcard .mk{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.mcard .mk .ic{width:14px;height:14px;margin:0 -1px}
+.mcard b,.edprev b{font-weight:800}
+.mcard .tk{background:var(--butter);border-radius:6px;padding:0 4px;font-weight:800}
+.mine-tip{font-size:13px;color:var(--muted);line-height:1.45;margin:14px 2px 0}
+.mine-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px}
+.mine-demo{background:var(--cream);border-radius:26px;padding:18px}
+.mine-demo .kind{margin-bottom:12px}
+.mine-demo p{margin:0;font-size:19px;font-weight:800;line-height:1.3}
+.mine-demo small{display:block;margin-top:10px;font-size:13px;color:var(--muted)}
+.mine-demo mark,.edprev mark{background:var(--must);color:inherit;padding:0 5px;border-radius:6px}
+textarea.edtx{width:100%;min-height:96px;font:inherit;font-size:17px;font-weight:500;line-height:1.4;padding:12px 16px;border-radius:16px;border:2px solid transparent;background:var(--cream);color:var(--ink);resize:none}
+textarea.edtx:focus{outline:none;border-color:var(--ink)}
+.edins{display:flex;gap:8px;margin-top:8px}
+.edins button{flex:1;min-height:40px;border:none;border-radius:999px;background:var(--ink);color:var(--butter);font-size:14px;font-weight:800}
+.edprev{background:var(--cream);border-radius:22px;padding:16px;font-size:17px;font-weight:700;line-height:1.35}
+.edprev small{display:block;margin-top:8px;font-size:13px;font-weight:500;color:var(--muted)}
+.icpick{display:flex;flex-wrap:wrap;gap:8px}
+.icpick button{width:48px;height:48px;border:none;border-radius:50%;background:var(--cream);display:grid;place-items:center}
+.icpick button .ic{width:30px;height:30px}
+.icpick button[aria-pressed="true"]{background:var(--must);box-shadow:inset 0 0 0 3px var(--ink)}
+.mine-sel{width:100%;font:inherit;font-size:16px;font-weight:600;padding:12px 14px;border-radius:16px;border:none;background:var(--cream);color:var(--ink)}
+.lk3{display:inline-block;font-size:10px;font-weight:800;letter-spacing:0;padding:2px 8px;border-radius:99px;background:var(--red);color:var(--cream);margin-left:6px;vertical-align:1px}
 .probox{margin-top:12px;border-radius:20px;background:var(--ink);color:var(--butter);padding:16px;font-size:15px;line-height:1.4}
 .probox strong{font-weight:800}
 .probox .btn{display:block;width:100%;margin-top:12px;background:var(--must);color:var(--ink)}
@@ -377,6 +414,7 @@ details.more[open] summary::after{content:"−"}
 <symbol id="i-partyhat" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M24 7l14 34H10z" fill="#44AEAA"/><circle cx="24" cy="6" r="4" fill="#EBAF35"/></g><g fill="#E14936"><circle cx="22" cy="20" r="2.6"/><circle cx="28" cy="29" r="2.6"/><circle cx="18" cy="34" r="2.6"/></g><path d="M9 41h30" stroke="#1B1A1A" stroke-width="3" stroke-linecap="round"/></symbol>
 <symbol id="i-frame" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><rect x="8" y="4" width="32" height="40" rx="2" fill="#EBAF35"/><rect x="12" y="8" width="24" height="24" fill="#83AFF1"/></g><circle cx="29" cy="15" r="3" fill="#FDF3E0"/><path d="M12 32l8-9 6 6 4-3 6 6z" fill="#44AEAA"/></symbol>
 <symbol id="i-gallery" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><rect x="12" y="5" width="32" height="28" rx="4" fill="#EBAF35"/><rect x="4" y="14" width="32" height="28" rx="4" fill="#FDF3E0"/></g><circle cx="27" cy="22" r="3.2" fill="#E14936"/><path d="M6.5 39.5l9-11 6 7 4-4 8 8z" fill="#44AEAA" stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"/></symbol>
+<symbol id="i-pen" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><rect x="17" y="3" width="14" height="8" rx="2" fill="#E14936"/><rect x="17" y="11" width="14" height="23" fill="#EBAF35"/><path d="M17 34h14l-7 11z" fill="#FDF3E0"/></g><path d="M22.2 41.5h3.6L24 44.8z" fill="#1B1A1A"/><path d="M24 14v17" stroke="#1B1A1A" stroke-width="1.6"/></symbol>
 <symbol id="i-camera" viewBox="0 0 48 48"><g stroke="#1B1A1A" stroke-width="2.4" stroke-linejoin="round"><path d="M16 14l3-6h10l3 6" fill="#EBAF35"/><rect x="4" y="14" width="40" height="27" rx="5" fill="#44AEAA"/><circle cx="24" cy="27" r="8.5" fill="#FDF3E0"/><circle cx="24" cy="27" r="4" fill="#83AFF1" stroke-width="2"/></g><circle cx="37" cy="20" r="2" fill="#FDF3E0"/></symbol>
 </svg>
 
@@ -404,9 +442,21 @@ details.more[open] summary::after{content:"−"}
     <button type="button" class="lvl" id="lvlBtn"></button>
     <h2 class="h2">¿Cómo juegan hoy?</h2>
     <div class="modes" id="modes"></div>
+    <button type="button" class="mine-entry" id="mineBtn"></button>
     <p class="foot">Jueguen con responsabilidad: un sorbo es un sorbo, y nadie está obligado a nada. Cada castigo se puede cambiar por otro.<br><br>
       Prototipo. <button type="button" id="resetDemo">Reiniciar la demo</button></p>
   </section>
+</main>
+
+<!-- Tus cartas -->
+<main id="v-mine" class="view" hidden>
+  <header class="hero" style="--swy:-360px">
+    <svg class="swirl" aria-hidden="true" focusable="false"><use href="#swirl"/></svg>
+    <div class="topnav"><button type="button" class="iconbtn" id="mineBack" aria-label="Volver"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-back"/></svg></button><span class="modechip" style="--mbg:#FDF3E0;--mfg:#1B1A1A"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-pen"/></svg> Tus cartas</span></div>
+    <h2 class="title" id="mineTitle">Tus cartas</h2>
+    <p class="lead" id="mineLead"></p>
+  </header>
+  <section class="panel" id="minePanel"></section>
 </main>
 
 <!-- Jugadores -->
@@ -893,7 +943,7 @@ const MODES={
   hardcore:{name:'Hardcore',ic:'skull',desc:'Sin censura desde la primera carta y retos que no salen en otros modos.',bg:'#1B1A1A',fg:'#FDF3E0',pack:['hard'],lock:'pro',fixed:{spice:4,esc:false,minMax:'fuerte'}},
   caos:{name:'Caos',ic:'spiral',desc:'Eventos sorpresa que lo cambian todo.',bg:'#EBAF35',fg:'#1B1A1A',pack:[],lock:'lvl4'}
 };
-const DEFAULT_CFG={phone:'persona',ruleta:false,rounds:5,spice:2,max:'fuerte',drink:'alc',mv:1,later:'none',score:true,powers:true,quests:true,rules:true,esc:true,chaos:false,
+const DEFAULT_CFG={mine:[],phone:'persona',ruleta:false,rounds:5,spice:2,max:'fuerte',drink:'alc',mv:1,later:'none',score:true,powers:true,quests:true,rules:true,esc:true,chaos:false,
   cats:{retos:true,verdades:true,yonunca:true,votos:true,duelos:true,juegos:true}};
 const PRESET={
   clasico:{},
@@ -968,7 +1018,7 @@ const fmt=n=>Number(n).toLocaleString('es-CL');
 
 /* ---------- Persistencia ---------- */
 const freshSt=()=>({cards:0,ms:0,secret:0,done:0,modes:[],mdone:[],sano:0,sinc:0,cumpleN:0,caosN:0,day:'',dayN:0});
-function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,goldOff:false,later:null,spins:0,last:{},st:freshSt()}}
+function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,goldOff:false,mine:[],later:null,spins:0,last:{},st:freshSt()}}
 let S=freshS();
 try{S=Object.assign(freshS(),JSON.parse(localStorage.getItem(KEY)||'{}'));S.st=Object.assign(freshSt(),S.st);}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -1005,7 +1055,7 @@ const canSpice4=()=>isPro()||SESSION.has('spice4')||inHardcore();
 const canPrenda=()=>isPro()||SESSION.has('prenda')||inHardcore();
 
 /* ---------- UI general ---------- */
-const VIEWS=['v-age','v-home','v-players','v-settings','v-game','v-end'];
+const VIEWS=['v-age','v-home','v-mine','v-players','v-settings','v-game','v-end'];
 function show(id){VIEWS.forEach(v=>{$('#'+v).hidden=v!==id});if(id!=='v-game')window.scrollTo(0,0);}
 let toastQ=[],toastOn=false;
 function toast(msg){toastQ.push(msg);if(!toastOn)nextToast();}
@@ -1015,12 +1065,12 @@ function nextToast(){
   setTimeout(()=>{t.classList.remove('on');setTimeout(nextToast,300)},2400);
 }
 function openSheet(html,mount){
-  $('#sheetBody').innerHTML=html;$('#sheet').hidden=false;
+  $('#sheetBody').innerHTML=html;$('#sheet').hidden=false;document.documentElement.classList.add('noscroll');
   if(mount) mount($('#sheetBody'));
   const f=$('#sheetBody').querySelector('button');if(f)f.focus({preventScroll:true});
   $('#sheetBody').scrollTop=0;
 }
-function closeSheet(){$('#sheet').hidden=true;}
+function closeSheet(){$('#sheet').hidden=true;document.documentElement.classList.remove('noscroll');}
 $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#sheet').hidden)closeSheet();});
 function modeVars(el,id){el.style.setProperty('--mbg',MODES[id].bg);el.style.setProperty('--mfg',MODES[id].fg);}
@@ -1058,6 +1108,7 @@ function renderHome(){
     b.onclick=()=>{if(unlocked(id))openPlayers(id);else if(m.lock==='pro')paywall(id,()=>openPlayers(id));else lvlLock(id);};
     g.appendChild(b);
   });
+  renderMineEntry();
   const pb=$('#proBtn');pb.textContent=S.pro?'Pro activo':'Previa Pro';pb.classList.toggle('pro',!S.pro);
 }
 $('#proBtn').onclick=()=>{
@@ -1097,7 +1148,7 @@ $('#lvlBtn').onclick=()=>{
     <h4 class="sheeth">Logros · ${S.ach.length} de ${ACH.length}</h4>${tiers}
     <button type="button" class="secondary" onclick="closeSheet()">Cerrar</button>`);
 };
-$('#resetDemo').onclick=()=>openSheet(`<h3>¿Reiniciar la demo?</h3><p>Se borran el nivel, los logros, Pro y la verificación de edad.</p><div class="menu"><button type="button" class="primary" id="rsY">Reiniciar</button><button type="button" class="secondary" onclick="closeSheet()">Cancelar</button></div>`,b=>{b.querySelector('#rsY').onclick=()=>{S=freshS();save();SESSION.clear();closeSheet();boot();};});
+$('#resetDemo').onclick=()=>openSheet(`<h3>¿Reiniciar la demo?</h3><p>Se borran el nivel, los logros, Pro y la verificación de edad.</p><div class="menu"><button type="button" class="primary" id="rsY">Reiniciar</button><button type="button" class="secondary" onclick="closeSheet()">Cancelar</button></div>`,b=>{b.querySelector('#rsY').onclick=()=>{const keep=S.mine;S=freshS();S.mine=keep;save();SESSION.clear();closeSheet();boot();};});
 
 function lvlLock(id){
   const need=LEVELS[3]-S.xp;
@@ -1134,6 +1185,142 @@ function interstitial(done){
 function fakeAd(done){
   const a=$('#ad');a.hidden=false;let n=3;$('#adN').textContent=n;
   const t=setInterval(()=>{n--;if(n<=0){clearInterval(t);a.hidden=true;done();}else $('#adN').textContent=n;},1000);
+}
+
+/* ---------- Tus cartas ----------
+ Packs de cartas propias del grupo: Reto, Verdad o Votación. Solo con Pro (ni la versión gratis ni un anuncio
+ permiten escribirlas ni jugarlas). Se guardan en el teléfono y no se borran si el Pase de noche vence:
+ quedan guardadas sin acceso y vuelven al pagar de nuevo. */
+const MINE_TYPES={reto:'Reto',verdad:'Verdad',voto:'Votación'};
+const MINE_IC={reto:'bolt',verdad:'flame',voto:'star'};
+const MINE_PH={reto:'[Jugador], imita a [Otro jugador] cuando llega tarde.',verdad:'[Jugador], ¿qué es lo que más te molesta de [Otro jugador]?',voto:'¿Quién llegaría tarde a su propio matrimonio?'};
+const MINE_X={1:2,2:3,3:4,4:5};          // picante de la carta → castigo que agrega el juego
+const PREV_X={2:'2 sorbos',3:'3 sorbos',4:'5 sorbos',5:'vaso al seco'};
+const PACK_IC=['note','disco','star','hearts','ball','crown','flame','mic','cassette','balloon','smiley','bolt'];
+const MINE_MAX_PACKS=20,MINE_MAX_CARDS=100;
+const SPICE_SHORT={1:'Suave',2:'Atrevido',3:'Picante',4:'Sin censura'};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const toTokens=t=>t.replace(/[{}]/g,'').replace(/\[\s*otro jugador\s*\]/gi,'{p2}').replace(/\[\s*jugador\s*\]/gi,'{p}');
+const toMarks=t=>t.replace(/\{p2\}/g,'[Otro jugador]').replace(/\{p\}/g,'[Jugador]');
+// Texto final de la carta: si no nombra a nadie, va para quien le toca; el castigo lo agrega el juego
+function mineCardTxt(c){
+  // Solo quedan {p} y {p2}: cualquier otra llave que hayan escrito se borra
+  let t=esc(c.txt.trim()).split(/(\{p2?\})/).map((x,j)=>j%2?x:x.replace(/[{}]/g,'')).join('').replace(/\s+/g,' ').trim();
+  if(c.t!=='voto'&&!/\{p\}/.test(t))t='{p}, '+t.charAt(0).toLowerCase()+t.slice(1);
+  if(c.t!=='voto'&&!/[.!?…]$/.test(t))t+='.';
+  const x=`{x${MINE_X[c.l]||2}}`;
+  if(c.t==='reto')t+=` Si no, ${x}.`;else if(c.t==='verdad')t+=` Responde o ${x}.`;
+  return t;
+}
+function minePreview(c){
+  const html=mineCardTxt(c).replace(/\{p\}/g,'<b>Cami</b>').replace(/\{p2\}/g,'<b>Benja</b>').replace(/\{x(\d)\}/g,(_,k)=>`<mark>${PREV_X[k]}</mark>`);
+  const sub=c.t==='voto'?TYPES.voto.sub.replace('{x3}',PREV_X[3])+' ':'';
+  return `${html}<small>${sub}El castigo depende de los ajustes de la partida.</small>`;
+}
+const mineCount=()=>S.mine.reduce((a,p)=>a+p.cards.length,0);
+const MV={pack:null};
+function openMine(){MV.pack=null;renderMine();show('v-mine');}
+$('#mineBack').onclick=()=>{if(MV.pack){MV.pack=null;renderMine();window.scrollTo(0,0);}else goHome();};
+function renderMineEntry(){
+  const b=$('#mineBtn'),n=S.mine.length;
+  b.innerHTML=`<span class="em">${ic('pen')}</span><span><strong>Tus cartas</strong><small>${isPro()?(n?`${n} ${n===1?'pack':'packs'} con ${mineCount()} cartas. Creen más o súmenlas a una partida.`:'Creen cartas con los chistes del grupo y súmenlas a cualquier modo.'):'Creen cartas con los chistes del grupo y súmenlas a cualquier modo.'}</small></span>${isPro()?'':'<span class="badge">Pro</span>'}`;
+}
+$('#mineBtn').onclick=openMine;
+function renderMine(){
+  const panel=$('#minePanel'),P=MV.pack&&S.mine.find(p=>p.id===MV.pack);
+  if(!isPro()){
+    $('#mineTitle').textContent='Tus cartas';$('#mineLead').textContent='Cartas con los chistes internos del grupo, para sumar a cualquier modo.';
+    const n=S.mine.length;
+    panel.innerHTML=`<div class="mine-demo"><span class="kind" style="--pill:var(--teal)">${ic('bolt')} Reto</span><p><b>Cami</b>, imita a <b>Benja</b> cuando llega tarde. Si no, <mark>2 sorbos</mark>.</p><small>Carta del pack «Los del colegio»</small></div>
+      <h3 class="secth">Qué pueden hacer</h3>
+      <ul class="benefits"><li>${ic('pen')} Escribir retos, verdades y votaciones con los nombres del grupo</li><li>${ic('cassette')} Guardarlas en packs, como «Los del colegio» o «Familia»</li><li>${ic('spiral')} Sumarlas a cualquier modo: salen mezcladas con las cartas del juego</li><li>${ic('chili')} Elegir el picante de cada una; el castigo lo pone el juego</li></ul>
+      ${n?`<p class="mine-tip">Tienen ${n} ${n===1?'pack guardado':'packs guardados'} con ${mineCount()} cartas. Siguen aquí y vuelven al activar Pro.</p>`:''}
+      <button type="button" class="primary" id="mineUnlock" style="margin-top:20px">Desbloquear con Pro</button>
+      <p class="demo-note" style="text-align:center">Solo con Previa Pro.</p>`;
+    $('#mineUnlock').onclick=()=>paywall(null,()=>{renderMine();renderHome();});
+    return;
+  }
+  if(!P){
+    $('#mineTitle').textContent='Tus cartas';$('#mineLead').textContent='Packs de cartas con los chistes del grupo.';
+    panel.innerHTML=(S.mine.length?S.mine.map(k=>`<button type="button" class="mpack" data-id="${k.id}"><span class="av" style="--avbg:${COL[PACK_IC.indexOf(k.ic)%COL.length]||COL[0]}">${ic(k.ic)}</span><span><strong>${esc(k.name)}</strong><small>${k.cards.length} ${k.cards.length===1?'carta':'cartas'}</small></span><span class="go">${ic('back')}</span></button>`).join('')
+      :'<p class="mine-tip" style="margin-top:0">Todavía no tienen packs. Creen uno, por ejemplo «Los del colegio», y agréguenle cartas.</p>')
+      +`<button type="button" class="add" id="minePackNew"${S.mine.length>=MINE_MAX_PACKS?' disabled':''}>Crear pack</button>
+      <p class="mine-tip">Para jugarlas, actívenlas en los ajustes de la partida, en «Tus packs». Las cartas se guardan en este teléfono.</p>`;
+    panel.querySelectorAll('.mpack').forEach(b=>b.onclick=()=>{MV.pack=b.dataset.id;renderMine();window.scrollTo(0,0);});
+    $('#minePackNew').onclick=()=>packSheet(null);
+    return;
+  }
+  $('#mineTitle').textContent=P.name;$('#mineLead').textContent=`${P.cards.length} ${P.cards.length===1?'carta':'cartas'}`;
+  const mark=t=>esc(toMarks(t)).replace(/\[(Jugador|Otro jugador)\]/g,'<span class="tk">$1</span>');
+  panel.innerHTML=(P.cards.length?P.cards.map(c=>`<button type="button" class="mcard" data-id="${c.id}"><span class="mk"><span>${MINE_TYPES[c.t]}</span><span>${ic('chili').repeat(c.l)}</span></span>${mark(c.txt)}</button>`).join('')
+    :'<p class="mine-tip" style="margin-top:0">Este pack todavía no tiene cartas.</p>')
+    +`<button type="button" class="add" id="mineCardNew"${P.cards.length>=MINE_MAX_CARDS?' disabled':''}>Agregar carta</button>
+    <p class="mine-tip">Para jugarlas, activen este pack en los ajustes de la partida, en «Tus packs».</p>
+    <div class="mine-actions"><button type="button" class="btn" id="minePackEdit">Editar pack</button><button type="button" class="btn" id="minePackDel">Borrar pack</button></div>`;
+  panel.querySelectorAll('.mcard').forEach(b=>b.onclick=()=>cardSheet(P,P.cards.find(c=>c.id===b.dataset.id)));
+  $('#mineCardNew').onclick=()=>cardSheet(P,null);
+  $('#minePackEdit').onclick=()=>packSheet(P);
+  $('#minePackDel').onclick=()=>openSheet(`<h3>¿Borrar «${esc(P.name)}»?</h3><p>Se borran sus ${P.cards.length} cartas. No se puede deshacer.</p><div class="menu"><button type="button" class="primary" id="pdY">Borrar pack</button><button type="button" class="secondary" onclick="closeSheet()">Cancelar</button></div>`,
+    b=>{b.querySelector('#pdY').onclick=()=>{S.mine=S.mine.filter(k=>k!==P);save();closeSheet();MV.pack=null;renderMine();};});
+}
+// Crear o editar un pack: nombre e ícono
+function packSheet(P){
+  let icSel=P?P.ic:PACK_IC[S.mine.length%PACK_IC.length];
+  openSheet(`<h3>${P?'Editar pack':'Nuevo pack'}</h3>
+    <label class="label" for="pkName" style="margin-top:8px">Nombre</label><input type="text" id="pkName" maxlength="28" placeholder="Los del colegio" value="${P?esc(P.name):''}" autocomplete="off">
+    <span class="label">Ícono</span><div class="icpick">${PACK_IC.map(k=>`<button type="button" data-k="${k}" aria-pressed="${k===icSel}" aria-label="${k}">${ic(k)}</button>`).join('')}</div>
+    <p class="err" id="pkErr"></p>
+    <div class="menu" style="margin-top:14px"><button type="button" class="primary" id="pkSave">Guardar</button><button type="button" class="secondary" onclick="closeSheet()">Cancelar</button></div>`,b=>{
+    b.querySelectorAll('.icpick button').forEach(x=>x.onclick=()=>{icSel=x.dataset.k;b.querySelectorAll('.icpick button').forEach(y=>y.setAttribute('aria-pressed',y.dataset.k===icSel));});
+    b.querySelector('#pkSave').onclick=()=>{
+      const name=b.querySelector('#pkName').value.trim();
+      if(!name){b.querySelector('#pkErr').textContent='Pónganle un nombre al pack.';return;}
+      if(P){P.name=name;P.ic=icSel;}else{const n={id:uid(),name,ic:icSel,cards:[]};S.mine.push(n);MV.pack=n.id;}
+      save();closeSheet();renderMine();
+    };
+  });
+}
+// Crear o editar una carta, con vista previa en vivo
+function cardSheet(P,C){
+  const d={t:C?C.t:'reto',l:C?C.l:1};
+  const others=S.mine.filter(k=>k!==P);
+  openSheet(`<h3>${C?'Editar carta':'Nueva carta'}</h3>
+    <span class="label" style="margin-top:8px">Tipo</span><div class="seg" id="edT">${Object.entries(MINE_TYPES).map(([k,n])=>`<button type="button" data-v="${k}">${n}</button>`).join('')}</div>
+    <label class="label" for="edTx">Texto</label><textarea class="edtx" id="edTx" maxlength="180" rows="3">${C?esc(toMarks(C.txt)):''}</textarea>
+    <div class="edins"><button type="button" data-ins="[Jugador]">+ Jugador</button><button type="button" data-ins="[Otro jugador]">+ Otro jugador</button></div>
+    <p class="help" style="margin-top:8px">[Jugador] y [Otro jugador] se cambian por nombres del grupo. Si no nombran a nadie, la carta va para quien le toca. El castigo lo agrega el juego.</p>
+    <span class="label">Picante</span><div class="seg" id="edL">${[1,2,3,4].map(l=>`<button type="button" data-v="${l}">${SPICE_SHORT[l]}<small>${ic(l===4?'flame':'chili').repeat(l===4?1:l)}</small></button>`).join('')}</div>
+    <span class="label">Así se verá</span><div class="edprev" id="edPrev"></div>
+    ${C&&others.length?`<label class="label" for="edMv">Pack</label><select class="mine-sel" id="edMv"><option value="">${esc(P.name)}</option>${others.map(k=>`<option value="${k.id}">${esc(k.name)}</option>`).join('')}</select>`:''}
+    <p class="err" id="edErr"></p>
+    <div class="menu" style="margin-top:14px"><button type="button" class="primary" id="edSave">Guardar</button>${C?'<button type="button" class="secondary" id="edDel">Borrar carta</button>':''}<button type="button" class="secondary" onclick="closeSheet()">Cancelar</button></div>`,b=>{
+    const tx=b.querySelector('#edTx'),prev=b.querySelector('#edPrev');
+    const paint=()=>{
+      b.querySelectorAll('#edT button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v===d.t));
+      b.querySelectorAll('#edL button').forEach(x=>x.setAttribute('aria-pressed',+x.dataset.v===d.l));
+      tx.placeholder=MINE_PH[d.t];
+      const t=toTokens(tx.value.trim()||MINE_PH[d.t]);
+      prev.innerHTML=minePreview({t:d.t,l:d.l,txt:t});
+    };
+    b.querySelectorAll('#edT button').forEach(x=>x.onclick=()=>{d.t=x.dataset.v;paint();});
+    b.querySelectorAll('#edL button').forEach(x=>x.onclick=()=>{d.l=+x.dataset.v;paint();});
+    b.querySelectorAll('.edins button').forEach(x=>x.onclick=()=>{
+      const s0=tx.selectionStart??tx.value.length,s1=tx.selectionEnd??s0;
+      const before=tx.value.slice(0,s0),pad=before&&!/\s$/.test(before)?' ':'';
+      tx.setRangeText(pad+x.dataset.ins+' ',s0,s1,'end');tx.focus();paint();
+    });
+    tx.oninput=paint;paint();
+    b.querySelector('#edSave').onclick=()=>{
+      const raw=tx.value.replace(/\s+/g,' ').trim();
+      if(raw.length<8){b.querySelector('#edErr').textContent='Escriban la carta: al menos unas palabras.';return;}
+      const txt=toTokens(raw);
+      if(C){C.t=d.t;C.l=d.l;C.txt=txt;const mv=b.querySelector('#edMv');const to=mv&&mv.value&&S.mine.find(k=>k.id===mv.value);
+        if(to&&to.cards.length<MINE_MAX_CARDS){P.cards=P.cards.filter(c=>c!==C);to.cards.push(C);toast(`Carta movida a «${to.name}»`);}}
+      else P.cards.push({id:uid(),t:d.t,l:d.l,txt});
+      save();closeSheet();renderMine();
+    };
+    const del=b.querySelector('#edDel');if(del)del.onclick=()=>{P.cards=P.cards.filter(c=>c!==C);save();closeSheet();renderMine();};
+  });
 }
 
 /* ---------- Jugadores ---------- */
@@ -1284,6 +1471,7 @@ function openSettings(){
   const base=JSON.parse(JSON.stringify(Object.assign({},DEFAULT_CFG,PRESET[D.mode])));
   MECH.forEach(k=>{CFG[k]=base[k];});
   if(CFG.later==='fiesta')CFG.later='disco';
+  CFG.mine=(CFG.mine||[]).filter(id=>S.mine.some(k=>k.id===id&&k.cards.length));
   CFG.phone='persona'; // el teléfono siempre lo tiene una persona y se pasa solo cuando la carta es para otro
   if(CFG.rounds>5&&!canLong())CFG.rounds=5;
   if(CFG.spice===4&&!canSpice4())CFG.spice=3;
@@ -1352,6 +1540,19 @@ function renderSettings(){
       host.appendChild(wrap);
     }
   });
+  // Tus packs: uno o varios packs de cartas propias. Sin Pro se ven bloqueados y siguen guardados.
+  const packs=S.mine.filter(k=>k.cards.length);
+  if(packs.length){
+    const w=document.createElement('div');
+    w.innerHTML=`<span class="label">Tus packs${isPro()?'':'<span class="lk3">Pro</span>'}</span><div class="toggles"></div><p class="help" style="margin-top:8px">${isPro()?'Sus cartas se mezclan con las del juego: más o menos 1 de cada 4.':'Sus cartas siguen guardadas. Vuelven con Pro.'}</p>`;
+    const tb=w.querySelector('.toggles');
+    packs.forEach(k=>{const b=document.createElement('button');b.type='button';b.className='tog';b.setAttribute('role','switch');
+      b.setAttribute('aria-checked',isPro()&&CFG.mine.includes(k.id));
+      b.innerHTML=`<span>${esc(k.name)}<small>${k.cards.length} ${k.cards.length===1?'carta':'cartas'}</small></span><i class="sw" aria-hidden="true"></i>`;
+      b.onclick=()=>{if(!isPro()){paywall(null,renderSettings);return;}CFG.mine=CFG.mine.includes(k.id)?CFG.mine.filter(i=>i!==k.id):CFG.mine.concat(k.id);renderSettings();};
+      tb.appendChild(b);});
+    q.appendChild(w);
+  }
   const inc=MECH.filter(k=>k!=='cats'&&CFG[k]).map(k=>MECH_NAMES[k]);
   const last=inc.pop();
   mo.insertAdjacentHTML('beforeend',`<p class="help" style="margin-top:18px">Este modo incluye ${inc.length?inc.join(', ')+' y '+last:last}.</p>`);
@@ -1407,12 +1608,15 @@ function startGame(){
   }
   const cfg=JSON.parse(JSON.stringify(CFG));
   const lv0=lvlN();
+  // Cartas propias (solo con Pro): se suman al final del mazo para esta partida
+  while(CARDS.length&&CARDS[CARDS.length-1].k==='mine')CARDS.pop();
+  if(isPro())S.mine.filter(k=>(cfg.mine||[]).includes(k.id)).forEach(k=>k.cards.forEach(c=>CARDS.push({t:c.t,l:c.l,txt:mineCardTxt(c),m:0,k:'mine',id:CARDS.length,from:k.name})));
   if(!cfg.score) cfg.powers=false;
   dropPhoto();
   G={mode:D.mode,M:m,cfg,prota,partner,sol:D.sol,partners,
     players:names.map((n,i)=>({name:n,av:avs[i],col:COL[i%COL.length],pts:0,done:0,pen:0,used:0,quests:0,fails:0,streak:0,pw:{escudo:cfg.powers?1:0,rebote:cfg.powers&&lv0>=6?1:0,cambio:0}})),
     round:1,rounds:cfg.rounds,inRound:0,roundLen:roundLenFor(names.length),count:0,used:new Set(),events:[],later:[],
-    lastType:null,turn:0,rs:(Math.random()*2**31)|0,rm:(Math.random()*2**31)|0,reader:0,keepReader:false,hist:[],holder:names[0],golden:false,L:1,force:null,lastWasEvent:false,packs:lv0>=5?m.pack.concat('leyenda'):m.pack,full:isPro(),wasLast:new Set(),powersUsed:0,newAch:[],finished:false,
+    lastType:null,turn:0,rs:(Math.random()*2**31)|0,rm:(Math.random()*2**31)|0,reader:0,keepReader:false,hist:[],holder:names[0],golden:false,L:1,force:null,lastWasEvent:false,packs:(lv0>=5?m.pack.concat('leyenda'):m.pack).concat('mine'),full:isPro(),wasLast:new Set(),powersUsed:0,newAch:[],finished:false,
     lv0,xp0:S.xp,achXP:0,ms:0,tLast:0,questsOk:0};
   G.L=curLevel();
   if(m.prota==='desp'){G.protaLabel=G.sol==='soltera'?'Para la novia':'Para el novio';G.protaIc='ring';}
@@ -1447,13 +1651,25 @@ function eligible(c,relax,forceP){
   if(!relax&&c.t===G.lastType) return false;
   return true;
 }
+// Pruebas para después: si van a salir, cada partida trae una cantidad fija (3 rondas: 2, 5: 3, 8: 4, 12: 6),
+// repartidas a lo largo del juego. Si van atrasadas, pesan más; si ya casi no quedan cartas, salen sí o sí.
+function laterPlan(){
+  if(G.cfg.later==='none')return {boost:1,only:false};
+  const total=G.rounds*G.roundLen,want=Math.max(2,Math.round(G.rounds/2)),have=G.later.length,need=want-have,left=total-G.count;
+  if(need<=0)return {boost:1,only:false};
+  return {boost:have<want*(G.count+1)/total?10:1,only:left<=need*2};
+}
 function drawCard(forceP){
-  let pool=[],tot=0;
-  const pass=relax=>{pool=[];tot=0;for(const c of CARDS){if(!eligible(c,relax,forceP))continue;let w=1;if(c.k==='leyenda')w*=1.3;else if(c.k!=='base')w*=(c.t==='prota'?1.1:2.4);if(c.l===G.L)w*=1.6;if(PERSONAL.includes(c.t))w*=1.25;pool.push([c,w]);tot+=w;}};
-  pass(false);
+  let pool=[],tot=0;const LP=forceP?{boost:1,only:false}:laterPlan();
+  const pass=(relax,only)=>{pool=[];tot=0;for(const c of CARDS){if(only&&c.t!=='despues')continue;if(!eligible(c,relax,forceP))continue;let w=c.t==='despues'?LP.boost:1;if(c.k==='leyenda')w*=1.3;else if(c.k!=='base')w*=(c.t==='prota'?1.1:2.4);if(c.l===G.L)w*=1.6;if(PERSONAL.includes(c.t))w*=1.25;pool.push([c,w]);tot+=w;}};
+  if(LP.only)pass(false,true);
+  if(!pool.length)pass(false);
   if(!pool.length){G.used.clear();pass(false);}
   if(!pool.length)pass(true);
   if(!pool.length)return null;
+  // Cartas propias: en conjunto salen más o menos 1 de cada 4
+  {let wm=0,wo=0;pool.forEach(([c,w])=>{if(c.k==='mine')wm+=w;else wo+=w;});
+   if(wm&&wo){const f=(wo/3)/wm;pool.forEach(e=>{if(e[0].k==='mine')e[1]*=f;});tot=wo+wm*f;}}
   let r=rD()*tot;
   for(const [c,w] of pool){r-=w;if(r<=0){G.used.add(c.id);return c;}}
   const c=pool[pool.length-1][0];G.used.add(c.id);return c;
@@ -1522,6 +1738,7 @@ function showCard(card,x,y,forceP){
   const T=TYPES[card.t];
   const c={type:card.t,html:fill(card.txt,nm),sub:'',tap:true,actions:[],l:card.l};
   const subSrc=card.sub||T.sub;if(subSrc)c.sub=fill(subSrc,nm);
+  if(card.from)c.sub=`Carta de «${esc(card.from)}».`+(c.sub?' '+c.sub:'');
   const sc=G.cfg.score;
   const penK=card.pen||maxX(card.txt+(card.sub||'')+(T.sub||''))||2;
   if(isRuleta(card)) c.ruleta=true;
