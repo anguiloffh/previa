@@ -1,0 +1,28 @@
+{
+  "name": "previa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Previa: juego de fiesta para iOS y Android",
+  "scripts": {
+    "build": "node scripts/build-www.js",
+    "sync": "npm run build && npx cap sync",
+    "android": "npm run sync && npx cap open android",
+    "test": "node pruebas/simulacion.js && node pruebas/retroceso.js && node pruebas/xp.js"
+  },
+  "dependencies": {
+    "@capacitor-community/admob": "^8.2.1",
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/ios": "^8.5.3",
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/share": "^8.0.3",
+    "@fontsource/rammetto-one": "^5.3.0",
+    "@fontsource/rubik": "^5.3.0",
+    "@revenuecat/purchases-capacitor": "^13.7.4"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3",
+    "jsdom": "^30.1.2"
+  }
+}

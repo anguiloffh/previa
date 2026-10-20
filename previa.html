@@ -444,7 +444,7 @@ textarea.edtx:focus{outline:none;border-color:var(--ink)}
     <div class="modes" id="modes"></div>
     <button type="button" class="mine-entry" id="mineBtn"></button>
     <p class="foot">Jueguen con responsabilidad: un sorbo es un sorbo, y nadie está obligado a nada. Cada castigo se puede cambiar por otro.<br><br>
-      Prototipo. <button type="button" id="resetDemo">Reiniciar la demo</button></p>
+      <span id="demoFoot">Prototipo. <button type="button" id="resetDemo">Reiniciar la demo</button></span></p>
   </section>
 </main>
 
@@ -880,6 +880,21 @@ const rnd=a=>a[Math.floor(Math.random()*a.length)];
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const reduceMotion=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 const KEY='previa_v1';
+/* App nativa (Capacitor). Dentro de la app se usan los complementos del teléfono; en la web (GitHub Pages)
+ todo sigue en modo demo. Las claves reales se completan en el paso 4 (RevenueCat y AdMob). */
+const CAP=window.Capacitor,NATIVE=!!(CAP&&CAP.isNativePlatform&&CAP.isNativePlatform());
+const PLAT=NATIVE?CAP.getPlatform():'web';
+const APP_CFG={
+  rc:{android:'',ios:''},                      // claves públicas de RevenueCat
+  entitlement:'pro',
+  products:{noche:'previa_pase_noche',anual:'previa_anual',siempre:'previa_para_siempre'},
+  // Unidades de AdMob. Vacías = anuncios de prueba de Google (no pagan, sirven para probar).
+  ads:{android:{rewarded:'',inter:''},ios:{rewarded:'',inter:''}}
+};
+const TEST_ADS={android:{rewarded:'ca-app-pub-3940256099942544/5224354917',inter:'ca-app-pub-3940256099942544/1033173712'},ios:{rewarded:'ca-app-pub-3940256099942544/1712485313',inter:'ca-app-pub-3940256099942544/4411468910'}};
+const _plugs={};
+const plug=n=>NATIVE?(_plugs[n]=_plugs[n]||(CAP.Plugins&&CAP.Plugins[n])||CAP.registerPlugin(n)):null;
+const NOCHE_MS=864e5;
 const B=v=>`<b>${esc(v)}</b>`;
 /* Íconos dibujados (símbolos del SVG al inicio del body) y avatares */
 const ic=(n,cls)=>`<svg class="ic${cls?' '+cls:''}" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
@@ -1021,7 +1036,7 @@ const freshSt=()=>({cards:0,ms:0,secret:0,done:0,modes:[],mdone:[],sano:0,sinc:0
 function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,goldOff:false,mine:[],later:null,spins:0,last:{},st:freshSt()}}
 let S=freshS();
 try{S=Object.assign(freshS(),JSON.parse(localStorage.getItem(KEY)||'{}'));S.st=Object.assign(freshSt(),S.st);}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function save(){const v=JSON.stringify(S);try{localStorage.setItem(KEY,v)}catch(e){}if(NATIVE)plug('Preferences').set({key:KEY,value:v}).catch(()=>{});}
 const SESSION=new Set();
 
 function level(xp){
@@ -1032,7 +1047,7 @@ function level(xp){
     pct:nxt?Math.round((xp-cur)/(nxt-cur)*100):Math.round(over%STAR_XP/STAR_XP*100)};
 }
 const lvlN=()=>level(S.xp).n;
-const isPro=()=>S.pro;
+const isPro=()=>S.pro&&!(S.plan==='noche'&&S.proUntil&&Date.now()>S.proUntil);
 const PRO_EXTRA=Math.floor(CARDS.filter(c=>c.pro||['desp','parejas','hard'].includes(c.k)).length/10)*10;
 // Versión gratis: hasta 6 jugadores y partidas de 3 o 5 rondas. Un anuncio lo desbloquea para una partida.
 const FREE_MAX=6;
@@ -1109,10 +1124,17 @@ function renderHome(){
     g.appendChild(b);
   });
   renderMineEntry();
-  const pb=$('#proBtn');pb.textContent=S.pro?'Pro activo':'Previa Pro';pb.classList.toggle('pro',!S.pro);
+  const pb=$('#proBtn');pb.textContent=isPro()?'Pro activo':'Previa Pro';pb.classList.toggle('pro',!isPro());
 }
 $('#proBtn').onclick=()=>{
-  if(!S.pro)return paywall(null,renderHome);
+  if(!isPro())return paywall(null,renderHome);
+  if(NATIVE){
+    const until=S.plan==='noche'&&S.proUntil?` Vence el ${new Date(S.proUntil).toLocaleString('es-CL',{weekday:'long',hour:'2-digit',minute:'2-digit'})}.`:'';
+    openSheet(`<h3>Pro activo</h3><p>Plan: ${PLANS[S.plan]||'Pro'}.${until}${S.plan==='anual'?' Se administra y cancela desde la tienda.':''}</p>
+      <div class="menu"><button type="button" class="secondary" id="proRestore">Restaurar compras</button><button type="button" class="secondary" onclick="closeSheet()">Cerrar</button></div>`,
+      b=>{b.querySelector('#proRestore').onclick=async()=>{await restoreBuys();closeSheet();renderHome();};});
+    return;
+  }
   if(!PLANS[S.plan]){S.plan='noche';save();}
   openSheet(`<h3>Pro activo</h3><p>Plan: ${PLANS[S.plan]}. En esta demo tienes todo desbloqueado.</p>
     <p class="demo-note">Prototipo: cambia de plan para probar los premios de cada uno.</p>
@@ -1166,10 +1188,17 @@ function paywall(target,then){
     <div class="plans">${plans.map(p=>`<button type="button" class="plan" data-p="${p[0]}" aria-pressed="${p[0]===plan}"><span><strong>${p[1]}${p[4]?`<span class="tag">${p[4]}</span>`:''}</strong><small>${p[2]}</small></span><span class="pr">${p[3]}</span></button>`).join('')}</div>
     <button type="button" class="primary" id="pwBuy">Desbloquear</button>
     ${target?'<button type="button" class="linkbtn" id="pwAd">Ver un anuncio y jugarlo una vez gratis</button>':''}
-    <p class="demo-note">Prototipo: no se cobra nada.</p>`,
+    ${NATIVE?`<button type="button" class="linkbtn" id="pwRestore">Restaurar compras</button>
+    <p class="demo-note">El Pase de noche dura 24 horas. El Anual se renueva solo cada año hasta que lo cancelen en la tienda. El cobro lo hace ${PLAT==='ios'?'Apple':'Google Play'}. <a href="https://anguiloffh.github.io/previa/privacidad.html">Privacidad</a></p>`:'<p class="demo-note">Prototipo: no se cobra nada.</p>'}`,
   b=>{
     b.querySelectorAll('.plan').forEach(x=>x.onclick=()=>{plan=x.dataset.p;b.querySelectorAll('.plan').forEach(y=>y.setAttribute('aria-pressed',y.dataset.p===plan));});
-    b.querySelector('#pwBuy').onclick=()=>{S.pro=true;S.plan=plan;save();closeSheet();toast('Pro desbloqueado (demo)');then&&then();};
+    if(NATIVE){
+      // Precios reales de la tienda, en la moneda del usuario
+      storePrices().then(pr=>b.querySelectorAll('.plan').forEach(x=>{if(pr[x.dataset.p])x.querySelector('.pr').textContent=pr[x.dataset.p];})).catch(()=>{});
+      b.querySelector('#pwBuy').onclick=async()=>{const bt=b.querySelector('#pwBuy');bt.disabled=true;
+        const ok=await buyPlan(plan);bt.disabled=false;if(ok){closeSheet();toast('Previa Pro activado');renderHome();then&&then();}};
+      b.querySelector('#pwRestore').onclick=async()=>{const ok=await restoreBuys();if(ok){closeSheet();renderHome();then&&then();}};
+    }else b.querySelector('#pwBuy').onclick=()=>{S.pro=true;S.plan=plan;save();closeSheet();toast('Pro desbloqueado (demo)');then&&then();};
     const ad=b.querySelector('#pwAd');
     if(ad) ad.onclick=()=>{closeSheet();fakeAd(()=>{SESSION.add(target);toast('Desbloqueado para esta partida');then&&then();});};
   });
@@ -1178,11 +1207,13 @@ function paywall(target,then){
  resultados ni de compartir. Solo en la versión gratis. Se puede cerrar a los 5 segundos. */
 function interstitial(done){
   if(isPro()){done();return;}
+  if(NATIVE){showNativeAd('inter').finally(done);return;}
   const a=$('#inter'),x=$('#interX');let n=5;$('#interN').textContent=n;x.hidden=true;a.hidden=false;
   const t=setInterval(()=>{n--;if(n<=0){clearInterval(t);$('#interN').textContent='';x.hidden=false;x.focus();}else $('#interN').textContent=n;},1000);
   x.onclick=()=>{a.hidden=true;done();};
 }
 function fakeAd(done){
+  if(NATIVE){showNativeAd('rewarded').then(ok=>{if(ok)done();else toast('No hay anuncio disponible. Intenten de nuevo en un rato.');});return;}
   const a=$('#ad');a.hidden=false;let n=3;$('#adN').textContent=n;
   const t=setInterval(()=>{n--;if(n<=0){clearInterval(t);a.hidden=true;done();}else $('#adN').textContent=n;},1000);
 }
@@ -2076,6 +2107,7 @@ function laterText(place,arr){
 }
 async function shareLater(place,arr){
   const text=laterText(place,arr);
+  if(NATIVE){try{await plug('Share').share({text});}catch(e){}return;}
   try{
     if(navigator.share)await navigator.share({text});
     else if(navigator.clipboard){await navigator.clipboard.writeText(text);toast('Lista copiada. Péguenla en el grupo.');}
@@ -2094,7 +2126,7 @@ $('#gScore').onclick=()=>openSheet(`<h3>Marcador</h3><p>Ronda ${G.round} de ${G.
   <button type="button" class="secondary" onclick="closeSheet()">Volver al juego</button>`);
 $('#gPause').onclick=()=>openSheet(`<h3>Pausa</h3><p>Ronda ${G.round} de ${G.rounds}. Van ${G.count} cartas.</p>
   <div class="menu"><button type="button" class="primary" id="pzR">Seguir jugando</button><button type="button" class="secondary" id="pzE">Terminar y ver resultados</button><button type="button" class="secondary" id="pzQ">Salir sin terminar</button></div>`,
-  b=>{b.querySelector('#pzR').onclick=closeSheet;b.querySelector('#pzE').onclick=()=>{closeSheet();finish();};b.querySelector('#pzQ').onclick=()=>{closeSheet();G.finished=true;keepLater();bankStats();goHome();};});
+  b=>{b.querySelector('#pzR').onclick=closeSheet;b.querySelector('#pzE').onclick=()=>{closeSheet();finish();};b.querySelector('#pzQ').onclick=()=>{closeSheet();G.finished=true;keepLater();SESSION.clear();bankStats();goHome();};});
 
 /* ---------- Final ---------- */
 /* Suma cartas y tiempo jugado a las estadísticas, aunque la partida no se termine */
@@ -2106,7 +2138,7 @@ function bankStats(){
 }
 function finish(){
   if(G.finished)return;G.finished=true;
-  keepLater();
+  keepLater();SESSION.clear(); // lo desbloqueado con un anuncio dura solo esta partida
   const L0=level(G.xp0);
   const gain=gameXP(G.rounds,G.mode,!!G.completed,G.count,G.roundLen);
   S.xp+=gain;S.games++;save();
@@ -2354,7 +2386,20 @@ function openShare(sc){
     if(gs){const mark=()=>gs.querySelectorAll('button').forEach(y=>y.setAttribute('aria-pressed',(y.dataset.g==='1')===!S.goldOff));mark();
       gs.querySelectorAll('button').forEach(y=>y.onclick=()=>{S.goldOff=y.dataset.g==='0';save();mark();again();});}
     b.querySelector('#shGal').onclick=()=>pickPhoto(false,again);
-    go.onclick=async()=>{
+    if(NATIVE){
+      // En la app: la imagen se guarda en el caché del teléfono y se comparte con el menú nativo
+      saveA.removeAttribute('download');
+      const nativeShare=async withText=>{
+        if(!file){toast('No se pudo generar la imagen');return;}
+        try{
+          const data=await new Promise((ok,ko)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=ko;r.readAsDataURL(file);});
+          const {uri}=await plug('Filesystem').writeFile({path:'previa-resultado.png',data,directory:'CACHE'});
+          await plug('Share').share(withText?{text:txt,files:[uri],...withLink}:{files:[uri]});
+        }catch(e){if(!/cancel/i.test(String(e&&e.message)))toast('No se pudo compartir');}
+      };
+      go.onclick=()=>nativeShare(true);
+      saveA.onclick=e=>{e.preventDefault();nativeShare(false);};
+    }else go.onclick=async()=>{
       try{
         if(file&&can({files:[file],text:txt}))await navigator.share({files:[file],text:txt,...withLink});
         else if(file&&can({files:[file]}))await navigator.share({files:[file]});
@@ -2367,8 +2412,90 @@ function openShare(sc){
   });
 }
 
+/* ---------- App nativa: guardado, compras y anuncios ---------- */
+// Al abrir la app: lo guardado en Preferences manda sobre localStorage (que el sistema puede borrar)
+async function loadNative(){
+  try{const {value}=await plug('Preferences').get({key:KEY});
+    if(value){S=Object.assign(freshS(),JSON.parse(value));S.st=Object.assign(freshSt(),S.st);}else save();}catch(e){}
+}
+const rcKey=()=>APP_CFG.rc[PLAT]||'';
+let RC_ON=false;
+async function initPurchases(){
+  if(!rcKey())return;
+  try{const P=plug('Purchases');await P.configure({apiKey:rcKey()});RC_ON=true;
+    P.addCustomerInfoUpdateListener(ci=>{applyInfo(ci);renderHome();});
+    const {customerInfo}=await P.getCustomerInfo();applyInfo(customerInfo);}catch(e){}
+}
+// Pro según la tienda: Anual o Para siempre activan el permiso «pro»; el Pase de noche es una compra única
+// que vale 24 horas desde la compra.
+function applyInfo(ci){
+  if(!ci)return;
+  const ent=ci.entitlements&&ci.entitlements.active&&ci.entitlements.active[APP_CFG.entitlement];
+  let plan=null,until=null;
+  if(ent)plan=ent.productIdentifier===APP_CFG.products.anual?'anual':'siempre';
+  else{
+    const t=(ci.nonSubscriptionTransactions||[]).filter(x=>x.productIdentifier===APP_CFG.products.noche).map(x=>Date.parse(x.purchaseDate)).filter(Boolean).sort((a,b)=>a-b).pop();
+    if(t&&Date.now()-t<NOCHE_MS){plan='noche';until=t+NOCHE_MS;}
+  }
+  S.pro=!!plan;S.plan=plan;S.proUntil=until;save();
+}
+async function storeProducts(){
+  const P=plug('Purchases'),ids=APP_CFG.products;
+  const a=await P.getProducts({productIdentifiers:[ids.anual],type:'SUBSCRIPTION'}).catch(()=>({products:[]}));
+  const b=await P.getProducts({productIdentifiers:[ids.noche,ids.siempre],type:'NON_SUBSCRIPTION'}).catch(()=>({products:[]}));
+  return a.products.concat(b.products);
+}
+async function storePrices(){
+  if(!RC_ON)return {};
+  const out={},ids=APP_CFG.products;
+  (await storeProducts()).forEach(p=>{const k=Object.keys(ids).find(k=>ids[k]===p.identifier);if(k)out[k]=p.priceString;});
+  return out;
+}
+async function buyPlan(plan){
+  if(!RC_ON){toast('Las compras todavía no están configuradas.');return false;}
+  try{
+    const prod=(await storeProducts()).find(p=>p.identifier===APP_CFG.products[plan]);
+    if(!prod){toast('No se encontró el producto en la tienda.');return false;}
+    const {customerInfo}=await plug('Purchases').purchaseStoreProduct({product:prod});
+    applyInfo(customerInfo);return isPro();
+  }catch(e){if(!(e&&(e.userCancelled||/cancel/i.test(String(e.message)))))toast('No se pudo completar la compra.');return false;}
+}
+async function restoreBuys(){
+  if(!RC_ON){toast('Las compras todavía no están configuradas.');return false;}
+  try{const {customerInfo}=await plug('Purchases').restorePurchases();applyInfo(customerInfo);
+    toast(isPro()?'Compras restauradas':'No encontramos compras para restaurar');return isPro();}
+  catch(e){toast('No se pudieron restaurar las compras.');return false;}
+}
+let ADS_ON=false;
+async function initAds(){
+  try{const A=plug('AdMob');
+    await A.initialize({maxAdContentRating:'MatureAudience'});
+    // Europa y otros lugares: pedir consentimiento antes de mostrar anuncios
+    try{const c=await A.requestConsentInfo();if(c.isConsentFormAvailable&&c.status==='REQUIRED')await A.showConsentForm();}catch(e){}
+    // iPhone: permiso de seguimiento (ATT)
+    if(PLAT==='ios'){try{const t=await A.trackingAuthorizationStatus();if(t.status==='notDetermined')await A.requestTrackingAuthorization();}catch(e){}}
+    ADS_ON=true;
+  }catch(e){}
+}
+// kind: 'rewarded' (el usuario elige verlo para desbloquear) o 'inter' (entre partidas). Devuelve si se vio.
+async function showNativeAd(kind){
+  if(!ADS_ON)return kind!=='rewarded';
+  const A=plug('AdMob'),real=APP_CFG.ads[PLAT]&&APP_CFG.ads[PLAT][kind];
+  const opt={adId:real||TEST_ADS[PLAT][kind],isTesting:!real};
+  try{
+    if(kind==='rewarded'){await A.prepareRewardVideoAd(opt);await A.showRewardVideoAd();return true;}
+    await A.prepareInterstitial(opt);await A.showInterstitial();return true;
+  }catch(e){return false;}
+}
+async function nativeStart(){
+  await loadNative();
+  $('#demoFoot').hidden=true;
+  await initPurchases();
+  initAds();
+}
+
 /* ---------- Arranque ---------- */
 function boot(){if(!S.age){$('#ageYes').disabled=false;$('#ageMsg').textContent='';show('v-age');}else goHome();}
-boot();
+if(NATIVE)nativeStart().then(boot);else boot();
 </script>
 </body></html>

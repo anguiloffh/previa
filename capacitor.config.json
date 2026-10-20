@@ -1,0 +1,12 @@
+{
+  "appId": "cl.previa.app",
+  "appName": "Previa",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#44AEAA"
+  },
+  "ios": {
+    "backgroundColor": "#44AEAA",
+    "contentInset": "never"
+  }
+}
