@@ -1218,6 +1218,11 @@ function minePreview(c){
   return `${html}<small>${sub}El castigo depende de los ajustes de la partida.</small>`;
 }
 const mineCount=()=>S.mine.reduce((a,p)=>a+p.cards.length,0);
+// Los nombres de pack no se repiten: se comparan sin mayúsculas, tildes ni espacios de más
+const packKey=n=>n.toLowerCase().normalize('NFD').replace(/\p{M}/gu,'').replace(/\s+/g,' ').trim();
+const nameTaken=(name,except)=>S.mine.some(k=>k!==except&&packKey(k.name)===packKey(name));
+// Packs que ya se llamaban igual (de antes de esta regla): al segundo se le suma un número
+function fixPackNames(){let ch=false;S.mine.forEach((k,i)=>{if(S.mine.slice(0,i).some(o=>packKey(o.name)===packKey(k.name))){const base=k.name.trim();let n=2;while(nameTaken(`${base} ${n}`,k))n++;k.name=`${base} ${n}`;ch=true;}});if(ch)save();}
 const MV={pack:null};
 function openMine(){MV.pack=null;renderMine();show('v-mine');}
 $('#mineBack').onclick=()=>{if(MV.pack){MV.pack=null;renderMine();window.scrollTo(0,0);}else goHome();};
@@ -1227,6 +1232,7 @@ function renderMineEntry(){
 }
 $('#mineBtn').onclick=openMine;
 function renderMine(){
+  fixPackNames();
   const panel=$('#minePanel'),P=MV.pack&&S.mine.find(p=>p.id===MV.pack);
   if(!isPro()){
     $('#mineTitle').textContent='Tus cartas';$('#mineLead').textContent='Cartas con los chistes internos del grupo, para sumar a cualquier modo.';
@@ -1275,6 +1281,7 @@ function packSheet(P){
     b.querySelector('#pkSave').onclick=()=>{
       const name=b.querySelector('#pkName').value.trim();
       if(!name){b.querySelector('#pkErr').textContent='Pónganle un nombre al pack.';return;}
+      if(nameTaken(name,P)){b.querySelector('#pkErr').textContent=`Ya tienen un pack llamado «${name}». Elijan otro nombre.`;return;}
       if(P){P.name=name;P.ic=icSel;}else{const n={id:uid(),name,ic:icSel,cards:[]};S.mine.push(n);MV.pack=n.id;}
       save();closeSheet();renderMine();
     };
