@@ -3,3 +3,9 @@ CLAUDE.md
 maquetas/
 # Se arma con npm run build
 www/
+# Llave de firma y su contraseña: nunca se suben
+android/keystore.properties
+*.jks
+*.keystore
+# Versiones listas para subir a la tienda (no se suben a GitHub)
+para-play/

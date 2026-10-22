@@ -7,7 +7,8 @@
     "build": "node scripts/build-www.js",
     "sync": "npm run build && npx cap sync",
     "android": "npm run sync && npx cap open android",
-    "test": "node pruebas/simulacion.js && node pruebas/retroceso.js && node pruebas/xp.js"
+    "test": "node pruebas/simulacion.js && node pruebas/retroceso.js && node pruebas/xp.js",
+    "icons": "node scripts/make-icons.js && npx capacitor-assets generate --iconBackgroundColor \"#44AEAA\" --splashBackgroundColor \"#44AEAA\""
   },
   "dependencies": {
     "@capacitor-community/admob": "^8.2.1",
@@ -22,6 +23,7 @@
     "@revenuecat/purchases-capacitor": "^13.7.4"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^8.5.3",
     "jsdom": "^30.1.2"
   }

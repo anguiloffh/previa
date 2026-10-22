@@ -1,4 +1,4 @@
-package cl.previa.app;
+package com.previagame.app;
 
 import com.getcapacitor.BridgeActivity;
 
