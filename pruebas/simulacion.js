@@ -2,7 +2,7 @@ const {JSDOM}=require('jsdom');
 const html=require('fs').readFileSync(require('path').join(__dirname,'..','previa.html'),'utf8');
 function run(mode,cfgMod,players,free,mine){
   const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'https://x.test/',
-    beforeParse(w){w.matchMedia=()=>({matches:true,addListener(){},removeListener(){}});w.scrollTo=()=>{};w.HTMLElement.prototype.getBoundingClientRect=function(){return {left:0,top:0,width:10,height:10}};}});
+    beforeParse(w){w.matchMedia=()=>({matches:true,addListener(){},removeListener(){}});w.scrollTo=()=>{};w.HTMLCanvasElement.prototype.getContext=()=>null;w.HTMLElement.prototype.getBoundingClientRect=function(){return {left:0,top:0,width:10,height:10}};}});
   const w=dom.window,d=w.document;const errs=[];
   w.addEventListener('error',e=>errs.push(e.message));
   const $=q=>d.querySelector(q);

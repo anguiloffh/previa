@@ -2208,7 +2208,8 @@ function renderEnd(gain,L,unl,starsUp){
   v.innerHTML=h+`<section class="panel end-panel">${p}</section>`;
   if(G.later.length){laterList($('#endLater'),G.later);$('#endLaterSh').onclick=()=>shareLater(fill('{lugar}'),G.later);}
   G.condena=null;
-  const sp=$('#spinC');if(sp)sp.onclick=()=>{sp.disabled=true;spin($('#condena'),()=>{G.condena=$('#condena').textContent;},true);};
+  const sp=$('#spinC');if(sp)sp.onclick=()=>{sp.disabled=true;spin($('#condena'),()=>{G.condena=$('#condena').textContent;setTimeout(()=>getShare(sc),300);},true);};
+  G.share=null;setTimeout(()=>{if(!$('#v-end').hidden)getShare(sc);},600); // se prepara mientras miran los resultados
   $('#enShare').onclick=()=>openShare(sc);
   const ep=$('#enPro');if(ep)ep.onclick=()=>paywall(null,()=>ep.closest('.probox').remove());
   $('#enAgain').onclick=()=>interstitial(startGame);
@@ -2219,7 +2220,9 @@ function renderEnd(gain,L,unl,starsUp){
 /* ---------- Foto del grupo ----------
  La foto solo vive en la memoria de esta partida: no se guarda ni se envía a ningún lado.
  Únicamente aparece dentro de la imagen que el grupo decida compartir. */
-function dropPhoto(){if(G&&G.photo){URL.revokeObjectURL(G.photo.url);G.photo=null;}}
+function dropPhoto(){if(G&&G.photo)G.photo=null;}
+let photoN=0;
+const PHOTO_MAX=1600; // lado mayor de la foto: sobra para una imagen de historias y carga mucho más rápido
 // cam: true abre directo la cámara; si no, la galería. Si no les gusta, pueden sacar o elegir otra.
 function pickPhoto(cam,done){
   const inp=$('#photoIn');inp.value='';
@@ -2227,7 +2230,13 @@ function pickPhoto(cam,done){
   inp.onchange=()=>{
     const f=inp.files&&inp.files[0];if(!f)return;
     const url=URL.createObjectURL(f),img=new Image();
-    img.onload=()=>{dropPhoto();G.photo={img,url};done&&done();};
+    // Las cámaras sacan fotos enormes: se achica una sola vez y se trabaja con esa copia
+    img.onload=()=>{
+      const k=Math.min(1,PHOTO_MAX/Math.max(img.naturalWidth,img.naturalHeight));
+      const c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*k);c.height=Math.round(img.naturalHeight*k);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);
+      dropPhoto();G.photo={img:c,id:++photoN};done&&done();
+    };
     img.onerror=()=>{URL.revokeObjectURL(url);toast('No se pudo abrir la foto');};
     img.src=url;
   };
@@ -2289,7 +2298,15 @@ async function classicImage(sc){
   }
   // Premio Pro: marco dorado alrededor de toda la imagen
   if(useGold()){x.lineWidth=28;x.strokeStyle=GOLD(0,0,W,H);x.strokeRect(14,14,W-28,H-28);x.lineWidth=4;x.strokeStyle=INK;x.strokeRect(30,30,W-60,H-60);}
-  return await new Promise(r=>cv.toBlob(r,'image/png'));
+  return await new Promise(r=>cv.toBlob(r,'image/jpeg',.92));
+}
+/* La imagen se prepara apenas aparece la pantalla final y queda lista; solo se rehace si cambia algo
+ que sale en ella (foto, condena o marco dorado). Así, al tocar Compartir ya está hecha. */
+function shareKey(sc){return [sc,G.photo?G.photo.id:0,G.condena||'',useGold()].join('|');}
+function getShare(sc){
+  const k=shareKey(sc);
+  if(!G.share||G.share.k!==k)G.share={k,p:shareImage(sc).catch(()=>null)};
+  return G.share.p;
 }
 async function shareImage(sc){
   try{await Promise.all([document.fonts.load('400 100px "Rammetto One"'),document.fonts.load('800 50px Rubik'),document.fonts.load('600 40px Rubik')]);}catch(e){}
@@ -2306,7 +2323,7 @@ async function shareImage(sc){
   const GOLD=(X0,Y0,X1,Y1)=>{const g=x.createLinearGradient(X0,Y0,X1,Y1);g.addColorStop(0,'#F7D774');g.addColorStop(.45,'#EBAF35');g.addColorStop(.7,'#F9E3A0');g.addColorStop(1,'#C98E1A');return g;};
   const shade=(y0,y1,a0,a1)=>{const g=x.createLinearGradient(0,y0,0,y1);g.addColorStop(0,`rgba(27,26,26,${a0})`);g.addColorStop(1,`rgba(27,26,26,${a1})`);x.fillStyle=g;x.fillRect(0,y0,W,y1-y0);};
   // Fondo: la foto del grupo a pantalla completa
-  {const iw=ph.naturalWidth,ih=ph.naturalHeight,r=Math.max(W/iw,H/ih),sw=W/r,sh=H/r;
+  {const iw=ph.naturalWidth||ph.width,ih=ph.naturalHeight||ph.height,r=Math.max(W/iw,H/ih),sw=W/r,sh=H/r;
     x.drawImage(ph,(iw-sw)/2,(ih-sh)/2,sw,sh,0,0,W,H);
     shade(0,460,.5,0);shade(H*.62,H,0,.45);}
   // Logo chico arriba a la izquierda (dorado con el premio) y, debajo, quién gana
@@ -2346,7 +2363,7 @@ async function shareImage(sc){
   }
   // Premio Pro: marco dorado alrededor de toda la imagen
   if(gold){x.lineWidth=36;x.strokeStyle=GOLD(0,0,W,H);x.strokeRect(18,18,W-36,H-36);x.lineWidth=5;x.strokeStyle=INK;x.strokeRect(36,36,W-72,H-72);}
-  return await new Promise(r=>cv.toBlob(r,'image/png'));
+  return await new Promise(r=>cv.toBlob(r,'image/jpeg',.92));
 }
 function openShare(sc){
   // Un solo botón: comparte la imagen y el texto juntos si el teléfono lo permite; si no, lo que se pueda
@@ -2355,7 +2372,7 @@ function openShare(sc){
     <div class="shareprev" id="shPrev"><span>Preparando la imagen…</span></div>
     <div class="menu">
       <button type="button" class="primary" id="shGo" disabled>Compartir</button>
-      <a class="secondary" id="shSave" hidden download="previa-resultado.png">Guardar imagen</a>
+      <a class="secondary" id="shSave" hidden download="previa-resultado.jpg">Guardar imagen</a>
       ${goldFrame()?`<div class="chipsel goldsel" id="shGold"><button type="button" data-g="1">Con marco dorado</button><button type="button" data-g="0">Normal</button></div>`:''}
       <p class="phnote" id="shPhT" style="margin:6px 0 0"></p>
       <div class="phact" style="margin-top:0"><button type="button" class="btn photobtn" id="shCam">${ic('camera')}Sacar foto</button><button type="button" class="btn photobtn" id="shGal">${ic('gallery')}Galería</button></div>
@@ -2371,8 +2388,8 @@ function openShare(sc){
       b.querySelector('#shPhT').textContent=G.photo?'¿No les gustó? Saquen o elijan otra:':'Agreguen una foto del grupo:';
       if(url){URL.revokeObjectURL(url);url=null;}
       let blob=null;
-      try{blob=await shareImage(sc);}catch(e){}
-      file=blob?new File([blob],'previa-resultado.png',{type:'image/png'}):null;
+      try{blob=await getShare(sc);}catch(e){}
+      file=blob?new File([blob],'previa-resultado.jpg',{type:'image/jpeg'}):null;
       if(blob){
         url=URL.createObjectURL(blob);
         prev.innerHTML=`<img src="${url}" alt="Imagen del resultado para compartir">`;
@@ -2393,7 +2410,7 @@ function openShare(sc){
         if(!file){toast('No se pudo generar la imagen');return;}
         try{
           const data=await new Promise((ok,ko)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=ko;r.readAsDataURL(file);});
-          const {uri}=await plug('Filesystem').writeFile({path:'previa-resultado.png',data,directory:'CACHE'});
+          const {uri}=await plug('Filesystem').writeFile({path:'previa-resultado.jpg',data,directory:'CACHE'});
           await plug('Share').share(withText?{text:txt,files:[uri],...withLink}:{files:[uri]});
         }catch(e){if(!/cancel/i.test(String(e&&e.message)))toast('No se pudo compartir');}
       };

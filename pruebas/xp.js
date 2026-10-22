@@ -7,7 +7,7 @@ const ok=(cond,msg)=>{if(!cond){fallas++;console.log('FALLA:',msg);}};
 
 function nuevo(){
   const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'https://x.test/',
-    beforeParse(w){w.matchMedia=()=>({matches:true});w.scrollTo=()=>{};}});
+    beforeParse(w){w.matchMedia=()=>({matches:true});w.scrollTo=()=>{};w.HTMLCanvasElement.prototype.getContext=()=>null;}});
   const w=dom.window,d=w.document;
   const c=e=>e.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
   c(d.querySelector('#ageYes'));

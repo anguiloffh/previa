@@ -1,6 +1,6 @@
 const {JSDOM}=require('jsdom');const html=require('fs').readFileSync(require('path').join(__dirname,'..','previa.html'),'utf8');
 function test(mode,cfg){
-const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'https://x.test/',beforeParse(w){w.matchMedia=()=>({matches:true});w.scrollTo=()=>{};}});
+const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,url:'https://x.test/',beforeParse(w){w.matchMedia=()=>({matches:true});w.scrollTo=()=>{};w.HTMLCanvasElement.prototype.getContext=()=>null;}});
 const w=dom.window,d=w.document;const c=e=>e.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
 c(d.querySelector('#ageYes'));w.eval('S.pro=true;S.xp=400;goHome()');
 c(d.querySelectorAll('#modes .mode')[Object.keys(w.eval('MODES')).indexOf(mode)]);
