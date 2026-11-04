@@ -9,3 +9,6 @@ android/keystore.properties
 *.keystore
 # Versiones listas para subir a la tienda (no se suben a GitHub)
 para-play/
+
+# Repositorio aparte (anguiloffh/previa-legal): política de privacidad y ayuda
+previa-legal/

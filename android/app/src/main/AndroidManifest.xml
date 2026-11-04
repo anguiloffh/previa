@@ -21,10 +21,10 @@
             </intent-filter>
         </activity>
 
-        <!-- AdMob: identificador de la app. Este es el de prueba de Google; el real se pone en el paso 4. -->
+        <!-- AdMob: identificador real de la app Android «Previa». -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"
+            android:value="ca-app-pub-5587601720139974~4046022293"
         />
 
         <provider

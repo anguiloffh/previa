@@ -369,6 +369,8 @@ textarea.edtx:focus{outline:none;border-color:var(--ink)}
 .ad{position:fixed;inset:0;z-index:70;background:var(--ink);color:var(--butter);display:grid;place-items:center;text-align:center;padding:30px}
 .ad .adn{font-family:var(--disp);font-size:96px}
 .ad p{opacity:.75;font-size:16px}
+.ad .spin{width:44px;height:44px;margin:0 auto 16px;border:4px solid rgba(245,222,178,.25);border-top-color:var(--butter);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 @media (min-width:700px){.layer{padding-left:48px;padding-right:48px}}
 @media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
@@ -513,6 +515,7 @@ textarea.edtx:focus{outline:none;border-color:var(--ink)}
 <div class="toast" id="toast" role="status"></div>
 <div class="ad" id="inter" hidden><div><p>Anuncio entre partidas (prueba)</p><div class="adn" id="interN">5</div><p>En la app real, aquí va un anuncio de pantalla completa. Con Pro no hay anuncios.</p><button type="button" class="btn" id="interX" hidden>Cerrar</button></div></div>
 <div class="ad" id="ad" hidden><div><p>Anuncio de prueba</p><div class="adn" id="adN">3</div><p>En la app real, aquí va un video de unos segundos.</p></div></div>
+<div class="ad" id="adWait" hidden><div><div class="spin"></div><p>Cargando anuncio…</p></div></div>
 <script>
 /* ===================== CONTENIDO =====================
  t: tipo, l: picante 1-4, m: movimiento 0 sentado / 1 de pie / 2 sin límites, k: pack
@@ -704,7 +707,7 @@ A('mision',3,"{p}: logra que {p2} te dé la razón 3 veces seguidas.",{dur:8});
  [1,"{p}: en {lugar}, cada vez que suene reguetón, grita «¡previa!»."],[1,"{p}: en {lugar}, consigue que alguien te enseñe un paso de baile."],
  [2,"{p}: en {lugar}, tu primer pedido lo elige {p2}. Sin reclamos."],[2,"{p}: en {lugar}, haz el paso más ridículo que conozcas durante un coro completo."],
  [2,"{p}: en {lugar}, consigue el Instagram de alguien nuevo."],
- [3,"{p}: en {lugar}, tu primer trago va al seco.",{alc:1}],[3,"{p}: en {lugar}, invitas una ronda para ti, {p2} y {p3}."]
+ [3,"{p}: en {lugar}, tu primer trago va al seco, o el reto que elija el grupo.",{alc:1}],[3,"{p}: en {lugar}, invitas una ronda para ti, {p2} y {p3}."]
 ].forEach(([l,t,o])=>A('despues',l,t,o||{}));
 
 /* ---------- CASTIGOS ---------- */
@@ -749,7 +752,7 @@ A('voto',1,"¿Quién va a dar el peor discurso en la boda?");
 A('regla',1,"{pr} solo puede responder «sí, mi amor». Cada vez que diga otra cosa: {x1}. Práctica para el matrimonio.",{dur:6,label:"{pr}: «sí, mi amor»",end:"{pr} recupera la voz. Por ahora."});
 A('despues',1,"{p}: en {lugar}, consigue que un desconocido le dé un consejo matrimonial a {pr}. Grábalo.");
 A('despues',1,"{p}: en {lugar}, pide una foto con el guardia, con {pr} al medio.");
-A('despues',1,"{p}: en {lugar}, invítale un shot a {pr}.",{alc:1});
+A('despues',1,"{p}: en {lugar}, invítale un trago a {pr}.",{alc:1});
 A('despues',2,"{p}: en {lugar}, consigue que digan el nombre de {pr} por el micrófono.");
 A('mision',1,"{p} y {p2}: logren que {pr} diga «te amo» sin que se dé cuenta del plan.",{dur:10,pair:1});
 
@@ -826,7 +829,7 @@ A('yonunca',2,"Yo nunca he revisado el celular de mi pareja.");
 PK='hard';
 A('juego',3,"Triple amenaza: {p}, {p2} y {p3} juegan piedra, papel o tijera. Quien pierda: {x5}.");
 A('castigo',3,"{p}: {x5}. Sin preguntas. Comodines permitidos.");
-A('todos',3,"Quienes hayan tomado menos que {p} esta noche: {x3}. Juzguen a ojo.");
+A('todos',3,"Quienes hayan mirado el celular más que {p} esta noche: {x3}. Juzguen a ojo.");
 A('duelo',3,"Doble o nada: {p} contra {p2}, piedra, papel o tijera.",{pen:5});
 A('verdad',4,"{p}, ¿cuál es el secreto que te llevarías a la tumba? Al menos una pista, o {x5}.");
 A('reto',4,"{p}, deja que la mesa lea tus últimos 5 mensajes con quien elijan. Si no, {x5}.");
@@ -885,11 +888,11 @@ const KEY='previa_v1';
 const CAP=window.Capacitor,NATIVE=!!(CAP&&CAP.isNativePlatform&&CAP.isNativePlatform());
 const PLAT=NATIVE?CAP.getPlatform():'web';
 const APP_CFG={
-  rc:{android:'',ios:''},                      // claves públicas de RevenueCat
+  rc:{android:'goog_ULEhnvRTdEEbQnGrrPOltsFklLI',ios:''}, // claves públicas de RevenueCat
   entitlement:'pro',
   products:{noche:'previa_pase_noche',anual:'previa_anual',siempre:'previa_para_siempre'},
   // Unidades de AdMob. Vacías = anuncios de prueba de Google (no pagan, sirven para probar).
-  ads:{android:{rewarded:'',inter:''},ios:{rewarded:'',inter:''}}
+  ads:{android:{rewarded:'ca-app-pub-5587601720139974/5161908829',inter:'ca-app-pub-5587601720139974/2653049572'},ios:{rewarded:'',inter:''}}
 };
 const TEST_ADS={android:{rewarded:'ca-app-pub-3940256099942544/5224354917',inter:'ca-app-pub-3940256099942544/1033173712'},ios:{rewarded:'ca-app-pub-3940256099942544/1712485313',inter:'ca-app-pub-3940256099942544/4411468910'}};
 const _plugs={};
@@ -1033,7 +1036,7 @@ const fmt=n=>Number(n).toLocaleString('es-CL');
 
 /* ---------- Persistencia ---------- */
 const freshSt=()=>({cards:0,ms:0,secret:0,done:0,modes:[],mdone:[],sano:0,sinc:0,cumpleN:0,caosN:0,day:'',dayN:0});
-function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,goldOff:false,mine:[],later:null,spins:0,last:{},st:freshSt()}}
+function freshS(){return {age:false,xp:0,games:0,ach:[],pro:false,plan:null,code:null,sp:null,cr:null,goldOff:false,mine:[],later:null,spins:0,last:{},st:freshSt()}}
 let S=freshS();
 try{S=Object.assign(freshS(),JSON.parse(localStorage.getItem(KEY)||'{}'));S.st=Object.assign(freshSt(),S.st);}catch(e){}
 function save(){const v=JSON.stringify(S);try{localStorage.setItem(KEY,v)}catch(e){}if(NATIVE)plug('Preferences').set({key:KEY,value:v}).catch(()=>{});}
@@ -1047,14 +1050,18 @@ function level(xp){
     pct:nxt?Math.round((xp-cur)/(nxt-cur)*100):Math.round(over%STAR_XP/STAR_XP*100)};
 }
 const lvlN=()=>level(S.xp).n;
-const isPro=()=>S.pro&&!(S.plan==='noche'&&S.proUntil&&Date.now()>S.proUntil);
+const isPro=()=>S.pro&&!(S.proUntil&&Date.now()>S.proUntil); // Pase de noche y Pro de regalo vencen
 const PRO_EXTRA=Math.floor(CARDS.filter(c=>c.pro||['desp','parejas','hard'].includes(c.k)).length/10)*10;
 // Versión gratis: hasta 6 jugadores y partidas de 3 o 5 rondas. Un anuncio lo desbloquea para una partida.
 const FREE_MAX=6;
 const canBig=()=>isPro()||SESSION.has('mesa');
 const canLong=()=>isPro()||SESSION.has('long');
-const PLANS={noche:'Pase de noche',anual:'Anual',siempre:'Para siempre'};
-const proPlus=()=>S.pro&&(S.plan==='anual'||S.plan==='siempre'); // planes con premios propios
+const PLANS={noche:'Pase de noche',anual:'Anual',siempre:'Para siempre',regalo:'Pro de regalo'};
+// «Pase de noche, hasta el martes, 19:13» / «Pro de regalo, hasta el 15 de diciembre» / «Anual»
+const planInfo=()=>(PLANS[S.plan]||'Pro')+(!S.proUntil?'':S.plan==='noche'
+  ?`, hasta el ${new Date(S.proUntil).toLocaleString('es-CL',{weekday:'long',hour:'2-digit',minute:'2-digit',hourCycle:'h23'})}`
+  :`, hasta el ${new Date(S.proUntil).toLocaleDateString('es-CL',{day:'numeric',month:'long'})}`);
+const proPlus=()=>S.pro&&['anual','siempre','regalo'].includes(S.plan); // planes con premios propios
 const goldFrame=()=>proPlus()&&lvlN()>=2;
 const useGold=()=>goldFrame()&&!S.goldOff; // quien tiene el premio elige si comparte con o sin dorado
 function unlocked(id){
@@ -1129,19 +1136,21 @@ function renderHome(){
 $('#proBtn').onclick=()=>{
   if(!isPro())return paywall(null,renderHome);
   if(NATIVE){
-    const until=S.plan==='noche'&&S.proUntil?` Vence el ${new Date(S.proUntil).toLocaleString('es-CL',{weekday:'long',hour:'2-digit',minute:'2-digit'})}.`:'';
-    openSheet(`<h3>Pro activo</h3><p>Plan: ${PLANS[S.plan]||'Pro'}.${until}${S.plan==='anual'?' Se administra y cancela desde la tienda.':''}</p>
-      <div class="menu"><button type="button" class="secondary" id="proRestore">Restaurar compras</button><button type="button" class="secondary" onclick="closeSheet()">Cerrar</button></div>`,
-      b=>{b.querySelector('#proRestore').onclick=async()=>{await restoreBuys();closeSheet();renderHome();};});
+    // Se puede subir de plan: del Pase de noche a Anual o Para siempre, y del Anual a Para siempre.
+    const up=S.plan==='noche'||S.plan==='regalo'?['anual','siempre']:S.plan==='anual'?['siempre']:null;
+    openSheet(`<h3>Pro activo</h3><p>Plan: ${planInfo()}.${S.plan==='anual'?' Se administra y cancela desde la tienda.':''}</p>
+      <div class="menu">${up?'<button type="button" class="primary" id="proUp">Mejorar mi plan</button>':''}<button type="button" class="secondary" id="proRestore">Restaurar compras</button><button type="button" class="secondary" onclick="closeSheet()">Cerrar</button></div>`,
+      b=>{b.querySelector('#proRestore').onclick=async()=>{await restoreBuys();closeSheet();renderHome();};
+        if(up)b.querySelector('#proUp').onclick=()=>paywall(null,renderHome,up);});
     return;
   }
   if(!PLANS[S.plan]){S.plan='noche';save();}
   openSheet(`<h3>Pro activo</h3><p>Plan: ${PLANS[S.plan]}. En esta demo tienes todo desbloqueado.</p>
     <p class="demo-note">Prototipo: cambia de plan para probar los premios de cada uno.</p>
-    <div class="plans">${Object.entries(PLANS).map(([k,n])=>`<button type="button" class="plan" data-p="${k}" aria-pressed="${k===S.plan}"><span><strong>${n}</strong></span></button>`).join('')}</div>
+    <div class="plans">${Object.entries(PLANS).filter(([k])=>k!=='regalo').map(([k,n])=>`<button type="button" class="plan" data-p="${k}" aria-pressed="${k===S.plan}"><span><strong>${n}</strong></span></button>`).join('')}</div>
     <button type="button" class="secondary" id="unpro">Volver a la versión gratis</button>`,b=>{
     b.querySelectorAll('.plan').forEach(x=>x.onclick=()=>{S.plan=x.dataset.p;save();b.querySelectorAll('.plan').forEach(y=>y.setAttribute('aria-pressed',y.dataset.p===S.plan));});
-    b.querySelector('#unpro').onclick=()=>{S.pro=false;S.plan=null;save();closeSheet();renderHome();};
+    b.querySelector('#unpro').onclick=()=>{S.pro=false;S.plan=null;S.proUntil=null;S.code=null;save();closeSheet();renderHome();};
   });
 };
 $('#homeLater').onclick=()=>{
@@ -1180,27 +1189,88 @@ function lvlLock(id){
 }
 
 /* ---------- Paywall de demo ---------- */
-function paywall(target,then){
-  let plan='noche';
-  const plans=[['noche','Pase de noche','24 horas de todo. Ideal para un evento.','US$ 2,99'],['anual','Anual','US$ 1,25 al mes, con premios Pro en los niveles 2 y 4.','US$ 14,99','Más elegido'],['siempre','Para siempre','Un solo pago, con premios Pro en los niveles 2 y 4.','US$ 29,99']];
-  openSheet(`<h3>Previa Pro</h3><p>Una persona paga y juega toda la mesa.</p>
-    <ul class="benefits"><li>${ic('ring')} Despedida, Parejas y Hardcore</li><li>${ic('flame')} Picante sin censura</li><li>${ic('spiral')} Ruleta y Caos sin esperar a subir de nivel</li><li>${ic('smiley')} Hasta 16 jugadores y partidas de 8 y 12 rondas</li><li>${ic('star')} El mazo completo: +${PRO_EXTRA} cartas y packs nuevos cada mes</li><li>${ic('shield')} Sin anuncios</li></ul>
+// only: planes a mostrar (para mejorar un plan activo); sin él, los tres.
+function paywall(target,then,only){
+  const plans=[['noche','Pase de noche','24 horas de todo. Ideal para un evento.','US$ 2,99'],['anual','Anual','US$ 1,25 al mes, con premios Pro en los niveles 2 y 4.','US$ 14,99','Más elegido'],['siempre','Para siempre','Un solo pago, con premios Pro en los niveles 2 y 4.','US$ 29,99']]
+    .filter(p=>!only||only.includes(p[0]));
+  let plan=plans[0][0];
+  openSheet(`<h3>${only?'Mejorar mi plan':'Previa Pro'}</h3><p>${only?(S.plan==='anual'?'Pasa a Para siempre y no vuelves a pagar. Recuerda cancelar el Anual en la tienda para que no se renueve.':'Suma los premios Pro de los niveles 2 y 4 y no dependas de las 24 horas.'):'Una persona paga y juega toda la mesa.'}</p>
+    ${only?'':`<ul class="benefits"><li>${ic('ring')} Despedida, Parejas y Hardcore</li><li>${ic('flame')} Picante sin censura</li><li>${ic('spiral')} Ruleta y Caos sin esperar a subir de nivel</li><li>${ic('smiley')} Hasta 16 jugadores y partidas de 8 y 12 rondas</li><li>${ic('star')} El mazo completo: +${PRO_EXTRA} cartas y packs nuevos cada mes</li><li>${ic('shield')} Sin anuncios</li></ul>`}
     <div class="plans">${plans.map(p=>`<button type="button" class="plan" data-p="${p[0]}" aria-pressed="${p[0]===plan}"><span><strong>${p[1]}${p[4]?`<span class="tag">${p[4]}</span>`:''}</strong><small>${p[2]}</small></span><span class="pr">${p[3]}</span></button>`).join('')}</div>
-    <button type="button" class="primary" id="pwBuy">Desbloquear</button>
+    <button type="button" class="primary" id="pwBuy">${only?'Mejorar':'Desbloquear'}</button>
     ${target?'<button type="button" class="linkbtn" id="pwAd">Ver un anuncio y jugarlo una vez gratis</button>':''}
+    ${only?'':'<button type="button" class="linkbtn" id="pwCode">Tengo un código</button>'}
     ${NATIVE?`<button type="button" class="linkbtn" id="pwRestore">Restaurar compras</button>
-    <p class="demo-note">El Pase de noche dura 24 horas. El Anual se renueva solo cada año hasta que lo cancelen en la tienda. El cobro lo hace ${PLAT==='ios'?'Apple':'Google Play'}. <a href="https://anguiloffh.github.io/previa/privacidad.html">Privacidad</a></p>`:'<p class="demo-note">Prototipo: no se cobra nada.</p>'}`,
+    <p class="demo-note">El Pase de noche dura 24 horas. El Anual se renueva solo cada año hasta que lo cancelen en la tienda. El cobro lo hace ${PLAT==='ios'?'Apple':'Google Play'}. <a href="https://anguiloffh.github.io/previa-legal/privacidad.html">Privacidad</a></p>`:'<p class="demo-note">Prototipo: no se cobra nada.</p>'}`,
   b=>{
     b.querySelectorAll('.plan').forEach(x=>x.onclick=()=>{plan=x.dataset.p;b.querySelectorAll('.plan').forEach(y=>y.setAttribute('aria-pressed',y.dataset.p===plan));});
     if(NATIVE){
       // Precios reales de la tienda, en la moneda del usuario
       storePrices().then(pr=>b.querySelectorAll('.plan').forEach(x=>{if(pr[x.dataset.p])x.querySelector('.pr').textContent=pr[x.dataset.p];})).catch(()=>{});
       b.querySelector('#pwBuy').onclick=async()=>{const bt=b.querySelector('#pwBuy');bt.disabled=true;
-        const ok=await buyPlan(plan);bt.disabled=false;if(ok){closeSheet();toast('Previa Pro activado');renderHome();then&&then();}};
+        const ok=await buyPlan(plan);bt.disabled=false;if(ok){closeSheet();toast(only?'Plan mejorado':'Previa Pro activado');renderHome();then&&then();}};
       b.querySelector('#pwRestore').onclick=async()=>{const ok=await restoreBuys();if(ok){closeSheet();renderHome();then&&then();}};
     }else b.querySelector('#pwBuy').onclick=()=>{S.pro=true;S.plan=plan;save();closeSheet();toast('Pro desbloqueado (demo)');then&&then();};
     const ad=b.querySelector('#pwAd');
     if(ad) ad.onclick=()=>{closeSheet();fakeAd(()=>{SESSION.add(target);toast('Desbloqueado para esta partida');then&&then();});};
+    const cd=b.querySelector('#pwCode');
+    if(cd) cd.onclick=()=>codeSheet(then);
+  });
+}
+/* Códigos de Pro: dan Pro en este teléfono sin pasar por la tienda. Sirven para los revisores de Google y
+ Apple (no pueden comprar) y para regalar Pro. Solo se guarda el SHA-256 del código (en mayúsculas, sin guiones
+ ni espacios), nunca el código; los códigos están en Documentos\Previa-llaves.
+ Cada código: h (huella), until (último día para canjearlo, 'AAAA-MM-DD'; sin él, no vence) y days (días de Pro
+ desde que se canjea; sin él, Pro para siempre). PRO_CODES va dentro de la app (el de los revisores); los de
+ regalo y la lista de anulados se publican en CODES_URL (previa-legal/codigos.json, se arma con
+ scripts/codigos.js) y se pueden cambiar sin subir una versión nueva. Un código anulado quita Pro también a
+ quienes ya lo canjearon, la próxima vez que abran la app con internet. */
+const PRO_CODES=[{h:'f2a5368f28a87be62e6fa8b59cff41cf14e3116723eecb05b7be6e9da137264b'}];
+const CODES_URL='https://anguiloffh.github.io/previa-legal/codigos.json';
+async function codeHash(txt){
+  const n=String(txt).toUpperCase().replace(/[^A-Z0-9]/g,'');if(!n||!(window.crypto&&crypto.subtle))return '';
+  return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(n)))].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+const codeRevoked=h=>!!(S.cr&&(S.cr.revoked||[]).includes(h));
+const findCode=h=>PRO_CODES.concat(S.cr&&S.cr.codes||[]).find(c=>c.h===h);
+// Lista publicada de códigos: se guarda en S.cr para que funcione sin internet. Devuelve si se pudo leer.
+async function refreshCodes(){
+  try{const ac=new AbortController(),t=setTimeout(()=>ac.abort(),5000);
+    const r=await fetch(CODES_URL,{cache:'no-store',signal:ac.signal});clearTimeout(t);
+    if(!r.ok)return false;const j=await r.json();S.cr={codes:j.codes||[],revoked:j.revoked||[]};save();return true;}
+  catch(e){return false;}
+}
+// Pro que da el código canjeado, o null si venció o fue anulado
+function codePlan(){
+  if(!S.code||codeRevoked(S.code.h))return null;
+  if(S.code.until&&Date.now()>S.code.until)return null;
+  return {plan:S.code.until?'regalo':'siempre',until:S.code.until||null};
+}
+// Junta lo comprado en la tienda (S.sp, de applyInfo) con el código: gana el que dura más.
+function syncPro(){
+  let plan=S.sp&&S.sp.plan||null,until=S.sp&&S.sp.until||null;const cp=codePlan();
+  if(cp&&(!plan||plan==='noche'&&(!cp.until||cp.until>until))){plan=cp.plan;until=cp.until;}
+  S.pro=!!plan;S.plan=plan;S.proUntil=until;save();
+}
+async function redeemCode(txt){
+  const h=await codeHash(txt);if(!h)return false;
+  let c=findCode(h);if(!c&&await refreshCodes())c=findCode(h); // un código de regalo recién publicado
+  if(!c||codeRevoked(h)||c.until&&Date.now()>new Date(c.until+'T23:59:59').getTime())return false;
+  S.code={h,until:c.days?Date.now()+c.days*864e5:null};
+  if(NATIVE)syncPro();else{const cp=codePlan();S.pro=true;S.plan=cp.plan;S.proUntil=cp.until;save();}
+  return true;
+}
+function codeSheet(then){
+  openSheet(`<h3>Tengo un código</h3><p>Si les regalaron Previa Pro, escriban el código aquí.</p>
+    <input type="text" id="cdIn" maxlength="30" placeholder="PREVIA-XXXXXX-XXXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Código">
+    <p class="help" id="cdErr" role="alert"></p>
+    <div class="menu"><button type="button" class="primary" id="cdOk">Canjear</button><button type="button" class="secondary" onclick="closeSheet()">Cancelar</button></div>`,b=>{
+    const go=async()=>{
+      if(!await redeemCode(b.querySelector('#cdIn').value)){b.querySelector('#cdErr').textContent='Ese código no es válido o ya venció. Revísenlo e intenten de nuevo.';return;}
+      closeSheet();toast(`Previa Pro activado: ${planInfo()}`);renderHome();then&&then();
+    };
+    b.querySelector('#cdOk').onclick=go;
+    b.querySelector('#cdIn').onkeydown=e=>{if(e.key==='Enter')go();};
   });
 }
 /* Anuncio entre partidas: al tocar Revancha o Volver al inicio después de cada partida, nunca antes de ver
@@ -1226,7 +1296,7 @@ const MINE_TYPES={reto:'Reto',verdad:'Verdad',voto:'Votación'};
 const MINE_IC={reto:'bolt',verdad:'flame',voto:'star'};
 const MINE_PH={reto:'[Jugador], imita a [Otro jugador] cuando llega tarde.',verdad:'[Jugador], ¿qué es lo que más te molesta de [Otro jugador]?',voto:'¿Quién llegaría tarde a su propio matrimonio?'};
 const MINE_X={1:2,2:3,3:4,4:5};          // picante de la carta → castigo que agrega el juego
-const PREV_X={2:'2 sorbos',3:'3 sorbos',4:'5 sorbos',5:'vaso al seco'};
+const PREV_X={2:'2 sorbos',3:'3 sorbos',4:'5 sorbos',5:'vaso al seco o el reto que elija la mesa'};
 const PACK_IC=['note','disco','star','hearts','ball','crown','flame','mic','cassette','balloon','smiley','bolt'];
 const MINE_MAX_PACKS=20,MINE_MAX_CARDS=100;
 const SPICE_SHORT={1:'Suave',2:'Atrevido',3:'Picante',4:'Sin censura'};
@@ -1491,7 +1561,7 @@ const MECH=['score','powers','quests','rules','chaos','cats'];
 const MECH_NAMES={score:'puntaje y podio',powers:'comodines',quests:'side quests y misiones secretas',rules:'reglas temporales',chaos:'eventos sorpresa'};
 const HINTS={
   spice:{1:'Nada subido de tono. Perfecto para la familia o el trabajo.',2:'Coqueteo y algo de chisme.',3:'Preguntas hot. Nada de contacto entre jugadores, salvo en Parejas.',4:'Todo vale. Solo para grupos con mucha confianza.'},
-  max:{leve:'Lo peor que puede tocar son 3 sorbos.',fuerte:'Lo peor que puede tocar es un vaso al seco.',prenda:'Lo peor que puede tocar es quitarse una prenda. Requiere picante 3 o más.'},
+  max:{leve:'Lo peor que puede tocar son 3 sorbos.',fuerte:'Lo peor que puede tocar es un vaso al seco, o el reto que elija la mesa.',prenda:'Lo peor que puede tocar es quitarse una prenda. Requiere picante 3 o más.'},
   drink:{alc:'Los castigos son sorbos de lo que estén tomando.',sin:'Los castigos son sorbos de jugo, bebida o agua. Se quitan las cartas de alcohol.'}
 };
 function lockedOpt(tag){return tag==='spice4'?!canSpice4():tag==='prenda'?!canPrenda():tag==='ruleta'?!canRuleta():tag==='long'?!canLong():false;}
@@ -1620,19 +1690,22 @@ const pickM=a=>a[Math.floor(rM()*a.length)];
 const shuffleD=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(rD()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 function maxX(s){let m=0;String(s).replace(/\{x(\d)\}/g,(_,d)=>{m=Math.max(m,+d);return'';});return m;}
 
+// El castigo más fuerte siempre trae salida: tomar al seco nunca es obligatorio (reglas de las tiendas).
+const AL_SECO='vaso al seco o el reto que elija la mesa';
 function pen(k){
   const sorb=n=>n===1?'1 sorbo':`${n} sorbos`;
   if(k<=3) return sorb(k);
   const me=maxEff();
   if(k===4) return me==='leve'?sorb(3):sorb(5);
   if(G.cfg.ruleta) return 'girar la ruleta';
-  return {leve:sorb(3),fuerte:'vaso al seco',prenda:'quitarse una prenda'}[me];
+  return {leve:sorb(3),fuerte:AL_SECO,prenda:'quitarse una prenda'}[me];
 }
 function rep(k){return 'reparte '+(k===1?'1 sorbo':`${Math.min(k,5)} sorbos`);}
 
 function curLevel(){return levelAt(G.round,G.rounds,G.cfg.spice,G.cfg.esc);}
 
 function startGame(){
+  preloadAd('inter'); // el anuncio entre partidas solo se usa al terminar: se carga mientras juegan
   const m=MODES[D.mode];
   let names=[],avs=[],partners={},prota=null,partner=null;
   if(m.couples){
@@ -1899,9 +1972,9 @@ function ruletaOpts(final){
   const ending=final||(G&&G.rounds*G.roundLen-G.count<=1);
   const o=['¡Salvación! No pasa nada','3 sorbos','2 sorbos y repartes 2','La mesa elige entre 1 y 3 sorbos'];
   if(me!=='leve'){
-    o.push('Vaso al seco','5 sorbos y eliges a quien se toma otros 5');
+    o.push('Vaso al seco o el reto que elija la mesa','5 sorbos y eliges a quien se toma otros 5');
     if(!ending)o.push('3 sorbos ahora y 3 en la próxima carta');
-    if(!G||G.cfg.drink!=='sin')o.push('Un shot de lo que elija la mesa');
+    if(!G||G.cfg.drink!=='sin')o.push('La mesa elige tu próximo trago');
     if(sp>=3)o.push('Leer en voz alta tu último chat con quien elija la mesa','Foto con tu peor cara en tu historia por una hora');
   }
   if(me==='prenda'&&sp>=3)o.push('Quitarse una prenda (los accesorios cuentan)','Quitarse una prenda (los accesorios cuentan)');
@@ -2138,6 +2211,7 @@ function bankStats(){
 }
 function finish(){
   if(G.finished)return;G.finished=true;
+  preloadAd('inter'); // por si venció en una partida larga: queda listo mientras ven los resultados
   keepLater();SESSION.clear(); // lo desbloqueado con un anuncio dura solo esta partida
   const L0=level(G.xp0);
   const gain=gameXP(G.rounds,G.mode,!!G.completed,G.count,G.roundLen);
@@ -2445,16 +2519,18 @@ async function initPurchases(){
 }
 // Pro según la tienda: Anual o Para siempre activan el permiso «pro»; el Pase de noche es una compra única
 // que vale 24 horas desde la compra.
+// En Android la suscripción llega como «producto:plan base» (previa_anual:anual): se compara solo el producto.
+const pid=id=>String(id||'').split(':')[0];
 function applyInfo(ci){
   if(!ci)return;
   const ent=ci.entitlements&&ci.entitlements.active&&ci.entitlements.active[APP_CFG.entitlement];
   let plan=null,until=null;
-  if(ent)plan=ent.productIdentifier===APP_CFG.products.anual?'anual':'siempre';
+  if(ent)plan=pid(ent.productIdentifier)===APP_CFG.products.anual?'anual':'siempre';
   else{
-    const t=(ci.nonSubscriptionTransactions||[]).filter(x=>x.productIdentifier===APP_CFG.products.noche).map(x=>Date.parse(x.purchaseDate)).filter(Boolean).sort((a,b)=>a-b).pop();
+    const t=(ci.nonSubscriptionTransactions||[]).filter(x=>pid(x.productIdentifier)===APP_CFG.products.noche).map(x=>Date.parse(x.purchaseDate)).filter(Boolean).sort((a,b)=>a-b).pop();
     if(t&&Date.now()-t<NOCHE_MS){plan='noche';until=t+NOCHE_MS;}
   }
-  S.pro=!!plan;S.plan=plan;S.proUntil=until;save();
+  S.sp={plan,until};syncPro(); // y se suma el Pro por código, que la tienda no conoce
 }
 async function storeProducts(){
   const P=plug('Purchases'),ids=APP_CFG.products;
@@ -2465,13 +2541,13 @@ async function storeProducts(){
 async function storePrices(){
   if(!RC_ON)return {};
   const out={},ids=APP_CFG.products;
-  (await storeProducts()).forEach(p=>{const k=Object.keys(ids).find(k=>ids[k]===p.identifier);if(k)out[k]=p.priceString;});
+  (await storeProducts()).forEach(p=>{const k=Object.keys(ids).find(k=>ids[k]===pid(p.identifier));if(k)out[k]=p.priceString;});
   return out;
 }
 async function buyPlan(plan){
   if(!RC_ON){toast('Las compras todavía no están configuradas.');return false;}
   try{
-    const prod=(await storeProducts()).find(p=>p.identifier===APP_CFG.products[plan]);
+    const prod=(await storeProducts()).find(p=>pid(p.identifier)===APP_CFG.products[plan]);
     if(!prod){toast('No se encontró el producto en la tienda.');return false;}
     const {customerInfo}=await plug('Purchases').purchaseStoreProduct({product:prod});
     applyInfo(customerInfo);return isPro();
@@ -2480,7 +2556,7 @@ async function buyPlan(plan){
 async function restoreBuys(){
   if(!RC_ON){toast('Las compras todavía no están configuradas.');return false;}
   try{const {customerInfo}=await plug('Purchases').restorePurchases();applyInfo(customerInfo);
-    toast(isPro()?'Compras restauradas':'No encontramos compras para restaurar');return isPro();}
+    toast(isPro()?`Compras revisadas: ${planInfo()}`:'No encontramos compras activas');return isPro();}
   catch(e){toast('No se pudieron restaurar las compras.');return false;}
 }
 let ADS_ON=false;
@@ -2492,21 +2568,44 @@ async function initAds(){
     // iPhone: permiso de seguimiento (ATT)
     if(PLAT==='ios'){try{const t=await A.trackingAuthorizationStatus();if(t.status==='notDetermined')await A.requestTrackingAuthorization();}catch(e){}}
     ADS_ON=true;
+    preloadAd('rewarded');
   }catch(e){}
 }
+// Los anuncios se cargan por adelantado para que salgan al instante al tocar: el de recompensa al abrir la app
+// y el de entre partidas al empezar cada partida. AdMob los vence a la hora: a los 50 minutos se descartan y el
+// de recompensa se vuelve a cargar solo (el de entre partidas, en la próxima partida o al terminar esta).
+// AD_LOAD guarda, por tipo, la promesa de carga con la hora en que quedó listo.
+const AD_LOAD={},AD_TTL=50*60e3;
+function loadAd(kind){
+  if(!AD_LOAD[kind]){
+    const A=plug('AdMob'),real=APP_CFG.ads[PLAT]&&APP_CFG.ads[PLAT][kind];
+    const opt={adId:real||TEST_ADS[PLAT][kind],isTesting:!real};
+    const p=AD_LOAD[kind]=(kind==='rewarded'?A.prepareRewardVideoAd(opt):A.prepareInterstitial(opt))
+      .then(()=>{setTimeout(()=>{if(AD_LOAD[kind]===p){AD_LOAD[kind]=null;if(kind==='rewarded')preloadAd(kind);}},AD_TTL);return Date.now();},
+        e=>{AD_LOAD[kind]=null;throw e;});
+  }
+  return AD_LOAD[kind];
+}
+function preloadAd(kind){if(ADS_ON&&!isPro())loadAd(kind).catch(()=>{});}
 // kind: 'rewarded' (el usuario elige verlo para desbloquear) o 'inter' (entre partidas). Devuelve si se vio.
 async function showNativeAd(kind){
   if(!ADS_ON)return kind!=='rewarded';
-  const A=plug('AdMob'),real=APP_CFG.ads[PLAT]&&APP_CFG.ads[PLAT][kind];
-  const opt={adId:real||TEST_ADS[PLAT][kind],isTesting:!real};
+  const A=plug('AdMob'),w=$('#adWait');
+  const wt=setTimeout(()=>{w.hidden=false;},150);   // si no está listo, que se note que está cargando
   try{
-    if(kind==='rewarded'){await A.prepareRewardVideoAd(opt);await A.showRewardVideoAd();return true;}
-    await A.prepareInterstitial(opt);await A.showInterstitial();return true;
-  }catch(e){return false;}
+    let t=await loadAd(kind);
+    if(Date.now()-t>AD_TTL){AD_LOAD[kind]=null;t=await loadAd(kind);}
+    clearTimeout(wt);w.hidden=true;AD_LOAD[kind]=null;
+    if(kind==='rewarded')await A.showRewardVideoAd();else await A.showInterstitial();
+    return true;
+  }catch(e){AD_LOAD[kind]=null;return false;}
+  finally{clearTimeout(wt);w.hidden=true;if(kind==='rewarded')setTimeout(()=>preloadAd(kind),1000);}
 }
 async function nativeStart(){
   await loadNative();
   $('#demoFoot').hidden=true;
+  // Con un código canjeado: revisar si lo anularon (sin esperar; sin internet queda como estaba)
+  if(S.code)refreshCodes().then(ok=>{if(ok){syncPro();renderHome();}});
   await initPurchases();
   initAds();
 }
