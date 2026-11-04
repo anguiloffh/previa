@@ -22,6 +22,13 @@ let html=fs.readFileSync(path.join(root,'previa.html'),'utf8');
 const google=/<link rel="preconnect" href="https:\/\/fonts\.googleapis\.com">\s*<link rel="preconnect" href="https:\/\/fonts\.gstatic\.com" crossorigin>\s*<link href="https:\/\/fonts\.googleapis\.com[^"]*" rel="stylesheet">/;
 if(!google.test(html))throw new Error('No se encontró el bloque de Google Fonts en previa.html');
 html=html.replace(google,'<link href="fonts/fonts.css" rel="stylesheet">');
+// Versión que se muestra al pie del inicio: la misma de android/app/build.gradle
+const gradle=fs.readFileSync(path.join(root,'android','app','build.gradle'),'utf8');
+const vName=(gradle.match(/versionName\s+"([^"]+)"/)||[])[1],vCode=(gradle.match(/versionCode\s+(\d+)/)||[])[1];
+if(!vName||!vCode)throw new Error('No se encontró versionName o versionCode en android/app/build.gradle');
+const verRe=/const APP_VERSION='[^']*';/;
+if(!verRe.test(html))throw new Error('No se encontró APP_VERSION en previa.html');
+html=html.replace(verRe,`const APP_VERSION='${vName} (${vCode})';`);
 fs.writeFileSync(path.join(out,'index.html'),html);
 for(const f of ['privacidad.html'])if(fs.existsSync(path.join(root,f)))fs.copyFileSync(path.join(root,f),path.join(out,f));
-console.log('www/ listo:',fs.readdirSync(out).join(', '),'· fuentes:',fonts.length);
+console.log('www/ listo:',fs.readdirSync(out).join(', '),'· fuentes:',fonts.length,'· versión',vName,`(${vCode})`);

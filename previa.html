@@ -244,6 +244,7 @@ details.more[open] summary::after{content:"−"}
 .benefits{list-style:none;margin:0;padding:0}
 .benefits li{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:15px;font-weight:600;line-height:1.35}
 .benefits .ic{width:28px;height:28px}
+.foot a{color:inherit;font-weight:700}
 .linkbtn{display:block;width:100%;background:none;border:none;padding:14px 0 4px;font-size:15px;font-weight:700;text-decoration:underline;color:var(--ink)}
 .demo-note{font-size:13px !important;text-align:center;margin:10px 0 0 !important}
 .achs{list-style:none;margin:0 0 6px;padding:0}
@@ -446,6 +447,7 @@ textarea.edtx:focus{outline:none;border-color:var(--ink)}
     <div class="modes" id="modes"></div>
     <button type="button" class="mine-entry" id="mineBtn"></button>
     <p class="foot">Jueguen con responsabilidad: un sorbo es un sorbo, y nadie está obligado a nada. Cada castigo se puede cambiar por otro.<br><br>
+      <a href="https://anguiloffh.github.io/previa-legal/privacidad.html" target="_blank" rel="noopener">Privacidad</a> · <a href="https://anguiloffh.github.io/previa-legal/soporte.html" target="_blank" rel="noopener">Ayuda</a><br><span id="appVer"></span><br><br>
       <span id="demoFoot">Prototipo. <button type="button" id="resetDemo">Reiniciar la demo</button></span></p>
   </section>
 </main>
@@ -886,6 +888,9 @@ const KEY='previa_v1';
 /* App nativa (Capacitor). Dentro de la app se usan los complementos del teléfono; en la web (GitHub Pages)
  todo sigue en modo demo. Las claves reales se completan en el paso 4 (RevenueCat y AdMob). */
 const CAP=window.Capacitor,NATIVE=!!(CAP&&CAP.isNativePlatform&&CAP.isNativePlatform());
+// Versión de la app (sale al pie del inicio). scripts/build-www.js la reemplaza por la de android/app/build.gradle.
+const APP_VERSION='web';
+document.getElementById('appVer').textContent=APP_VERSION==='web'?'Versión web de prueba':`Versión ${APP_VERSION}`;
 const PLAT=NATIVE?CAP.getPlatform():'web';
 const APP_CFG={
   rc:{android:'goog_ULEhnvRTdEEbQnGrrPOltsFklLI',ios:''}, // claves públicas de RevenueCat
@@ -1139,9 +1144,10 @@ $('#proBtn').onclick=()=>{
     // Se puede subir de plan: del Pase de noche a Anual o Para siempre, y del Anual a Para siempre.
     const up=S.plan==='noche'||S.plan==='regalo'?['anual','siempre']:S.plan==='anual'?['siempre']:null;
     openSheet(`<h3>Pro activo</h3><p>Plan: ${planInfo()}.${S.plan==='anual'?' Se administra y cancela desde la tienda.':''}</p>
-      <div class="menu">${up?'<button type="button" class="primary" id="proUp">Mejorar mi plan</button>':''}<button type="button" class="secondary" id="proRestore">Restaurar compras</button><button type="button" class="secondary" onclick="closeSheet()">Cerrar</button></div>`,
+      <div class="menu">${up?'<button type="button" class="primary" id="proUp">Mejorar mi plan</button>':''}<button type="button" class="secondary" id="proRestore">Restaurar compras</button><button type="button" class="secondary" onclick="closeSheet()">Cerrar</button></div>
+      ${up?'<button type="button" class="linkbtn" id="proCode">Tengo un código</button>':''}`,
       b=>{b.querySelector('#proRestore').onclick=async()=>{await restoreBuys();closeSheet();renderHome();};
-        if(up)b.querySelector('#proUp').onclick=()=>paywall(null,renderHome,up);});
+        if(up){b.querySelector('#proUp').onclick=()=>paywall(null,renderHome,up);b.querySelector('#proCode').onclick=()=>codeSheet(renderHome);}});
     return;
   }
   if(!PLANS[S.plan]){S.plan='noche';save();}
