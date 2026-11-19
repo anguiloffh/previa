@@ -65,7 +65,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>ca-app-pub-5587601720139974~5985454182</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>Previa usa este permiso solo para mostrar anuncios más relevantes en la versión gratis. Con Previa Pro no hay anuncios.</string>
 	<key>NSCameraUsageDescription</key>

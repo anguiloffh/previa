@@ -893,11 +893,11 @@ const APP_VERSION='web';
 document.getElementById('appVer').textContent=APP_VERSION==='web'?'Versión web de prueba':`Versión ${APP_VERSION}`;
 const PLAT=NATIVE?CAP.getPlatform():'web';
 const APP_CFG={
-  rc:{android:'goog_ULEhnvRTdEEbQnGrrPOltsFklLI',ios:''}, // claves públicas de RevenueCat
+  rc:{android:'goog_ULEhnvRTdEEbQnGrrPOltsFklLI',ios:'appl_zvCgKEgytWeWolcSxgzznKHNluc'}, // claves públicas de RevenueCat
   entitlement:'pro',
   products:{noche:'previa_pase_noche',anual:'previa_anual',siempre:'previa_para_siempre'},
   // Unidades de AdMob. Vacías = anuncios de prueba de Google (no pagan, sirven para probar).
-  ads:{android:{rewarded:'ca-app-pub-5587601720139974/5161908829',inter:'ca-app-pub-5587601720139974/2653049572'},ios:{rewarded:'',inter:''}}
+  ads:{android:{rewarded:'ca-app-pub-5587601720139974/5161908829',inter:'ca-app-pub-5587601720139974/2653049572'},ios:{rewarded:'ca-app-pub-5587601720139974/1924141434',inter:'ca-app-pub-5587601720139974/4494464452'}}
 };
 const TEST_ADS={android:{rewarded:'ca-app-pub-3940256099942544/5224354917',inter:'ca-app-pub-3940256099942544/1033173712'},ios:{rewarded:'ca-app-pub-3940256099942544/1712485313',inter:'ca-app-pub-3940256099942544/4411468910'}};
 const _plugs={};
@@ -1197,7 +1197,7 @@ function lvlLock(id){
 /* ---------- Paywall de demo ---------- */
 // only: planes a mostrar (para mejorar un plan activo); sin él, los tres.
 function paywall(target,then,only){
-  const plans=[['noche','Pase de noche','24 horas de todo. Ideal para un evento.','US$ 2,99'],['anual','Anual','US$ 1,25 al mes, con premios Pro en los niveles 2 y 4.','US$ 14,99','Más elegido'],['siempre','Para siempre','Un solo pago, con premios Pro en los niveles 2 y 4.','US$ 29,99']]
+  const plans=[['noche','Pase de noche','24 horas de todo. Ideal para un evento.','US$ 2,99'],['anual','Anual','Un año completo por poco más que 3 noches, con premios Pro en los niveles 2 y 4.','US$ 9,99','Más elegido'],['siempre','Para siempre','Un solo pago, con premios Pro en los niveles 2 y 4.','US$ 19,99']]
     .filter(p=>!only||only.includes(p[0]));
   let plan=plans[0][0];
   openSheet(`<h3>${only?'Mejorar mi plan':'Previa Pro'}</h3><p>${only?(S.plan==='anual'?'Pasa a Para siempre y no vuelves a pagar. Recuerda cancelar el Anual en la tienda para que no se renueve.':'Suma los premios Pro de los niveles 2 y 4 y no dependas de las 24 horas.'):'Una persona paga y juega toda la mesa.'}</p>
@@ -1207,7 +1207,7 @@ function paywall(target,then,only){
     ${target?'<button type="button" class="linkbtn" id="pwAd">Ver un anuncio y jugarlo una vez gratis</button>':''}
     ${only?'':'<button type="button" class="linkbtn" id="pwCode">Tengo un código</button>'}
     ${NATIVE?`<button type="button" class="linkbtn" id="pwRestore">Restaurar compras</button>
-    <p class="demo-note">El Pase de noche dura 24 horas. El Anual se renueva solo cada año hasta que lo cancelen en la tienda. El cobro lo hace ${PLAT==='ios'?'Apple':'Google Play'}. <a href="https://anguiloffh.github.io/previa-legal/privacidad.html">Privacidad</a></p>`:'<p class="demo-note">Prototipo: no se cobra nada.</p>'}`,
+    <p class="demo-note">El Pase de noche dura 24 horas. El Anual se renueva solo cada año hasta que lo cancelen en la tienda. El cobro lo hace ${PLAT==='ios'?'Apple':'Google Play'}. <a href="https://anguiloffh.github.io/previa-legal/privacidad.html">Privacidad</a>${PLAT==='ios'?' · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Términos de uso</a>':''}</p>`:'<p class="demo-note">Prototipo: no se cobra nada.</p>'}`,
   b=>{
     b.querySelectorAll('.plan').forEach(x=>x.onclick=()=>{plan=x.dataset.p;b.querySelectorAll('.plan').forEach(y=>y.setAttribute('aria-pressed',y.dataset.p===plan));});
     if(NATIVE){

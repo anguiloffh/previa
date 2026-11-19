@@ -4,7 +4,7 @@ Todo para copiar en Play Console. Los nombres de las secciones están en inglés
 
 ## Store listing (Grow users → Store presence → Main store listing)
 
-**App name** (máx. 30): `Previa: juego de fiesta`
+**App name** (máx. 30): `Previa: el juego de la previa`
 
 **Short description** (máx. 80):
 `Retos, verdades y votaciones para la previa. Un teléfono y juega toda la mesa.`
