@@ -29,6 +29,14 @@ if(!vName||!vCode)throw new Error('No se encontró versionName o versionCode en 
 const verRe=/const APP_VERSION='[^']*';/;
 if(!verRe.test(html))throw new Error('No se encontró APP_VERSION en previa.html');
 html=html.replace(verRe,`const APP_VERSION='${vName} (${vCode})';`);
+// PREVIA_TEST_ADS=1 (lo pone Codemagic en las builds de TestFlight): en iPhone se usan los anuncios de prueba de
+// Google, que siempre están disponibles. La build para la App Store se arma sin esta variable (anuncios reales).
+if(process.env.PREVIA_TEST_ADS==='1'){
+  const adsRe=/(ads:\{android:\{[^}]*\},ios:)\{rewarded:'[^']*',inter:'[^']*'\}/;
+  if(!adsRe.test(html))throw new Error('No se encontraron los anuncios de iPhone en APP_CFG');
+  html=html.replace(adsRe,"$1{rewarded:'',inter:''}");
+  console.log('Anuncios de prueba en iPhone (PREVIA_TEST_ADS=1)');
+}
 fs.writeFileSync(path.join(out,'index.html'),html);
 for(const f of ['privacidad.html'])if(fs.existsSync(path.join(root,f)))fs.copyFileSync(path.join(root,f),path.join(out,f));
 console.log('www/ listo:',fs.readdirSync(out).join(', '),'· fuentes:',fonts.length,'· versión',vName,`(${vCode})`);
