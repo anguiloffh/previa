@@ -20,7 +20,8 @@ definitions:
         VERSION=$(sed -n 's/.*versionName "\(.*\)".*/\1/p' android/app/build.gradle)
         cd ios/App
         agvtool new-marketing-version "$VERSION"
-        agvtool new-version -all "$BUILD_NUMBER"
+        # Número de build único entre los dos flujos (BUILD_NUMBER cuenta por flujo y se repetía)
+        agvtool new-version -all "$PROJECT_BUILD_NUMBER"
     - name: Compilar el .ipa
       script: xcode-project build-ipa --project "ios/App/App.xcodeproj" --scheme "App"
   ios_signing: &ios_signing
